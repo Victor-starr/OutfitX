@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router";
 import { AuthProvider } from "react-oidc-context";
 import App from "./App.tsx";
 import "./index.css";
+import Nav from "./components/_Nav.tsx";
 
 const cognitoAuthConfig = {
   authority: import.meta.env.VITE_AUTHORITY as string,
@@ -17,6 +18,7 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
       <AuthProvider {...cognitoAuthConfig}>
+        <Nav />
         <App />
       </AuthProvider>
     </BrowserRouter>

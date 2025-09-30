@@ -1,26 +1,14 @@
 import { useState } from "react";
 import { useAuth } from "react-oidc-context";
-import { Link, useNavigate } from "react-router";
 
 export default function Home() {
   const [showTokens, setShowTokens] = useState(true);
   const auth = useAuth();
-  const navigate = useNavigate();
 
   const copyToClipboard = (token?: string) => {
     if (token) {
       navigator.clipboard.writeText(token);
     }
-  };
-  const signOutRedirect = () => {
-    auth.removeUser();
-    const clientId = import.meta.env.VITE_CLIENT_ID as string;
-    const logoutUri = import.meta.env.VITE_LOGOUT_URI as string;
-    const cognitoDomain = import.meta.env.VITE_COGNITO_DOMAIN as string;
-    window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(
-      logoutUri
-    )}`;
-    return null;
   };
 
   if (auth.isAuthenticated) {
@@ -33,32 +21,13 @@ export default function Home() {
             </h2>
             <p className="text-gray-600">{String(auth.user?.profile.email)}</p>
           </div>
-          <div className="flex flex-wrap justify-between items-center gap-2 mb-6">
-            <button
-              className="font-semibold text-blue-600 hover:underline transition"
-              onClick={() => setShowTokens((prev) => !prev)}
-            >
-              {showTokens ? "Hide Tokens" : "Show Tokens"}
-            </button>
-            <Link
-              to="/wardrobe/create"
-              className="bg-green-500 hover:bg-green-600 shadow px-4 py-2 rounded font-semibold text-white transition"
-            >
-              Add your Clothes
-            </Link>
-            <button
-              className="bg-red-500 hover:bg-red-600 shadow px-4 py-2 rounded font-semibold text-white transition"
-              onClick={() => signOutRedirect()}
-            >
-              Sign out
-            </button>
-            <button
-              className="bg-blue-500 hover:bg-blue-600 shadow px-4 py-2 rounded font-semibold text-white transition"
-              onClick={() => navigate("/wardrobe")}
-            >
-              Go to Wardrobe
-            </button>
-          </div>
+
+          <button
+            className="px-2 py-1 font-semibold text-blue-600 hover:underline transition"
+            onClick={() => setShowTokens((prev) => !prev)}
+          >
+            {showTokens ? "Hide Tokens" : "Show Tokens"}
+          </button>
           {showTokens && (
             <div className="space-y-4">
               <div className="flex items-center">
@@ -107,7 +76,7 @@ export default function Home() {
   return (
     <div>
       <h1>Home Page</h1>
-      <button onClick={() => auth.signinRedirect()}>Sign in</button>
+      <p>You are not logged in. Please log in to access your wardrobe.</p>
     </div>
   );
 }

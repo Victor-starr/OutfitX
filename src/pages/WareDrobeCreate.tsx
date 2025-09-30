@@ -75,7 +75,7 @@ export default function WareDrobeCreate() {
 
     try {
       setStatus("Uploading...");
-      const res = await axiosInstance.post("/wardrobe/create", payload, {
+      const res = await axiosInstance.post("/clothes/create", payload, {
         headers: {
           Authorization: `Bearer ${auth.user?.access_token}`,
         },

@@ -22,13 +22,6 @@ export default function Home() {
     return null;
   };
 
-  if (auth.isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (auth.error) {
-    return <div>Encountering error... {auth.error.message}</div>;
-  }
   if (auth.isAuthenticated) {
     return (
       <div className="flex flex-col justify-center items-center bg-gray-50 min-h-screen">
@@ -47,7 +40,7 @@ export default function Home() {
               {showTokens ? "Hide Tokens" : "Show Tokens"}
             </button>
             <Link
-              to="/clothes/create"
+              to="/wardrobe/create"
               className="bg-green-500 hover:bg-green-600 ml-2 px-4 py-2 rounded font-semibold text-white"
             >
               Add your Clothes

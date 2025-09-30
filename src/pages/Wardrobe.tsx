@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "react-oidc-context";
 import axiosInstance from "../axiosInstance";
+import { useNavigate } from "react-router";
+
 interface WardrobeItem {
   itemId: string;
   userId: string;
@@ -11,6 +13,7 @@ interface WardrobeItem {
   imageURL: string;
 }
 function Wardrobe() {
+  const navigate = useNavigate();
   const auth = useAuth();
   const [data, setData] = useState<WardrobeItem[]>([]);
 
@@ -27,7 +30,7 @@ function Wardrobe() {
       }
     }
     fetchData();
-  }, []);
+  }, [auth.user?.access_token]);
 
   return (
     <div className="flex flex-col justify-center items-center bg-gray-100 p-4 min-h-screen">
@@ -46,6 +49,7 @@ function Wardrobe() {
                 src={item.imageURL}
                 alt={item.name}
                 className="mb-2 rounded w-full h-48 object-cover"
+                onClick={() => navigate(`/wardrobe/details/${item.itemId}`)}
               />
               <h2 className="mb-1 font-semibold text-xl">{item.name}</h2>
               <p className="mb-1 text-gray-600">Type: {item.type}</p>

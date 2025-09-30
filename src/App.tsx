@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import WareDrobeCreate from "./pages/WareDrobeCreate";
 import AuthGuard from "./guards/AuthGuard";
 import Wardrobe from "./pages/Wardrobe";
+import Details from "./pages/Details";
 
 export default function App() {
   return (
@@ -11,6 +12,7 @@ export default function App() {
       <Route index element={<Home />} />
       <Route path="/wardrobe" element={<AuthGuard />}>
         <Route index element={<Wardrobe />} />
+        <Route path="details/:itemId" element={<Details />} />
         <Route path="create" element={<WareDrobeCreate />} />
       </Route>
       <Route path="/*" element={<NotFound />} />

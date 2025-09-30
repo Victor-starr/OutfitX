@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
 import { useAuth } from "react-oidc-context";
 import axiosInstance from "../axiosInstance";
+import { useNavigate } from "react-router";
 
 interface FormState {
   name: string;
@@ -30,6 +31,7 @@ export default function WareDrobeCreate() {
   });
 
   const [status, setStatus] = useState<string>("");
+  const navigate = useNavigate();
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -88,6 +90,7 @@ export default function WareDrobeCreate() {
       console.log("Saved item:", data);
       setStatus("Item uploaded successfully!");
       setForm({ name: "", color: "", type: "", tags: "", imageBase64: null });
+      navigate("/wardrobe");
     } catch (err) {
       console.error(err);
       setStatus(`Upload failed: ${(err as Error).message}`);

@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useAuth } from "react-oidc-context";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 export default function Home() {
   const [showTokens, setShowTokens] = useState(true);
   const auth = useAuth();
+  const navigate = useNavigate();
 
   const copyToClipboard = (token?: string) => {
     if (token) {
@@ -32,24 +33,30 @@ export default function Home() {
             </h2>
             <p className="text-gray-600">{String(auth.user?.profile.email)}</p>
           </div>
-          <div className="flex justify-between items-center mb-4">
+          <div className="flex flex-wrap justify-between items-center gap-2 mb-6">
             <button
-              className="font-semibold text-blue-600"
+              className="font-semibold text-blue-600 hover:underline transition"
               onClick={() => setShowTokens((prev) => !prev)}
             >
               {showTokens ? "Hide Tokens" : "Show Tokens"}
             </button>
             <Link
               to="/wardrobe/create"
-              className="bg-green-500 hover:bg-green-600 ml-2 px-4 py-2 rounded font-semibold text-white"
+              className="bg-green-500 hover:bg-green-600 shadow px-4 py-2 rounded font-semibold text-white transition"
             >
               Add your Clothes
             </Link>
             <button
-              className="bg-red-500 hover:bg-red-600 ml-2 px-4 py-2 rounded text-white"
+              className="bg-red-500 hover:bg-red-600 shadow px-4 py-2 rounded font-semibold text-white transition"
               onClick={() => signOutRedirect()}
             >
               Sign out
+            </button>
+            <button
+              className="bg-blue-500 hover:bg-blue-600 shadow px-4 py-2 rounded font-semibold text-white transition"
+              onClick={() => navigate("/wardrobe")}
+            >
+              Go to Wardrobe
             </button>
           </div>
           {showTokens && (

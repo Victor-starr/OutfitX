@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "react-oidc-context";
+import { Link } from "react-router";
 
 export default function Home() {
   const [showTokens, setShowTokens] = useState(true);
@@ -45,6 +46,12 @@ export default function Home() {
             >
               {showTokens ? "Hide Tokens" : "Show Tokens"}
             </button>
+            <Link
+              to="/clothes/create"
+              className="bg-green-500 hover:bg-green-600 ml-2 px-4 py-2 rounded font-semibold text-white"
+            >
+              Add your Clothes
+            </Link>
             <button
               className="bg-red-500 hover:bg-red-600 ml-2 px-4 py-2 rounded text-white"
               onClick={() => signOutRedirect()}

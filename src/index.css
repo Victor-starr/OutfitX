@@ -1,9 +1,29 @@
 @import "tailwindcss";
+
+@theme inline {
+  --color-primary: #3b82f6; /* Main accent color (blue) */
+  --color-secondary: #6366f1; /* Secondary accent color (indigo) */
+  --color-bg: #0f172a; /* App background color (dark blue) */
+  --color-surface: #1e293b; /* Surface color for panels/sections */
+  --color-card: #334155; /* Card background color */
+  --color-text: #f9fafb; /* Main text color (almost white) */
+  --color-muted: #94a3b8; /* Muted/secondary text color */
+  --color-border: #475569; /* Border color */
+}
+
 * {
   box-sizing: border-box;
 }
 
 body {
-  margin: 0;
-  padding: 0;
+  overflow-x: hidden;
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  background-color: var(--color-bg);
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }

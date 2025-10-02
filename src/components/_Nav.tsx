@@ -25,7 +25,7 @@ const Nav = () => {
   };
 
   return (
-    <nav className="relative flex items-center gap-4 px-4 py-4 border-gray-200 border-b">
+    <nav className="relative flex items-center gap-4 bg-card px-4 py-4 border-gray-200 border-b">
       <Link to="/" className="font-bold text-xl">
         WardrobeApp
       </Link>

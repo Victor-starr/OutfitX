@@ -59,14 +59,6 @@ function Details() {
                 <span className="w-24 font-medium text-gray-700">Color:</span>
                 <span className="text-gray-600">{items.color}</span>
               </div>
-              <div className="flex items-center">
-                <span className="w-24 font-medium text-gray-700">User ID:</span>
-                <span className="text-gray-600">{items.userId}</span>
-              </div>
-              <div className="flex items-center">
-                <span className="w-24 font-medium text-gray-700">Item ID:</span>
-                <span className="text-gray-600">{items.itemId}</span>
-              </div>
             </div>
             <div className="mb-2">
               <span className="font-medium text-gray-700">Tags:</span>

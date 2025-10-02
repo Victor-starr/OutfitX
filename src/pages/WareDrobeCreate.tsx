@@ -1,5 +1,4 @@
-import { useState } from "react";
-import type { ChangeEvent, FormEvent } from "react";
+import { useState, type ChangeEvent, type FormEvent } from "react";
 import { useAuth } from "react-oidc-context";
 import axiosInstance from "../axiosInstance";
 import { useNavigate } from "react-router";
@@ -7,31 +6,28 @@ import { useNavigate } from "react-router";
 interface FormState {
   name: string;
   color: string;
-  type: string;
-  tags: string;
   imageBase64: string | null;
 }
 
 interface Payload {
   name: string;
   color: string;
-  type: string;
   tags: string[];
   imageBase64: string;
 }
 
 export default function WareDrobeCreate() {
   const auth = useAuth();
+  const navigate = useNavigate();
+
   const [form, setForm] = useState<FormState>({
     name: "",
     color: "",
-    type: "",
-    tags: "",
     imageBase64: null,
   });
-
-  const [status, setStatus] = useState<string>("");
-  const navigate = useNavigate();
+  const [tagInput, setTagInput] = useState("");
+  const [tags, setTags] = useState<string[]>([]);
+  const [status, setStatus] = useState("");
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -49,12 +45,23 @@ export default function WareDrobeCreate() {
     reader.readAsDataURL(file);
   };
 
+  const handleAddTag = () => {
+    const trimmed = tagInput.trim();
+    if (trimmed && !tags.includes(trimmed)) {
+      setTags([...tags, trimmed]);
+    }
+    setTagInput("");
+  };
+
+  const handleRemoveTag = (tagToRemove: string) => {
+    setTags(tags.filter((t) => t !== tagToRemove));
+  };
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Validate required fields (tags optional)
-    if (!form.name || !form.color || !form.type) {
-      setStatus("Please fill in all required fields.");
+    if (!form.name || !form.color) {
+      setStatus("Name and color are required");
       return;
     }
     if (!form.imageBase64) {
@@ -62,16 +69,10 @@ export default function WareDrobeCreate() {
       return;
     }
 
-    const tagsArray = form.tags
-      .split(",")
-      .map((t) => t.trim())
-      .filter(Boolean);
-
     const payload: Payload = {
       name: form.name,
       color: form.color,
-      type: form.type,
-      tags: tagsArray, // can be empty
+      tags,
       imageBase64: form.imageBase64,
     };
 
@@ -82,17 +83,15 @@ export default function WareDrobeCreate() {
           Authorization: `Bearer ${auth.user?.access_token}`,
         },
       });
-      if (res.status !== 200) {
+      if (res.status !== 200)
         throw new Error(res.data?.error || "Unknown error");
-      }
 
-      const data = await res.data;
-      console.log("Saved item:", data);
       setStatus("Item uploaded successfully!");
-      setForm({ name: "", color: "", type: "", tags: "", imageBase64: null });
+      setForm({ name: "", color: "", imageBase64: null });
+      setTags([]);
+      setTagInput("");
       navigate("/wardrobe");
     } catch (err) {
-      console.error(err);
       setStatus(`Upload failed: ${(err as Error).message}`);
     }
   };
@@ -120,21 +119,43 @@ export default function WareDrobeCreate() {
             required
             className="px-3 py-2 border focus:border-blue-400 rounded focus:outline-none focus:ring"
           />
-          <input
-            name="type"
-            placeholder="Type"
-            value={form.type}
-            onChange={handleInputChange}
-            required
-            className="px-3 py-2 border focus:border-blue-400 rounded focus:outline-none focus:ring"
-          />
-          <input
-            name="tags"
-            placeholder="Tags (comma separated, optional)"
-            value={form.tags}
-            onChange={handleInputChange}
-            className="px-3 py-2 border focus:border-blue-400 rounded focus:outline-none focus:ring"
-          />
+
+          {/* Tag Input */}
+          <div className="flex gap-2">
+            <input
+              placeholder="Add a tag"
+              value={tagInput}
+              onChange={(e) => setTagInput(e.target.value)}
+              className="flex-1 px-3 py-2 border focus:border-blue-400 rounded focus:outline-none focus:ring"
+            />
+            <button
+              type="button"
+              onClick={handleAddTag}
+              className="bg-gray-300 hover:bg-gray-400 px-3 rounded"
+            >
+              +
+            </button>
+          </div>
+
+          {/* Display tags */}
+          <div className="flex flex-wrap gap-2">
+            {tags.map((tag) => (
+              <span
+                key={tag}
+                className="flex items-center bg-gray-200 px-2 py-1 rounded text-sm"
+              >
+                {tag}
+                <button
+                  type="button"
+                  onClick={() => handleRemoveTag(tag)}
+                  className="ml-1 font-bold text-red-500"
+                >
+                  ×
+                </button>
+              </span>
+            ))}
+          </div>
+
           <input
             name="imageBase64"
             type="file"
@@ -150,6 +171,7 @@ export default function WareDrobeCreate() {
               className="mt-2 border rounded max-h-36"
             />
           )}
+
           <button
             type="submit"
             className="bg-blue-600 hover:bg-blue-700 py-2 rounded text-white transition"

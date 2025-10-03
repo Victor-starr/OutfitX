@@ -1,13 +1,9 @@
-import { useNavigate, Link } from "react-router";
 import { useAuth } from "react-oidc-context";
+import { Link } from "react-router";
+import Button from "./Button.tsx";
 
 const Nav = () => {
-  const navigate = useNavigate();
   const auth = useAuth();
-
-  const handleGoBack = () => {
-    navigate(-1);
-  };
 
   const handleLogin = () => {
     auth.signinRedirect();
@@ -25,39 +21,30 @@ const Nav = () => {
   };
 
   return (
-    <nav className="relative flex items-center gap-4 bg-card px-4 py-4 border-gray-200 border-b">
-      <Link to="/" className="font-bold text-xl">
-        WardrobeApp
+    <nav className="relative flex justify-between items-center gap-4 bg-card px-10 py-5">
+      <Link to="/" className="font-bold text-title text-3xl">
+        Outfit <span className="text-primary">X</span>
       </Link>
-      <div className="flex items-center gap-4 ml-auto">
-        <Link to="wardrobe/create" className="hover:underline">
-          Add Clothes
-        </Link>
-        <Link to="/wardrobe" className="hover:underline">
-          My Clothes
-        </Link>
+      <div className="flex items-center gap-5 text-title text-2xl">
         {auth.isAuthenticated ? (
-          <button
-            onClick={signOutRedirect}
-            className="bg-red-500 hover:bg-red-600 px-3 py-1 rounded text-white"
-          >
-            Logout
-          </button>
+          <>
+            <Link to="wardrobe/create">Create</Link>
+            <Link to="/wardrobe">Wardrobe</Link>
+            <Button
+              type="v1"
+              color="primary"
+              onClick={signOutRedirect}
+              size="xl"
+            >
+              Logout
+            </Button>
+          </>
         ) : (
-          <button
-            onClick={handleLogin}
-            className="bg-blue-500 hover:bg-blue-600 px-3 py-1 rounded text-white"
-          >
+          <Button type="v1" color="primary" onClick={handleLogin} size="xl">
             Login
-          </button>
+          </Button>
         )}
       </div>
-      <button
-        onClick={handleGoBack}
-        className="-bottom-10 left-0 absolute bg-purple-500 hover:bg-purple-600 px-3 py-1 rounded text-white"
-      >
-        Go Back
-      </button>
     </nav>
   );
 };

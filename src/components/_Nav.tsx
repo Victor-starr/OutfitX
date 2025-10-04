@@ -21,31 +21,48 @@ const Nav = () => {
   };
 
   return (
-    <nav className="relative flex justify-between items-center gap-4 bg-card px-10 py-5">
-      <Link to="/" className="font-bold text-title text-3xl">
+    <nav className="relative flex justify-between items-center gap-4 bg-card shadow-md px-4 sm:px-6 lg:px-10 py-4 lg:py-5">
+      <Link
+        to="/"
+        className="font-bold text-title hover:text-primary text-2xl sm:text-3xl transition-colors duration-200"
+      >
         Outfit <span className="text-primary">X</span>
       </Link>
-      <div className="flex items-center gap-5 text-title text-2xl">
+
+      <div className="flex items-center gap-3 sm:gap-4 lg:gap-6">
         {auth.isAuthenticated ? (
           <>
-            <Link to="wardrobe/create">Create</Link>
-            <Link to="/wardrobe">Wardrobe</Link>
+            <div className="hidden sm:flex items-center gap-4 lg:gap-6">
+              <Link
+                to="wardrobe/create"
+                className="font-medium text-title hover:text-primary text-lg lg:text-xl transition-colors duration-200"
+              >
+                Create
+              </Link>
+              <Link
+                to="/wardrobe"
+                className="font-medium text-title hover:text-primary text-lg lg:text-xl transition-colors duration-200"
+              >
+                Wardrobe
+              </Link>
+            </div>
             <Button
               type="v1"
               color="primary"
               onClick={signOutRedirect}
-              size="xl"
+              size="lg"
+              className="px-4 lg:px-6 py-2 lg:py-2 font-semibold"
             >
               Logout
             </Button>
           </>
         ) : (
           <Button
-            className="px-5 py-2"
             type="v1"
             color="primary"
             onClick={handleLogin}
-            size="xl"
+            size="lg"
+            className="px-4 lg:px-6 py-2 lg:py-2 font-semibold"
           >
             Login
           </Button>

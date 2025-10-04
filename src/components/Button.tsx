@@ -7,6 +7,24 @@ interface ButtonProps {
   className?: string;
 }
 
+const sizeMap = {
+  lg: "text-lg",
+  xl: "text-xl",
+  "2xl": "text-2xl",
+  "3xl": "text-3xl",
+  "4xl": "text-4xl",
+  "5xl": "text-5xl",
+};
+
+const colorMap = {
+  "bg-primary": "bg-[var(--color-primary)]",
+  "bg-secondary": "bg-[var(--color-secondary)]",
+  "text-primary": "text-[var(--color-primary)]",
+  "text-secondary": "text-[var(--color-secondary)]",
+  "hover-bg-primary": "hover:bg-[var(--color-primary-hover)]",
+  "hover-bg-secondary": "hover:bg-[var(--color-secondary-hover)]",
+};
+
 const Button = ({
   type,
   color = "primary",
@@ -17,19 +35,26 @@ const Button = ({
 }: ButtonProps) => {
   const getButtonClasses = () => {
     if (type === "v1") {
-      // Solid button styles
-      return `bg-${color} py-2 hover:bg-${color}-hover text-white text-${size}`;
-    } else if (type === "v2") {
-      // Outline button styles
-      return `bg-transparent border py-1.5 border-3 text-${color} text-${size} hover:text-white hover:bg-${color}-hover hover:border-transparent`;
+      // Solid button
+      return `${colorMap[`bg-${color}`]} ${colorMap[`hover-bg-${color}`]} 
+              text-white ${sizeMap[size]}`;
     }
+
+    if (type === "v2") {
+      // Outline button
+      return `bg-transparent border border-2 
+              ${colorMap[`text-${color}`]} ${colorMap[`hover-bg-${color}`]} 
+              hover:text-white hover:border-transparent ${sizeMap[size]}`;
+    }
+
     return "";
   };
 
   return (
     <button
       onClick={onClick}
-      className={`${getButtonClasses()} ${className} px-2 rounded transition-colors duration-200 transform hover:scale-105`}
+      className={`${getButtonClasses()} ${className} 
+         rounded transition-colors duration-200 transform hover:scale-105`}
     >
       {children}
     </button>

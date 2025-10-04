@@ -14,10 +14,15 @@ export default function Home() {
           and manage your wardrobe in one simple app.
         </p>
         <div className="z-2 flex justify-center items-center gap-10 mt-5 w-[50%] lg:w-[400px]">
-          <Button type="v1" color="secondary" size="lg" className="flex-1">
+          <Button type="v1" color="secondary" size="lg" className="flex-1 py-2">
             Wardrobe
           </Button>
-          <Button type="v2" color="secondary" size="lg" className="flex-1">
+          <Button
+            type="v2"
+            color="secondary"
+            size="lg"
+            className="flex-1 py-1.5"
+          >
             Outfit
           </Button>
         </div>

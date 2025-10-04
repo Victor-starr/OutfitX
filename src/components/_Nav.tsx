@@ -40,7 +40,13 @@ const Nav = () => {
             </Button>
           </>
         ) : (
-          <Button type="v1" color="primary" onClick={handleLogin} size="xl">
+          <Button
+            className="px-5 py-2"
+            type="v1"
+            color="primary"
+            onClick={handleLogin}
+            size="xl"
+          >
             Login
           </Button>
         )}

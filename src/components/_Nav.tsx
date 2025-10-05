@@ -1,7 +1,6 @@
 import { useAuth } from "react-oidc-context";
 import { Link } from "react-router";
-import Button from "./Button.tsx";
-
+import Button from "@/components/Button";
 const Nav = () => {
   const auth = useAuth();
 

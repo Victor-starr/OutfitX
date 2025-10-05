@@ -2,10 +2,10 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router";
 import { AuthProvider } from "react-oidc-context";
-import App from "./App.tsx";
-import "./index.css";
-import Nav from "./components/_Nav.tsx";
-import Footer from "./components/Footer.tsx";
+import App from "@/App.tsx";
+import "@/index.css";
+import Nav from "@/components/_Nav.tsx";
+import Footer from "@/components/Footer.tsx";
 
 const cognitoAuthConfig = {
   authority: import.meta.env.VITE_AUTHORITY as string,

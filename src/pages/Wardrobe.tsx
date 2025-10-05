@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { useAuth } from "react-oidc-context";
-import axiosInstance from "../axiosInstance";
 import { useNavigate } from "react-router";
+import { useAuth } from "react-oidc-context";
+import axiosInstance from "@/axiosInstance";
 
 interface WardrobeItem {
   itemId: string;

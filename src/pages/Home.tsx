@@ -1,8 +1,8 @@
-import Button from "@/components/Button";
 import aboutImage from "@/assets/about-outfitx.jpg";
+import Button from "@/components/Button";
+import Input from "@/components/Input";
 import { TbHanger, TbTagsFilled } from "react-icons/tb";
 import { FaClipboardList } from "react-icons/fa";
-import Input from "@/components/Input";
 
 const benefitsList = [
   {

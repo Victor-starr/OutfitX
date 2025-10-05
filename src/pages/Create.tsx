@@ -1,7 +1,7 @@
 import { useState, type ChangeEvent, type FormEvent } from "react";
-import { useAuth } from "react-oidc-context";
-import axiosInstance from "../axiosInstance";
 import { useNavigate } from "react-router";
+import { useAuth } from "react-oidc-context";
+import axiosInstance from "@/axiosInstance";
 
 interface FormState {
   name: string;
@@ -16,7 +16,7 @@ interface Payload {
   imageBase64: string;
 }
 
-export default function WareDrobeCreate() {
+export default function Create() {
   const auth = useAuth();
   const navigate = useNavigate();
 

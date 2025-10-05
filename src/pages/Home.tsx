@@ -2,6 +2,7 @@ import Button from "@/components/Button";
 import aboutImage from "@/assets/about-outfitx.jpg";
 import { TbHanger, TbTagsFilled } from "react-icons/tb";
 import { FaClipboardList } from "react-icons/fa";
+import Input from "@/components/Input";
 
 const benefitsList = [
   {
@@ -107,55 +108,31 @@ export default function Home() {
         </div>
       </section>
       <section className="flex flex-col justify-center items-center bg-surface px-8 py-15 w-full">
-        <h2 className="mb-12 md:mb-16 font-bold text-title text-3xl md:text-4xl text-center">
+        <h2 className="mb-8 md:mb-12 font-bold text-title text-3xl md:text-4xl text-center">
           FeedBack
         </h2>
-        <form className="space-y-6 bg-card p-8 rounded-2xl w-full max-w-lg">
+        <form className="space-y-6 bg-card mb-15 p-8 rounded-2xl w-full max-w-lg">
           <div className="gap-4 grid grid-cols-1 md:grid-cols-2">
-            <div>
-              <label
-                htmlFor="email"
-                className="block mb-2 font-medium text-title text-lg"
-              >
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                className="bg-surface p-3 border-2 focus:border-primary border-border rounded-lg focus:outline-none w-full text-title transition-colors placeholder-muted"
-                placeholder="Enter your email"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="name"
-                className="block mb-2 font-medium text-title text-lg"
-              >
-                Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                className="bg-surface p-3 border-2 focus:border-primary border-border rounded-lg focus:outline-none w-full text-title transition-colors placeholder-muted"
-                placeholder="Enter your name"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label
-              htmlFor="message"
-              className="block mb-2 font-medium text-title text-lg"
-            >
-              Message
-            </label>
-            <textarea
-              id="message"
-              rows={6}
-              className="bg-surface p-3 border-2 focus:border-primary border-border rounded-lg focus:outline-none w-full text-title transition-colors resize-none placeholder-muted"
-              placeholder="Enter your message"
+            <Input
+              label="Email"
+              type="email"
+              id="email"
+              placeholder="Enter your email"
+            />
+            <Input
+              label="Name"
+              type="text"
+              id="name"
+              placeholder="Enter your name"
             />
           </div>
+
+          <Input
+            label="Message"
+            type="textarea"
+            id="message"
+            placeholder="Enter your message"
+          />
 
           <div className="flex justify-center pt-4">
             <Button

@@ -22,7 +22,8 @@ function NotFound() {
         <div className="flex sm:flex-row flex-col justify-center items-center gap-4 md:gap-6">
           <Link to="/">
             <Button
-              type="v1"
+              type="button"
+              verstion="v1"
               color="primary"
               size="lg"
               className="px-8 py-3 w-full sm:w-auto"
@@ -31,7 +32,8 @@ function NotFound() {
             </Button>
           </Link>
           <Button
-            type="v2"
+            type="button"
+            verstion="v2"
             color="secondary"
             size="lg"
             className="px-8 py-3 w-full sm:w-auto"

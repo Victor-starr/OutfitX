@@ -1,7 +1,7 @@
 interface ButtonProps {
   type: "button" | "submit" | "reset";
   verstion: "v1" | "v2";
-  color?: "primary" | "secondary";
+  color?: "primary" | "secondary" | "card";
   onClick?: () => void;
   children?: React.ReactNode;
   size: "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl";
@@ -22,10 +22,13 @@ const sizeMap = {
 const colorMap = {
   "bg-primary": "bg-[var(--color-primary)]",
   "bg-secondary": "bg-[var(--color-secondary)]",
+  "bg-card": "bg-[var(--color-card)]",
   "text-primary": "text-[var(--color-primary)]",
   "text-secondary": "text-[var(--color-secondary)]",
+  "text-card": "text-[var(--color-card)]",
   "hover-bg-primary": "hover:bg-[var(--color-primary-hover)]",
   "hover-bg-secondary": "hover:bg-[var(--color-secondary-hover)]",
+  "hover-bg-card": "hover:bg-[var(--color-card-hover)]",
 };
 
 const Button = ({

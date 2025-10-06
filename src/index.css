@@ -21,6 +21,7 @@
 
   --color-primary-hover: #0061ff; /* Primary hover color */
   --color-secondary-hover: #4f46e5; /* Secondary hover color */
+  --color-card-hover: #6b778a; /* Card hover color */
 
   --font-jaro: "Jaro", sans-serif; /* Custom font family */
 }

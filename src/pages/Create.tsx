@@ -72,6 +72,7 @@ export default function Create() {
       setStatus("Please select an image");
       return;
     }
+    //TODO: API CALL to remove items image background
 
     const payload: Payload = {
       name: form.name,
@@ -102,13 +103,13 @@ export default function Create() {
   };
 
   return (
-    <main className="flex flex-col items-center bg-bg py-8 min-h-screen">
+    <main className="flex flex-col items-center bg-bg py-8 h-[85vh] overflow-y-auto">
       <h1 className="mb-6 font-bold text-title text-2xl md:text-3xl lg:text-4xl text-center">
         Create Wardrobe Item
       </h1>
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col gap-4 bg-card mb-15 px-10 py-6 rounded-2xl"
+        className="flex flex-col gap-4 bg-card mb-6 px-10 py-6 rounded-2xl"
       >
         <Input
           label="Name"
@@ -183,7 +184,7 @@ export default function Create() {
           <img
             src={form.imageBase64}
             alt="Preview"
-            className="mt-2 border rounded max-h-36"
+            className="mt-2 border rounded max-h-36 object-center object-contain"
           />
         )}
 

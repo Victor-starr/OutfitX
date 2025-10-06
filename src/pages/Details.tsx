@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import axiosInstance from "@/axiosInstance";
 import { useAuth } from "react-oidc-context";
+import Button from "@/components/Button";
+import { IoArrowBack } from "react-icons/io5";
 interface WardrobeItem {
   itemId: string;
   userId: string;
@@ -15,7 +17,11 @@ function Details() {
   const auth = useAuth();
   const { itemId } = useParams<{ itemId: string }>();
   const [items, setItems] = useState<WardrobeItem | null>(null);
+  const navigate = useNavigate();
 
+  const handleOneBack = () => {
+    navigate(-1);
+  };
   useEffect(() => {
     async function fetchItem() {
       const res = await axiosInstance(`/clothes/${itemId}`, {
@@ -31,60 +37,74 @@ function Details() {
   }, [auth.user?.access_token, itemId]);
 
   return (
-    <div className="bg-white shadow-lg mx-auto mt-8 rounded-lg max-w-md overflow-hidden">
-      <div className="px-6 py-4">
-        <h1 className="mb-4 font-bold text-gray-800 text-2xl text-center">
-          Item Details
-        </h1>
-        {items ? (
-          <div>
-            <div className="flex justify-center mb-4">
-              <img
-                src={items.imageURL}
-                alt={items.name}
-                className="shadow border border-gray-200 rounded-lg w-64 h-64 object-cover"
-              />
-            </div>
-            <div className="mb-2">
-              <h2 className="font-semibold text-gray-900 text-xl">
-                {items.name}
-              </h2>
-            </div>
-            <div className="flex flex-col gap-1 mb-2">
-              <div className="flex items-center">
-                <span className="w-24 font-medium text-gray-700">Type:</span>
-                <span className="text-gray-600">{items.type}</span>
+    <main className="relative flex flex-col items-center bg-bg py-8 h-[85vh] overflow-y-auto">
+      <h1 className="mb-6 font-bold text-title text-2xl md:text-3xl lg:text-4xl text-center">
+        Wardrobe Item Details
+      </h1>
+      <Button
+        version="v1"
+        type="button"
+        color="secondary"
+        size="xl"
+        className="top-15 left-15 absolute flex flex-row justify-center items-center gap-2 px-3 py-2 rounded-xl"
+        onClick={handleOneBack}
+      >
+        <IoArrowBack /> Back
+      </Button>
+      {items === null ? (
+        <div className="flex justify-center items-center h-48">
+          <p className="text-gray-500 text-lg">Loading...</p>
+        </div>
+      ) : (
+        <article className="flex flex-col bg-card shadow-lg p-8 rounded-xl w-full max-w-xl h-fit">
+          <img
+            src={items.imageURL}
+            alt={items.name}
+            className="bg-surface mb-6 rounded-lg w-full h-72 object-center object-contain cursor-pointer"
+          />
+          <div className="flex flex-col gap-2">
+            <h2 className="font-semibold text-title text-2xl">{items.name}</h2>
+            <p className="text-muted text-base">Type: {items.type}</p>
+            <p className="text-muted text-base">Color: {items.color}</p>
+            {items.tags.length > 0 ? (
+              <div className="flex flex-wrap gap-2 mt-3">
+                {items.tags.map((tag: string) => (
+                  <span
+                    key={tag}
+                    className="bg-secondary px-3 py-1 rounded text-title text-sm"
+                  >
+                    {tag}
+                  </span>
+                ))}
               </div>
-              <div className="flex items-center">
-                <span className="w-24 font-medium text-gray-700">Color:</span>
-                <span className="text-gray-600">{items.color}</span>
-              </div>
-            </div>
-            <div className="mb-2">
-              <span className="font-medium text-gray-700">Tags:</span>
-              {items.tags && items.tags.length > 0 ? (
-                <div className="flex flex-wrap gap-2 mt-1">
-                  {items.tags.map((tag: string) => (
-                    <span
-                      key={tag}
-                      className="bg-blue-100 shadow px-2 py-1 rounded-full font-medium text-blue-800 text-xs"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              ) : (
-                <p className="mt-1 text-gray-500">No tags</p>
-              )}
-            </div>
+            ) : (
+              <p className="mt-2 text-gray-500">No tags</p>
+            )}
           </div>
-        ) : (
-          <div className="flex justify-center items-center h-48">
-            <p className="text-gray-500 text-lg">Loading...</p>
+          <div className="flex flex-row justify-end gap-4 mt-8">
+            {/* TODO: fix it to type link type of button */}
+            <Button
+              color="primary"
+              version="v2"
+              size="xl"
+              type="button"
+              className="px-6 py-2 rounded"
+            >
+              Edit
+            </Button>
+            <Button
+              color="secondary"
+              version="v1"
+              size="lg"
+              type="button"
+              className="px-6 py-2 rounded"
+            >
+              Delete
+            </Button>
           </div>
-        )}
-      </div>
-    </div>
+        </article>
+      )}
+    </main>
   );
 }
 

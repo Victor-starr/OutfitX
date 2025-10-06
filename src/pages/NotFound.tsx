@@ -23,7 +23,7 @@ function NotFound() {
           <Link to="/">
             <Button
               type="button"
-              verstion="v1"
+              version="v1"
               color="primary"
               size="lg"
               className="px-8 py-3 w-full sm:w-auto"
@@ -33,7 +33,7 @@ function NotFound() {
           </Link>
           <Button
             type="button"
-            verstion="v2"
+            version="v2"
             color="secondary"
             size="lg"
             className="px-8 py-3 w-full sm:w-auto"

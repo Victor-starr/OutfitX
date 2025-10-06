@@ -141,7 +141,7 @@ export default function Create() {
             className="flex-1 px-3 py-2 border focus:border-blue-400 rounded focus:outline-none focus:ring"
           />
           <Button
-            verstion="v1"
+            version="v1"
             type="button"
             color="secondary"
             size="lg"
@@ -190,7 +190,7 @@ export default function Create() {
 
         <Button
           type="submit"
-          verstion="v1"
+          version="v1"
           color="primary"
           size="xl"
           className="mt-4 px-10 py-3"

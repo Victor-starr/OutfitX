@@ -1,6 +1,6 @@
 interface ButtonProps {
   type: "button" | "submit" | "reset";
-  verstion: "v1" | "v2";
+  version: "v1" | "v2";
   color?: "primary" | "secondary" | "card";
   onClick?: () => void;
   children?: React.ReactNode;
@@ -33,7 +33,7 @@ const colorMap = {
 
 const Button = ({
   type,
-  verstion,
+  version,
   color = "primary",
   onClick,
   children,
@@ -41,13 +41,13 @@ const Button = ({
   className = "",
 }: ButtonProps) => {
   const getButtonClasses = () => {
-    if (verstion === "v1") {
+    if (version === "v1") {
       // Solid button
       return `${colorMap[`bg-${color}`]} ${colorMap[`hover-bg-${color}`]} 
               text-white ${sizeMap[size]}`;
     }
 
-    if (verstion === "v2") {
+    if (version === "v2") {
       // Outline button
       return `bg-transparent border border-2 
               ${colorMap[`text-${color}`]} ${colorMap[`hover-bg-${color}`]} 

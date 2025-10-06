@@ -53,7 +53,7 @@ const AsideNav = ({ activeCategory, onCategoryChange }: AsideNavProps) => {
         return (
           <Button
             key={index}
-            verstion="v1"
+            version="v1"
             type="button"
             color="card"
             size="3xl"

@@ -46,7 +46,7 @@ const Nav = () => {
               </Link>
             </div>
             <Button
-              verstion="v1"
+              version="v1"
               type="button"
               color="primary"
               onClick={signOutRedirect}
@@ -58,7 +58,7 @@ const Nav = () => {
           </>
         ) : (
           <Button
-            verstion="v1"
+            version="v1"
             type="button"
             color="primary"
             onClick={handleLogin}

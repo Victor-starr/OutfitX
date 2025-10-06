@@ -45,8 +45,9 @@ export default function Home() {
             outfits, and manage your wardrobe in one simple app.
           </p>
           <div className="flex sm:flex-row flex-col justify-center items-center gap-4 md:gap-6 w-full max-w-md">
+            {/* TODO: fix it to type link type of button */}
             <Button
-              verstion="v1"
+              version="v1"
               type="button"
               color="secondary"
               size="lg"
@@ -55,7 +56,7 @@ export default function Home() {
               Wardrobe
             </Button>
             <Button
-              verstion="v2"
+              version="v2"
               type="button"
               color="secondary"
               size="lg"
@@ -145,7 +146,7 @@ export default function Home() {
           <div className="flex justify-center pt-4">
             <Button
               type="submit"
-              verstion="v1"
+              version="v1"
               color="secondary"
               size="lg"
               className="px-12 py-3"

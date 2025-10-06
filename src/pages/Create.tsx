@@ -2,7 +2,11 @@ import { useState, type ChangeEvent, type FormEvent } from "react";
 import { useNavigate } from "react-router";
 import { useAuth } from "react-oidc-context";
 import axiosInstance from "@/axiosInstance";
-
+import { getAxiosErrorMessage } from "@/utils/getAxoisErrorMsg";
+import Input from "@/components/Input";
+import Button from "@/components/Button";
+import { FaPlus } from "react-icons/fa";
+import { IoClose } from "react-icons/io5";
 interface FormState {
   name: string;
   color: string;
@@ -92,97 +96,110 @@ export default function Create() {
       setTagInput("");
       navigate("/wardrobe");
     } catch (err) {
-      setStatus(`Upload failed: ${(err as Error).message}`);
+      console.log(getAxiosErrorMessage(err));
+      setStatus(`Upload failed: ${getAxiosErrorMessage(err)}`);
     }
   };
 
   return (
-    <div className="flex justify-center items-center bg-gray-50 min-h-screen">
-      <div className="bg-white shadow mx-auto p-6 rounded-lg w-full max-w-md">
-        <h1 className="mb-6 font-bold text-2xl text-center">
-          Create Wardrobe Item
-        </h1>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <input
-            name="name"
-            placeholder="Name"
-            value={form.name}
-            onChange={handleInputChange}
-            required
-            className="px-3 py-2 border focus:border-blue-400 rounded focus:outline-none focus:ring"
-          />
-          <input
-            name="color"
-            placeholder="Color"
-            value={form.color}
-            onChange={handleInputChange}
-            required
-            className="px-3 py-2 border focus:border-blue-400 rounded focus:outline-none focus:ring"
-          />
+    <main className="flex flex-col items-center bg-bg py-8 min-h-screen">
+      <h1 className="mb-6 font-bold text-title text-2xl md:text-3xl lg:text-4xl text-center">
+        Create Wardrobe Item
+      </h1>
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col gap-4 bg-card mb-15 px-10 py-6 rounded-2xl"
+      >
+        <Input
+          label="Name"
+          name="name"
+          placeholder="Enter clothing item name"
+          value={form.name}
+          onInputChange={handleInputChange}
+          required
+        />
+        <Input
+          label="Color"
+          name="color"
+          placeholder="Enter clothing item color"
+          value={form.color}
+          onInputChange={handleInputChange}
+          required
+        />
 
-          {/* Tag Input */}
-          <div className="flex gap-2">
-            <input
-              placeholder="Add a tag"
-              value={tagInput}
-              onChange={(e) => setTagInput(e.target.value)}
-              className="flex-1 px-3 py-2 border focus:border-blue-400 rounded focus:outline-none focus:ring"
-            />
-            <button
-              type="button"
-              onClick={handleAddTag}
-              className="bg-gray-300 hover:bg-gray-400 px-3 rounded"
-            >
-              +
-            </button>
-          </div>
+        {/* Tag Input */}
+        <div className="flex items-end gap-2">
+          <Input
+            label="Tags"
+            type="text"
+            id="tagInput"
+            name="tagInput"
+            placeholder="Add a tag"
+            value={tagInput}
+            onInputChange={(e) => setTagInput(e.target.value)}
+            className="flex-1 px-3 py-2 border focus:border-blue-400 rounded focus:outline-none focus:ring"
+          />
+          <Button
+            verstion="v1"
+            type="button"
+            color="secondary"
+            size="lg"
+            onClick={handleAddTag}
+            className="p-3"
+          >
+            <FaPlus />
+          </Button>
+        </div>
 
-          {/* Display tags */}
+        {/* Display tags */}
+        {tags.length > 0 && (
           <div className="flex flex-wrap gap-2">
             {tags.map((tag) => (
               <span
                 key={tag}
-                className="flex items-center bg-gray-200 px-2 py-1 rounded text-sm"
+                className="flex items-center gap-2 bg-surface px-2 py-1 rounded text-title text-sm"
               >
                 {tag}
-                <button
-                  type="button"
+                <IoClose
+                  size={20}
+                  className="text-secondary hover:cursor-pointer"
                   onClick={() => handleRemoveTag(tag)}
-                  className="ml-1 font-bold text-red-500"
-                >
-                  ×
-                </button>
+                />
               </span>
             ))}
           </div>
-
-          <input
-            name="imageBase64"
-            type="file"
-            accept="image/*"
-            onChange={handleFileChange}
-            required
-            className="px-3 py-2 border rounded"
-          />
-          {form.imageBase64 && (
-            <img
-              src={form.imageBase64}
-              alt="Preview"
-              className="mt-2 border rounded max-h-36"
-            />
-          )}
-
-          <button
-            type="submit"
-            className="bg-blue-600 hover:bg-blue-700 py-2 rounded text-white transition"
-          >
-            Upload Item
-          </button>
-        </form>
-        {status && (
-          <p className="mt-4 text-gray-700 text-sm text-center">{status}</p>
         )}
-      </div>
-    </div>
+
+        <Input
+          label="Image"
+          name="imageBase64"
+          type="file"
+          accept="image/*"
+          onInputChange={handleFileChange}
+          className="hover:scale-105 transition-transform hover:cursor-pointer hover:"
+          required
+        />
+        {form.imageBase64 && (
+          <img
+            src={form.imageBase64}
+            alt="Preview"
+            className="mt-2 border rounded max-h-36"
+          />
+        )}
+
+        <Button
+          type="submit"
+          verstion="v1"
+          color="primary"
+          size="xl"
+          className="mt-4 px-10 py-3"
+        >
+          Upload Item
+        </Button>
+        {status && (
+          <p className="mt-4 text-primary text-sm text-center">{status}</p>
+        )}
+      </form>
+    </main>
   );
 }

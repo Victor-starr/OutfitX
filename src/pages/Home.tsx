@@ -46,7 +46,8 @@ export default function Home() {
           </p>
           <div className="flex sm:flex-row flex-col justify-center items-center gap-4 md:gap-6 w-full max-w-md">
             <Button
-              type="v1"
+              verstion="v1"
+              type="button"
               color="secondary"
               size="lg"
               className="sm:flex-1 px-8 py-3 w-full font-semibold"
@@ -54,7 +55,8 @@ export default function Home() {
               Wardrobe
             </Button>
             <Button
-              type="v2"
+              verstion="v2"
+              type="button"
               color="secondary"
               size="lg"
               className="sm:flex-1 px-8 py-3 w-full font-semibold"
@@ -117,12 +119,16 @@ export default function Home() {
               label="Email"
               type="email"
               id="email"
+              name="email"
+              required={true}
               placeholder="Enter your email"
             />
             <Input
               label="Name"
               type="text"
               id="name"
+              name="name"
+              required={true}
               placeholder="Enter your name"
             />
           </div>
@@ -131,12 +137,15 @@ export default function Home() {
             label="Message"
             type="textarea"
             id="message"
+            name="message"
+            required={true}
             placeholder="Enter your message"
           />
 
           <div className="flex justify-center pt-4">
             <Button
-              type="v1"
+              type="submit"
+              verstion="v1"
               color="secondary"
               size="lg"
               className="px-12 py-3"

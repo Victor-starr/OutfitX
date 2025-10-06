@@ -46,7 +46,8 @@ const Nav = () => {
               </Link>
             </div>
             <Button
-              type="v1"
+              verstion="v1"
+              type="button"
               color="primary"
               onClick={signOutRedirect}
               size="lg"
@@ -57,7 +58,8 @@ const Nav = () => {
           </>
         ) : (
           <Button
-            type="v1"
+            verstion="v1"
+            type="button"
             color="primary"
             onClick={handleLogin}
             size="lg"

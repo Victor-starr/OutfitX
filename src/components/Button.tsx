@@ -1,13 +1,16 @@
 interface ButtonProps {
-  type: "v1" | "v2";
+  type: "button" | "submit" | "reset";
+  verstion: "v1" | "v2";
   color?: "primary" | "secondary";
   onClick?: () => void;
   children?: React.ReactNode;
-  size: "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl";
+  size: "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl";
   className?: string;
 }
 
 const sizeMap = {
+  sm: "text-sm",
+  md: "text-md",
   lg: "text-lg",
   xl: "text-xl",
   "2xl": "text-2xl",
@@ -27,6 +30,7 @@ const colorMap = {
 
 const Button = ({
   type,
+  verstion,
   color = "primary",
   onClick,
   children,
@@ -34,13 +38,13 @@ const Button = ({
   className = "",
 }: ButtonProps) => {
   const getButtonClasses = () => {
-    if (type === "v1") {
+    if (verstion === "v1") {
       // Solid button
       return `${colorMap[`bg-${color}`]} ${colorMap[`hover-bg-${color}`]} 
               text-white ${sizeMap[size]}`;
     }
 
-    if (type === "v2") {
+    if (verstion === "v2") {
       // Outline button
       return `bg-transparent border border-2 
               ${colorMap[`text-${color}`]} ${colorMap[`hover-bg-${color}`]} 
@@ -52,6 +56,7 @@ const Button = ({
 
   return (
     <button
+      type={type}
       onClick={onClick}
       className={`${getButtonClasses()} ${className} 
          rounded transition-colors duration-200 transform hover:scale-105`}

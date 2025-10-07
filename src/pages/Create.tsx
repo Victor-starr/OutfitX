@@ -128,7 +128,6 @@ export default function Create() {
           required
         />
 
-        {/* Tag Input */}
         <div className="flex items-end gap-2">
           <Input
             label="Tags"
@@ -153,7 +152,6 @@ export default function Create() {
           </Button>
         </div>
 
-        {/* Display tags */}
         {tags.length > 0 && (
           <div className="flex flex-wrap gap-2">
             {tags.map((tag) => (

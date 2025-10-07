@@ -12,7 +12,7 @@ export default function App() {
       <Route index element={<Home />} />
       <Route path="/wardrobe" element={<AuthGuard />}>
         <Route index element={<Wardrobe />} />
-        <Route path="details/:itemId" element={<Details />} />
+        <Route path=":itemId" element={<Details />} />
         <Route path="create" element={<Create />} />
       </Route>
       <Route path="/*" element={<NotFound />} />

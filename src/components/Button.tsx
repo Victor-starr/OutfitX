@@ -1,10 +1,30 @@
+import { Link } from "react-router";
+
+interface ButtonClassesProps {
+  version: "v1" | "v2" | "v3";
+  bgColor: "primary" | "secondary" | "card";
+  textColor: "primary" | "secondary" | "card" | "title" | "muted";
+  size: "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl";
+}
 interface ButtonProps {
   type: "button" | "submit" | "reset";
-  version: "v1" | "v2";
-  color?: "primary" | "secondary" | "card";
+  version?: "v1" | "v2";
+  bgColor?: "primary" | "secondary" | "card";
+  textColor?: "primary" | "secondary" | "card" | "title" | "muted";
+  size?: "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl";
   onClick?: () => void;
   children?: React.ReactNode;
-  size: "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl";
+  className?: string;
+  disabled?: boolean;
+}
+
+interface LinkButtonProps {
+  to: string;
+  version?: "v1" | "v2" | "v3";
+  bgColor?: "primary" | "secondary" | "card";
+  textColor?: "primary" | "secondary" | "card" | "title" | "muted";
+  size?: "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl";
+  children?: React.ReactNode;
   className?: string;
 }
 
@@ -26,46 +46,86 @@ const colorMap = {
   "text-primary": "text-[var(--color-primary)]",
   "text-secondary": "text-[var(--color-secondary)]",
   "text-card": "text-[var(--color-card)]",
+  "text-title": "text-[var(--color-title)]",
+  "text-muted": "text-[var(--color-muted)]",
   "hover-bg-primary": "hover:bg-[var(--color-primary-hover)]",
   "hover-bg-secondary": "hover:bg-[var(--color-secondary-hover)]",
   "hover-bg-card": "hover:bg-[var(--color-card-hover)]",
 };
-
-const Button = ({
-  type,
+const getButtonClasses = ({
   version,
-  color = "primary",
-  onClick,
-  children,
+  bgColor,
+  textColor,
   size,
+}: ButtonClassesProps): string => {
+  if (version === "v1") {
+    // Solid button
+    return `${colorMap[`bg-${bgColor}`]} ${colorMap[`hover-bg-${bgColor}`]} 
+             ${colorMap[`text-${textColor}`]} ${sizeMap[size]}`;
+  }
+
+  if (version === "v2") {
+    // Outline button
+    return `bg-transparent border border-2 
+            ${colorMap[`text-${textColor}`]} ${colorMap[`hover-bg-${bgColor}`]} 
+            hover:text-white hover:border-transparent ${sizeMap[size]}`;
+  }
+  if (version === "v3") {
+    // Text button
+    return `bg-transparent ${colorMap[`text-${textColor}`]} hover:${
+      colorMap[`text-${textColor}`]
+    } ${sizeMap[size]} transition-colors duration-200`;
+  }
+
+  return "";
+};
+export const Button = ({
+  version = "v1",
+  bgColor = "primary",
+  textColor = "title",
+  size = "md",
   className = "",
+  children,
+  ...props
 }: ButtonProps) => {
-  const getButtonClasses = () => {
-    if (version === "v1") {
-      // Solid button
-      return `${colorMap[`bg-${color}`]} ${colorMap[`hover-bg-${color}`]} 
-              text-white ${sizeMap[size]}`;
-    }
-
-    if (version === "v2") {
-      // Outline button
-      return `bg-transparent border border-2 
-              ${colorMap[`text-${color}`]} ${colorMap[`hover-bg-${color}`]} 
-              hover:text-white hover:border-transparent ${sizeMap[size]}`;
-    }
-
-    return "";
-  };
-
   return (
     <button
-      type={type}
-      onClick={onClick}
-      className={`${getButtonClasses()} ${className} 
-         rounded transition-colors duration-200 transform hover:scale-105`}
+      className={`${getButtonClasses({
+        version,
+        bgColor,
+        textColor,
+        size,
+      })} ${className} 
+        rounded transition-colors duration-200 transform hover:scale-105`}
+      {...props}
     >
       {children}
     </button>
+  );
+};
+
+export const LinkButton = ({
+  to,
+  version = "v1",
+  bgColor = "primary",
+  textColor = "title",
+  size = "md",
+  className = "",
+  children,
+}: LinkButtonProps) => {
+  return (
+    <Link
+      to={to}
+      className={`${getButtonClasses({
+        version,
+        bgColor,
+        textColor,
+        size,
+      })} ${className} 
+        rounded transition-colors duration-200 transform hover:scale-105`}
+    >
+      {children}
+    </Link>
   );
 };
 

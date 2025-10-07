@@ -13,14 +13,14 @@ interface WardrobeItem {
 
 interface WardrobeItemCardDetailProps {
   item: WardrobeItem;
-  onDelete: (id: string) => void;
+  onDelete: () => void;
 }
 type WardrobeItemCardProp = {
   item: WardrobeItem;
   onClick: () => void;
 };
 
-export const WardrobeItemCardDetail = ({
+export const ItemCardDetail = ({
   item,
   onDelete,
 }: WardrobeItemCardDetailProps) => {
@@ -66,7 +66,7 @@ export const WardrobeItemCardDetail = ({
           version="v1"
           size="lg"
           type="button"
-          onClick={() => onDelete(item.itemId)}
+          onClick={() => onDelete()}
           className="px-6 py-2 rounded"
         >
           Delete

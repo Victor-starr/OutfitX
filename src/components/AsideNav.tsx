@@ -1,4 +1,4 @@
-import Button from "@/components/Button";
+import { Button } from "@/components/Button";
 import { HiOutlineSwatch } from "react-icons/hi2";
 import { FiWatch } from "react-icons/fi";
 import { RiGraduationCapLine } from "react-icons/ri";
@@ -55,7 +55,7 @@ const AsideNav = ({ activeCategory, onCategoryChange }: AsideNavProps) => {
             key={index}
             version="v1"
             type="button"
-            color="card"
+            bgColor="card"
             size="3xl"
             onClick={() => handleActiveTab(tab.label)}
             className={`p-3 ${

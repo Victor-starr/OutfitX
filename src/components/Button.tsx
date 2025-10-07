@@ -1,32 +1,34 @@
 import { Link } from "react-router";
 
+type BtnVersions = "v1" | "v2";
+type btnBgColors = "primary" | "secondary" | "card";
+type btnTextColors = "primary" | "secondary" | "card" | "title" | "muted";
+type BtnSizes = "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl";
+
 interface ButtonClassesProps {
-  version: "v1" | "v2" | "v3";
-  bgColor: "primary" | "secondary" | "card";
-  textColor: "primary" | "secondary" | "card" | "title" | "muted";
-  size: "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl";
+  version: BtnVersions;
+  bgColor: btnBgColors;
+  textColor?: btnTextColors;
+  size?: BtnSizes;
 }
-interface ButtonProps {
+
+type ButtonProps = {
   type: "button" | "submit" | "reset";
-  version?: "v1" | "v2";
-  bgColor?: "primary" | "secondary" | "card";
-  textColor?: "primary" | "secondary" | "card" | "title" | "muted";
-  size?: "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl";
   onClick?: () => void;
   children?: React.ReactNode;
   className?: string;
   disabled?: boolean;
-}
+} & ButtonClassesProps;
 
-interface LinkButtonProps {
+type LinkButtonProps = {
   to: string;
-  version?: "v1" | "v2" | "v3";
-  bgColor?: "primary" | "secondary" | "card";
-  textColor?: "primary" | "secondary" | "card" | "title" | "muted";
-  size?: "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl";
+  version?: BtnVersions | "v3";
+  bgColor?: btnBgColors;
+  textColor?: btnTextColors;
+  size?: BtnSizes;
   children?: React.ReactNode;
   className?: string;
-}
+};
 
 const sizeMap = {
   sm: "text-sm",
@@ -57,11 +59,18 @@ const getButtonClasses = ({
   bgColor,
   textColor,
   size,
-}: ButtonClassesProps): string => {
+}: {
+  version: BtnVersions | "v3";
+  bgColor: btnBgColors;
+  textColor: btnTextColors;
+  size: BtnSizes;
+}): string => {
   if (version === "v1") {
     // Solid button
     return `${colorMap[`bg-${bgColor}`]} ${colorMap[`hover-bg-${bgColor}`]} 
-             ${colorMap[`text-${textColor}`]} ${sizeMap[size]}`;
+             ${colorMap[`text-${textColor}`]} ${
+      sizeMap[size]
+    } disabled:opacity-50 disabled:cursor-not-allowed`;
   }
 
   if (version === "v2") {

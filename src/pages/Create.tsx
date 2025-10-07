@@ -32,6 +32,7 @@ export default function Create() {
   const [tagInput, setTagInput] = useState("");
   const [tags, setTags] = useState<string[]>([]);
   const [status, setStatus] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -82,6 +83,7 @@ export default function Create() {
     };
 
     try {
+      setLoading(true);
       setStatus("Uploading...");
       const res = await axiosInstance.post("/clothes/create", payload, {
         headers: {
@@ -99,6 +101,8 @@ export default function Create() {
     } catch (err) {
       console.log(getAxiosErrorMessage(err));
       setStatus(`Upload failed: ${getAxiosErrorMessage(err)}`);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -194,6 +198,7 @@ export default function Create() {
           textColor="title"
           size="xl"
           className="mt-4 px-10 py-3"
+          disabled={loading}
         >
           Upload Item
         </Button>

@@ -45,7 +45,6 @@ export default function Home() {
             outfits, and manage your wardrobe in one simple app.
           </p>
           <div className="flex sm:flex-row flex-col justify-center items-center gap-4 md:gap-6 w-full max-w-md">
-            {/* TODO: fix it to type link type of button */}
             <LinkButton
               version="v1"
               to="/wardrobe"
@@ -56,6 +55,7 @@ export default function Home() {
             >
               Wardrobe
             </LinkButton>
+            {/* TODO: DONT FORGET TO CHANGE IT LATER TO OUTFIT PAGE */}
             <LinkButton
               version="v2"
               to="/wardrobe/create"
@@ -64,7 +64,7 @@ export default function Home() {
               size="xl"
               className="sm:flex-1 px-8 py-3 w-full font-semibold"
             >
-              Outfit
+              Add Item
             </LinkButton>
           </div>
         </div>

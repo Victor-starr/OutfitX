@@ -3,7 +3,7 @@ import AsideNav from "@/components/AsideNav";
 import { useNavigate } from "react-router";
 import { useAuth } from "react-oidc-context";
 import axiosInstance from "@/axiosInstance";
-import { WardrobeItemCard } from "@/components/WardrobeItemCard";
+import { ItemCard, LoadingItemCard } from "@/components/WardrobeItemCard";
 
 const CLOTHING_MAP = {
   Tops: [
@@ -55,6 +55,7 @@ function Wardrobe() {
   const auth = useAuth();
   const [data, setData] = useState<WardrobeItem[]>([]);
   const [activeCategory, setActiveCategory] = useState<string>("All");
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const getFilteredItems = () => {
     if (activeCategory === "All") {
@@ -78,6 +79,7 @@ function Wardrobe() {
 
   useEffect(() => {
     async function fetchData() {
+      setIsLoading(true);
       const res = await axiosInstance.get("/clothes/getwardrobe", {
         headers: {
           Authorization: `Bearer ${auth.user?.access_token}`,
@@ -87,6 +89,7 @@ function Wardrobe() {
         setData(res.data);
         console.table("Fetched wardrobe items:", res.data);
       }
+      setIsLoading(false);
     }
     fetchData();
   }, [auth.user?.access_token]);
@@ -96,23 +99,28 @@ function Wardrobe() {
       <h1 className="mb-6 w-full font-bold text-title text-3xl text-center">
         Your Wardrobe
       </h1>
-      <div className="flex gap-25 mx-auto w-full max-w-6xl">
+      <div className="flex gap-5 lg:gap-25 mx-auto w-full max-w-6xl">
         <AsideNav
           activeCategory={activeCategory}
           onCategoryChange={setActiveCategory}
         />
-        <div className="flex-1 gap-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 w-full">
-          {filteredData.length > 0 ? (
-            filteredData.map((item: WardrobeItem) => (
-              <WardrobeItemCard
+        <div className="flex-1 gap-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 pr-15 pl-5 w-full">
+          {isLoading ? (
+            Array.from({ length: 6 }).map((_, index) => (
+              <LoadingItemCard key={index} />
+            ))
+          ) : filteredData.length === 0 ? (
+            <p className="flex justify-center items-center col-span-3 w-full text-muted text-xl lg:text-3xl text-center">
+              No items found in this category.
+            </p>
+          ) : (
+            filteredData.map((item) => (
+              <ItemCard
+                key={item.itemId}
                 item={item}
                 onClick={() => navigate(`/wardrobe/${item.itemId}`)}
               />
             ))
-          ) : data.length === 0 ? (
-            <p className="text-gray-500">Loading wardrobe items...</p>
-          ) : (
-            <p className="text-gray-500">No items found in this category.</p>
           )}
         </div>
       </div>

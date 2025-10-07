@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router";
-import Button from "@/components/Button";
+import { Button } from "@/components/Button";
 
 function NotFound() {
   const navigate = useNavigate();
@@ -24,8 +24,9 @@ function NotFound() {
             <Button
               type="button"
               version="v1"
-              color="primary"
-              size="lg"
+              bgColor="primary"
+              textColor="title"
+              size="xl"
               className="px-8 py-3 w-full sm:w-auto"
             >
               Go Home
@@ -34,8 +35,9 @@ function NotFound() {
           <Button
             type="button"
             version="v2"
-            color="secondary"
-            size="lg"
+            bgColor="secondary"
+            textColor="secondary"
+            size="xl"
             className="px-8 py-3 w-full sm:w-auto"
             onClick={() => navigate(-1)}
           >

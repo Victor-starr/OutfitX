@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import axiosInstance from "@/axiosInstance";
 import { useAuth } from "react-oidc-context";
-import Button from "@/components/Button";
+import { Button } from "@/components/Button";
 import { IoArrowBack } from "react-icons/io5";
 interface WardrobeItem {
   itemId: string;
@@ -44,7 +44,8 @@ function Details() {
       <Button
         version="v1"
         type="button"
-        color="secondary"
+        bgColor="secondary"
+        textColor="title"
         size="xl"
         className="top-15 left-15 absolute flex flex-row justify-center items-center gap-2 px-3 py-2 rounded-xl"
         onClick={handleOneBack}
@@ -84,8 +85,8 @@ function Details() {
           <div className="flex flex-row justify-end gap-4 mt-8">
             {/* TODO: fix it to type link type of button */}
             <Button
-              color="primary"
               version="v2"
+              textColor="primary"
               size="xl"
               type="button"
               className="px-6 py-2 rounded"
@@ -93,7 +94,8 @@ function Details() {
               Edit
             </Button>
             <Button
-              color="secondary"
+              bgColor="secondary"
+              textColor="title"
               version="v1"
               size="lg"
               type="button"

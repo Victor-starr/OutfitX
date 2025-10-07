@@ -4,7 +4,7 @@ import { useAuth } from "react-oidc-context";
 import axiosInstance from "@/axiosInstance";
 import { getAxiosErrorMessage } from "@/utils/getAxoisErrorMsg";
 import Input from "@/components/Input";
-import Button from "@/components/Button";
+import { Button } from "@/components/Button";
 import { FaPlus } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 interface FormState {
@@ -143,7 +143,8 @@ export default function Create() {
           <Button
             version="v1"
             type="button"
-            color="secondary"
+            bgColor="secondary"
+            textColor="title"
             size="lg"
             onClick={handleAddTag}
             className="p-3"
@@ -191,7 +192,8 @@ export default function Create() {
         <Button
           type="submit"
           version="v1"
-          color="primary"
+          bgColor="primary"
+          textColor="title"
           size="xl"
           className="mt-4 px-10 py-3"
         >

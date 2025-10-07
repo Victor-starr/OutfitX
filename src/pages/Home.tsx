@@ -1,5 +1,5 @@
 import aboutImage from "@/assets/about-outfitx.jpg";
-import Button from "@/components/Button";
+import { Button, LinkButton } from "@/components/Button";
 import Input from "@/components/Input";
 import { TbHanger, TbTagsFilled } from "react-icons/tb";
 import { FaClipboardList } from "react-icons/fa";
@@ -46,24 +46,26 @@ export default function Home() {
           </p>
           <div className="flex sm:flex-row flex-col justify-center items-center gap-4 md:gap-6 w-full max-w-md">
             {/* TODO: fix it to type link type of button */}
-            <Button
+            <LinkButton
               version="v1"
-              type="button"
-              color="secondary"
-              size="lg"
+              to="/wardrobe"
+              bgColor="secondary"
+              textColor="title"
+              size="xl"
               className="sm:flex-1 px-8 py-3 w-full font-semibold"
             >
               Wardrobe
-            </Button>
-            <Button
+            </LinkButton>
+            <LinkButton
               version="v2"
-              type="button"
-              color="secondary"
-              size="lg"
+              to="/wardrobe/create"
+              bgColor="secondary"
+              textColor="secondary"
+              size="xl"
               className="sm:flex-1 px-8 py-3 w-full font-semibold"
             >
               Outfit
-            </Button>
+            </LinkButton>
           </div>
         </div>
       </header>
@@ -147,7 +149,7 @@ export default function Home() {
             <Button
               type="submit"
               version="v1"
-              color="secondary"
+              bgColor="secondary"
               size="lg"
               className="px-12 py-3"
             >

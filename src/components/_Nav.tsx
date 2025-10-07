@@ -1,6 +1,6 @@
 import { useAuth } from "react-oidc-context";
 import { Link } from "react-router";
-import Button from "@/components/Button";
+import { Button, LinkButton } from "@/components/Button";
 const Nav = () => {
   const auth = useAuth();
 
@@ -32,23 +32,27 @@ const Nav = () => {
         {auth.isAuthenticated ? (
           <>
             <div className="hidden sm:flex items-center gap-4 lg:gap-6">
-              <Link
+              <LinkButton
+                version="v3"
                 to="wardrobe/create"
-                className="font-medium text-title hover:text-primary text-lg lg:text-xl transition-colors duration-200"
+                size="lg"
+                className="px-3 py-2 hover:text-primary lg:text-xl"
               >
                 Create
-              </Link>
-              <Link
+              </LinkButton>
+              <LinkButton
+                version="v3"
                 to="/wardrobe"
-                className="font-medium text-title hover:text-primary text-lg lg:text-xl transition-colors duration-200"
+                size="lg"
+                className="px-3 py-2 hover:text-primary lg:text-xl"
               >
                 Wardrobe
-              </Link>
+              </LinkButton>
             </div>
             <Button
               version="v1"
               type="button"
-              color="primary"
+              bgColor="primary"
               onClick={signOutRedirect}
               size="lg"
               className="px-4 lg:px-6 py-2 lg:py-2 font-semibold"
@@ -60,7 +64,7 @@ const Nav = () => {
           <Button
             version="v1"
             type="button"
-            color="primary"
+            bgColor="primary"
             onClick={handleLogin}
             size="lg"
             className="px-4 lg:px-6 py-2 lg:py-2 font-semibold"

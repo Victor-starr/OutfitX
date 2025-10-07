@@ -76,7 +76,7 @@ export const ItemCardDetail = ({
   );
 };
 
-export const WardrobeItemCard = ({ item, onClick }: WardrobeItemCardProp) => {
+export const ItemCard = ({ item, onClick }: WardrobeItemCardProp) => {
   return (
     <article
       key={item.itemId}

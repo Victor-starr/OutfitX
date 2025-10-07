@@ -3,6 +3,7 @@ import AsideNav from "@/components/AsideNav";
 import { useNavigate } from "react-router";
 import { useAuth } from "react-oidc-context";
 import axiosInstance from "@/axiosInstance";
+import { WardrobeItemCard } from "@/components/WardrobeItemCard";
 
 const CLOTHING_MAP = {
   Tops: [
@@ -103,36 +104,10 @@ function Wardrobe() {
         <div className="flex-1 gap-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 w-full">
           {filteredData.length > 0 ? (
             filteredData.map((item: WardrobeItem) => (
-              <div
-                key={item.itemId}
-                className="flex flex-col bg-card shadow p-4 rounded h-fit"
-              >
-                <img
-                  src={item.imageURL}
-                  alt={item.name}
-                  className="bg-surface mb-3 rounded w-full h-48 object-center object-contain hover:scale-105 transition-transform duration-300 ease-in-out cursor-pointer"
-                  onClick={() => navigate(`/wardrobe/details/${item.itemId}`)}
-                />
-                <div className="flex flex-col gap-1">
-                  <h2 className="font-semibold text-title text-xl">
-                    {item.name}
-                  </h2>
-                  <p className="text-muted text-sm">Type: {item.type}</p>
-                  <p className="text-muted text-sm">Color: {item.color}</p>
-                  {item.tags.length > 0 && (
-                    <div className="flex flex-wrap gap-2 mt-2">
-                      {item.tags.map((tag: string) => (
-                        <span
-                          key={tag}
-                          className="bg-secondary px-2 py-1 rounded text-title text-xs"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
+              <WardrobeItemCard
+                item={item}
+                onClick={() => navigate(`/wardrobe/${item.itemId}`)}
+              />
             ))
           ) : data.length === 0 ? (
             <p className="text-gray-500">Loading wardrobe items...</p>

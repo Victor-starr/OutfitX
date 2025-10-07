@@ -108,3 +108,49 @@ export const ItemCard = ({ item, onClick }: WardrobeItemCardProp) => {
     </article>
   );
 };
+
+export const LoadingItemCard = () => {
+  return (
+    <article className="flex flex-col bg-card shadow p-4 rounded h-full animate-pulse">
+      <div className="bg-surface mb-3 rounded w-full h-48 object-center object-contain hover:scale-105 transition-transform animate-pulse duration-300 ease-in-out cursor-pointer"></div>
+      <div className="flex flex-col gap-2">
+        <span className="bg-muted w-[50%] h-7 animate-pulse"></span>
+        <span className="bg-muted w-[40%] h-4 animate-pulse"></span>
+        <span className="bg-muted w-[40%] h-4 animate-pulse"></span>
+        <div className="flex flex-wrap gap-2 mt-2">
+          {Array.from({ length: 5 }).map((_, index) => (
+            <span
+              key={index}
+              className="bg-secondary px-5 py-2 rounded animate-pulse"
+            ></span>
+          ))}
+        </div>
+      </div>
+    </article>
+  );
+};
+
+export const LoadingItemCardDetail = () => {
+  return (
+    <article className="flex flex-col bg-card shadow-lg p-8 rounded-xl w-full max-w-xl h-fit animate-pulse">
+      <div className="bg-surface mb-6 rounded-lg w-full h-72 object-center object-contain animate-pulse cursor-pointer" />
+      <div className="flex flex-col gap-3">
+        <span className="bg-muted w-[55%] h-10 animate-pulse"></span>
+        <span className="bg-muted w-[45%] h-6 animate-pulse"></span>
+        <span className="bg-muted w-[45%] h-6 animate-pulse"></span>
+        <div className="flex flex-wrap gap-3 mt-3">
+          {Array.from({ length: 5 }).map((_, index) => (
+            <span
+              key={index}
+              className="bg-secondary px-6 py-3 rounded animate-pulse"
+            ></span>
+          ))}
+        </div>
+      </div>
+      <div className="flex flex-row justify-end gap-4 mt-8">
+        <div className="bg-surface px-5 py-2 rounded-xl w-25 h-10 animate-pulse"></div>
+        <div className="bg-surface px-5 py-2 rounded-xl w-25 h-10 animate-pulse"></div>
+      </div>
+    </article>
+  );
+};

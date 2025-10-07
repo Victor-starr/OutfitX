@@ -4,7 +4,10 @@ import axiosInstance from "@/axiosInstance";
 import { useAuth } from "react-oidc-context";
 import { Button } from "@/components/Button";
 import { IoArrowBack } from "react-icons/io5";
-import { WardrobeItemCardDetail } from "@/components/WardrobeItemCard";
+import {
+  ItemCardDetail,
+  LoadingItemCardDetail,
+} from "@/components/WardrobeItemCard";
 interface WardrobeItem {
   itemId: string;
   userId: string;
@@ -17,24 +20,31 @@ interface WardrobeItem {
 function Details() {
   const auth = useAuth();
   const { itemId } = useParams<{ itemId: string }>();
-  const [items, setItems] = useState<WardrobeItem | null>(null);
+  const [item, setItem] = useState<WardrobeItem | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const navigate = useNavigate();
 
   const handleOneBack = () => {
     navigate(-1);
   };
-  const handleDeleteItem = async (id: string) => {
-    // TODO: implement delete functionality
-    console.log("Delete item functionality to be implemented for id:", id);
+  const handleDeleteItem = async () => {
+    if (auth.user?.profile?.sub !== item?.userId) {
+      console.error("You are not authorized to delete this item.");
+      return;
+    }
+    console.log("Deleting item with ID:", itemId);
+    // TODO: Add confirmation dialog before deletion
   };
   useEffect(() => {
     async function fetchItem() {
+      setIsLoading(true);
       const res = await axiosInstance(`/clothes/${itemId}`, {
         headers: {
           Authorization: `Bearer ${auth.user?.access_token}`,
         },
       });
-      setItems(res.data);
+      setItem(res.data);
+      setIsLoading(false);
       console.log("Fetched item details:", res.data);
     }
 
@@ -57,12 +67,15 @@ function Details() {
       >
         <IoArrowBack /> Back
       </Button>
-      {items === null ? (
-        <div className="flex justify-center items-center h-48">
-          <p className="text-gray-500 text-lg">Loading...</p>
-        </div>
+
+      {isLoading ? (
+        <LoadingItemCardDetail />
+      ) : item === null ? (
+        <p className="flex justify-center items-center col-span-3 w-full text-muted text-xl lg:text-3xl text-center">
+          No items found in this category.
+        </p>
       ) : (
-        <WardrobeItemCardDetail item={items} onDelete={handleDeleteItem} />
+        <ItemCardDetail item={item} onDelete={handleDeleteItem} />
       )}
     </main>
   );

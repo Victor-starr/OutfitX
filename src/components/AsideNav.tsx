@@ -48,7 +48,7 @@ const AsideNav = ({ activeCategory, onCategoryChange }: AsideNavProps) => {
   };
 
   return (
-    <aside className="top-0 sticky flex flex-col gap-2 bg-surface px-4 py-6 rounded-2xl h-fit">
+    <aside className="top-0 sticky flex flex-col gap-2 bg-surface ml-5 px-4 py-6 rounded-2xl h-fit">
       {tabsMap.map((tab, index) => {
         return (
           <Button

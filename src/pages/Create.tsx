@@ -1,12 +1,11 @@
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import { useNavigate } from "react-router";
-import { useAuth } from "react-oidc-context";
-import axiosInstance from "@/axiosInstance";
 import { getAxiosErrorMessage } from "@/utils/getAxoisErrorMsg";
 import Input from "@/components/Input";
 import { Button } from "@/components/Button";
 import { FaPlus } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
+import useApi from "@/hook/UseApi";
 interface FormState {
   name: string;
   color: string;
@@ -21,8 +20,8 @@ interface Payload {
 }
 
 export default function Create() {
-  const auth = useAuth();
   const navigate = useNavigate();
+  const api = useApi();
 
   const [form, setForm] = useState<FormState>({
     name: "",
@@ -85,11 +84,7 @@ export default function Create() {
     try {
       setLoading(true);
       setStatus("Uploading...");
-      const res = await axiosInstance.post("/clothes/create", payload, {
-        headers: {
-          Authorization: `Bearer ${auth.user?.access_token}`,
-        },
-      });
+      const res = await api.post("/clothes/create", payload);
       if (res.status !== 200)
         throw new Error(res.data?.error || "Unknown error");
 

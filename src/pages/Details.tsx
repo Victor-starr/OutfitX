@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import axiosInstance from "@/axiosInstance";
 import { useAuth } from "react-oidc-context";
 import { Button } from "@/components/Button";
 import { IoArrowBack } from "react-icons/io5";
@@ -8,6 +7,8 @@ import {
   ItemCardDetail,
   LoadingItemCardDetail,
 } from "@/components/WardrobeItemCard";
+import { getAxiosErrorMessage } from "@/utils/getAxoisErrorMsg";
+import useApi from "@/hook/UseApi";
 interface WardrobeItem {
   itemId: string;
   userId: string;
@@ -23,6 +24,7 @@ function Details() {
   const [item, setItem] = useState<WardrobeItem | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const navigate = useNavigate();
+  const api = useApi();
 
   const handleOneBack = () => {
     navigate(-1);
@@ -32,17 +34,26 @@ function Details() {
       console.error("You are not authorized to delete this item.");
       return;
     }
-    console.log("Deleting item with ID:", itemId);
-    // TODO: Add confirmation dialog before deletion
+    try {
+      setIsLoading(true);
+      const res = await api.delete(`/clothes/${itemId}`, {
+        data: { itemId },
+      });
+      if (res.status !== 200) {
+        throw new Error("Failed to delete the item.");
+      }
+      navigate("/wardrobe");
+      console.log("Deleting item with ID:", itemId);
+    } catch (err) {
+      console.error(getAxiosErrorMessage(err));
+    } finally {
+      setIsLoading(false);
+    }
   };
   useEffect(() => {
     async function fetchItem() {
       setIsLoading(true);
-      const res = await axiosInstance(`/clothes/${itemId}`, {
-        headers: {
-          Authorization: `Bearer ${auth.user?.access_token}`,
-        },
-      });
+      const res = await api.get(`/clothes/${itemId}`);
       setItem(res.data);
       setIsLoading(false);
       console.log("Fetched item details:", res.data);
@@ -75,7 +86,11 @@ function Details() {
           No items found in this category.
         </p>
       ) : (
-        <ItemCardDetail item={item} onDelete={handleDeleteItem} />
+        <ItemCardDetail
+          item={item}
+          onDelete={handleDeleteItem}
+          isLoading={isLoading}
+        />
       )}
     </main>
   );

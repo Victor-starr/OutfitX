@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import AsideNav from "@/components/AsideNav";
 import { useNavigate } from "react-router";
 import { useAuth } from "react-oidc-context";
-import axiosInstance from "@/axiosInstance";
 import { ItemCard, LoadingItemCard } from "@/components/WardrobeItemCard";
+import useApi from "@/hook/UseApi";
 
 const CLOTHING_MAP = {
   Tops: [
@@ -53,6 +53,8 @@ interface WardrobeItem {
 function Wardrobe() {
   const navigate = useNavigate();
   const auth = useAuth();
+  const api = useApi();
+
   const [data, setData] = useState<WardrobeItem[]>([]);
   const [activeCategory, setActiveCategory] = useState<string>("All");
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -80,11 +82,7 @@ function Wardrobe() {
   useEffect(() => {
     async function fetchData() {
       setIsLoading(true);
-      const res = await axiosInstance.get("/clothes/getwardrobe", {
-        headers: {
-          Authorization: `Bearer ${auth.user?.access_token}`,
-        },
-      });
+      const res = await api.get("/clothes/getwardrobe");
       if (res.status === 200) {
         setData(res.data);
         console.table("Fetched wardrobe items:", res.data);
@@ -104,7 +102,7 @@ function Wardrobe() {
           activeCategory={activeCategory}
           onCategoryChange={setActiveCategory}
         />
-        <div className="flex-1 gap-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 pr-15 pl-5 w-full">
+        <div className="flex-1 gap-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 auto-rows-min pr-15 pl-5 w-full">
           {isLoading ? (
             Array.from({ length: 6 }).map((_, index) => (
               <LoadingItemCard key={index} />

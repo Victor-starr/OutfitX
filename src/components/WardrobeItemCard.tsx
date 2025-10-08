@@ -14,6 +14,7 @@ interface WardrobeItem {
 interface WardrobeItemCardDetailProps {
   item: WardrobeItem;
   onDelete: () => void;
+  isLoading?: boolean;
 }
 type WardrobeItemCardProp = {
   item: WardrobeItem;
@@ -23,6 +24,7 @@ type WardrobeItemCardProp = {
 export const ItemCardDetail = ({
   item,
   onDelete,
+  isLoading = false,
 }: WardrobeItemCardDetailProps) => {
   return (
     <article className="flex flex-col bg-card shadow-lg p-8 rounded-xl w-full max-w-xl h-fit">
@@ -55,7 +57,7 @@ export const ItemCardDetail = ({
           version="v2"
           textColor="primary"
           size="xl"
-          to={`/wardrobe/${item.itemId}/edit`}
+          to={isLoading ? "#" : `/wardrobe/${item.itemId}/edit`}
           className="px-6 py-2 rounded"
         >
           Edit
@@ -68,6 +70,7 @@ export const ItemCardDetail = ({
           type="button"
           onClick={() => onDelete()}
           className="px-6 py-2 rounded"
+          disabled={isLoading}
         >
           Delete
         </Button>
@@ -78,9 +81,10 @@ export const ItemCardDetail = ({
 
 export const ItemCard = ({ item, onClick }: WardrobeItemCardProp) => {
   return (
+    // h-fit doesnt work when one of the children is higher then the other, h-full doesnt work when it is the only child and the parent grid just makes vertically longer for no reason and is giving empty space inside the card
     <article
       key={item.itemId}
-      className="flex flex-col bg-card shadow p-4 rounded h-full"
+      className="flex flex-col bg-card shadow p-4 rounded"
     >
       <img
         src={item.imageURL}

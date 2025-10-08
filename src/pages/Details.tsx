@@ -9,6 +9,7 @@ import {
 } from "@/components/WardrobeItemCard";
 import { getAxiosErrorMessage } from "@/utils/getAxoisErrorMsg";
 import useApi from "@/hook/UseApi";
+import { DetailData } from "@/data/Mocks";
 interface WardrobeItem {
   itemId: string;
   userId: string;
@@ -18,6 +19,8 @@ interface WardrobeItem {
   tags: string[];
   imageURL: string;
 }
+const DEV: boolean = import.meta.env.VITE_DEV === "true";
+
 function Details() {
   const auth = useAuth();
   const { itemId } = useParams<{ itemId: string }>();
@@ -36,11 +39,16 @@ function Details() {
     }
     try {
       setIsLoading(true);
-      const res = await api.delete(`/clothes/${itemId}`, {
-        data: { itemId },
-      });
-      if (res.status !== 200) {
-        throw new Error("Failed to delete the item.");
+      if (!DEV) {
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        console.log("Mock delete item with ID:", itemId);
+      } else {
+        const res = await api.delete(`/clothes/${itemId}`, {
+          data: { itemId },
+        });
+        if (res.status !== 200) {
+          throw new Error("Failed to delete the item.");
+        }
       }
       navigate("/wardrobe");
       console.log("Deleting item with ID:", itemId);
@@ -53,10 +61,16 @@ function Details() {
   useEffect(() => {
     async function fetchItem() {
       setIsLoading(true);
-      const res = await api.get(`/clothes/${itemId}`);
-      setItem(res.data);
+      if (DEV) {
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        setItem(DetailData);
+        console.log("Using mock data for item details");
+      } else {
+        const res = await api.get(`/clothes/${itemId}`);
+        setItem(res.data);
+        console.log("Fetched item details:", res.data);
+      }
       setIsLoading(false);
-      console.log("Fetched item details:", res.data);
     }
 
     fetchItem();

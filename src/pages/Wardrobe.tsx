@@ -4,6 +4,9 @@ import { useNavigate } from "react-router";
 import { useAuth } from "react-oidc-context";
 import { ItemCard, LoadingItemCard } from "@/components/WardrobeItemCard";
 import useApi from "@/hook/UseApi";
+import { WardrobeData } from "@/data/Mocks";
+
+const DEV: boolean = import.meta.env.VITE_DEV === "true";
 
 const CLOTHING_MAP = {
   Tops: [
@@ -82,10 +85,16 @@ function Wardrobe() {
   useEffect(() => {
     async function fetchData() {
       setIsLoading(true);
-      const res = await api.get("/clothes/getwardrobe");
-      if (res.status === 200) {
-        setData(res.data);
-        console.table("Fetched wardrobe items:", res.data);
+      if (DEV) {
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        setData(WardrobeData);
+        console.log("Using mock data for wardrobe");
+      } else {
+        const res = await api.get("/clothes/getwardrobe");
+        if (res.status === 200) {
+          setData(res.data);
+          console.table("Fetched wardrobe items:", res.data);
+        }
       }
       setIsLoading(false);
     }

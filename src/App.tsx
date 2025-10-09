@@ -5,6 +5,7 @@ import Create from "@/pages/Create";
 import AuthGuard from "@/guards/AuthGuard";
 import Wardrobe from "@/pages/Wardrobe";
 import Details from "@/pages/Details";
+import Edit from "./pages/Edit";
 
 export default function App() {
   return (
@@ -12,7 +13,10 @@ export default function App() {
       <Route index element={<Home />} />
       <Route path="/wardrobe" element={<AuthGuard />}>
         <Route index element={<Wardrobe />} />
-        <Route path=":itemId" element={<Details />} />
+        <Route path=":itemId">
+          <Route index element={<Details />} />
+          <Route path="edit" element={<Edit />} />
+        </Route>
         <Route path="create" element={<Create />} />
       </Route>
       <Route path="/*" element={<NotFound />} />

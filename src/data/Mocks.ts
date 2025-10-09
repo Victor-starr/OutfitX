@@ -8,6 +8,7 @@ export const DetailData = {
   s3Key:
     "clothes/703c99bc-1081-7069-bcda-ad4c67e86887/073b5d29-a540-4ccf-8f36-b6e13c6ef767.jpg",
   type: "watch",
+  category: "Accessories",
   itemId: "073b5d29-a540-4ccf-8f36-b6e13c6ef767",
 };
 export const WardrobeData = [

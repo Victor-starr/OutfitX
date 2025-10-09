@@ -5,6 +5,7 @@ interface WardrobeItem {
   userId: string;
   name: string;
   color: string;
+  category: string;
   type: string;
   tags: string[];
   imageURL: string;

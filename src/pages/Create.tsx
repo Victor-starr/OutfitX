@@ -1,6 +1,6 @@
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import { useNavigate } from "react-router";
-import { getAxiosErrorMessage } from "@/utils/getAxoisErrorMsg";
+import { parseAxiosErrorDetails } from "@/utils/parseAxiosErrorDetails";
 import Input from "@/components/Input";
 import { Button } from "@/components/Button";
 import { FaPlus } from "react-icons/fa";
@@ -83,8 +83,8 @@ export default function Create() {
       setTagInput("");
       navigate("/wardrobe");
     } catch (err) {
-      console.log(getAxiosErrorMessage(err));
-      setStatus(`Upload failed: ${getAxiosErrorMessage(err)}`);
+      console.log(parseAxiosErrorDetails(err));
+      setStatus(`Upload failed: ${parseAxiosErrorDetails(err)}`);
     } finally {
       setLoading(false);
     }

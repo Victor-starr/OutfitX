@@ -6,18 +6,7 @@ import { Button } from "@/components/Button";
 import { FaPlus } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import useApi from "@/hook/UseApi";
-interface FormState {
-  name: string;
-  color: string;
-  imageBase64: string | null;
-}
-
-interface Payload {
-  name: string;
-  color: string;
-  tags: string[];
-  imageBase64: string;
-}
+import type { FormState, CreatePayload } from "@/types/items_types";
 
 export default function Create() {
   const navigate = useNavigate();
@@ -74,7 +63,7 @@ export default function Create() {
     }
     //TODO: API CALL to remove items image background
 
-    const payload: Payload = {
+    const payload: CreatePayload = {
       name: form.name,
       color: form.color,
       tags,

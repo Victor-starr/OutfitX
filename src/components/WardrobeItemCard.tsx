@@ -38,6 +38,7 @@ export const ItemCardDetail = ({
         <h2 className="font-semibold text-title text-2xl">{item.name}</h2>
         <p className="text-muted text-base">Type: {item.type}</p>
         <p className="text-muted text-base">Color: {item.color}</p>
+        <p className="text-muted text-base">Category: {item.category}</p>
         {item.tags.length > 0 ? (
           <div className="flex flex-wrap gap-2 mt-3">
             {item.tags.map((tag: string) => (

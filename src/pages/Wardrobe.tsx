@@ -5,53 +5,9 @@ import { useAuth } from "react-oidc-context";
 import { ItemCard, LoadingItemCard } from "@/components/WardrobeItemCard";
 import useApi from "@/hook/UseApi";
 import { WardrobeData } from "@/data/Mocks";
+import type { WardrobeItem } from "@/types/items_types";
 
 const DEV: boolean = import.meta.env.VITE_DEV === "true";
-
-const CLOTHING_MAP = {
-  Tops: [
-    "t-shirt",
-    "shirt",
-    "blouse",
-    "hoodie",
-    "sweater",
-    "cardigan",
-    "polo",
-    "tank",
-    "crop",
-  ],
-  Bottoms: [
-    "jeans",
-    "trousers",
-    "pants",
-    "shorts",
-    "skirt",
-    "leggings",
-    "joggers",
-  ],
-  Outerwear: [
-    "jacket",
-    "coat",
-    "blazer",
-    "vest",
-    "poncho",
-    "cape",
-    "windbreaker",
-  ],
-  Head: ["hat", "cap", "beanie", "scarf", "tie", "bowtie", "headband"],
-  Feet: ["sneakers", "boots", "sandals", "flats", "heels", "shoes", "slippers"],
-  Accessories: ["bag", "belt", "watch", "sunglasses", "jewelry", "gloves"],
-};
-
-interface WardrobeItem {
-  itemId: string;
-  userId: string;
-  name: string;
-  color: string;
-  type: string;
-  tags: string[];
-  imageURL: string;
-}
 
 function Wardrobe() {
   const navigate = useNavigate();
@@ -67,17 +23,7 @@ function Wardrobe() {
       return data;
     }
 
-    const categoryItems =
-      CLOTHING_MAP[activeCategory as keyof typeof CLOTHING_MAP];
-    if (!categoryItems) {
-      return data;
-    }
-
-    return data.filter((item) =>
-      categoryItems.some((clothingType) =>
-        item.type.toLowerCase().includes(clothingType.toLowerCase())
-      )
-    );
+    return data.filter((item) => item.category === activeCategory);
   };
 
   const filteredData = getFilteredItems();
@@ -93,7 +39,7 @@ function Wardrobe() {
         const res = await api.get("/clothes/getwardrobe");
         if (res.status === 200) {
           setData(res.data);
-          console.table("Fetched wardrobe items:", res.data);
+          console.table(res.data);
         }
       }
       setIsLoading(false);

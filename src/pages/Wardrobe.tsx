@@ -1,14 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AsideNav from "@/components/AsideNav";
 import { useNavigate } from "react-router";
 import { ItemCard, LoadingItemCard } from "@/components/WardrobeItemCard";
 import useWardrobe from "@/hook/useWardrobe";
+import { useAuth } from "react-oidc-context";
 
 function Wardrobe() {
+  const auth = useAuth();
   const navigate = useNavigate();
-  const { loading, result } = useWardrobe();
-
+  const { loading, result, fetchData } = useWardrobe();
   const [activeCategory, setActiveCategory] = useState<string>("All");
+
+  useEffect(() => {
+    fetchData();
+  }, [auth.user?.access_token]);
 
   const getFilteredItems = () => {
     if (activeCategory === "All") {

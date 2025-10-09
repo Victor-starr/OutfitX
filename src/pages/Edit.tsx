@@ -1,6 +1,6 @@
 import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
 import { useNavigate, useParams } from "react-router";
-import { getAxiosErrorMessage } from "@/utils/getAxoisErrorMsg";
+import { parseAxiosErrorDetails } from "@/utils/parseAxiosErrorDetails";
 import Input from "@/components/Input";
 import { Button } from "@/components/Button";
 import { FaPlus } from "react-icons/fa";
@@ -34,7 +34,7 @@ export default function Edit() {
         });
         setTags(res.data.tags || []);
       } catch (error) {
-        console.error(getAxiosErrorMessage(error));
+        console.error(parseAxiosErrorDetails(error));
       } finally {
         setLoading(false);
       }
@@ -107,8 +107,8 @@ export default function Edit() {
       setTagInput("");
       navigate(`/wardrobe/${itemId}`);
     } catch (err) {
-      console.log(getAxiosErrorMessage(err));
-      setStatus(`Update failed: ${getAxiosErrorMessage(err)}`);
+      console.log(parseAxiosErrorDetails(err));
+      setStatus(`Update failed: ${parseAxiosErrorDetails(err)}`);
     } finally {
       setLoading(false);
     }

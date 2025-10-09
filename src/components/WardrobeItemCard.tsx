@@ -1,16 +1,7 @@
 import Button, { LinkButton } from "./Button";
+import type { WardrobeItem as wardrobetype } from "@/types/items_types";
 
-interface WardrobeItem {
-  itemId: string;
-  userId: string;
-  name: string;
-  color: string;
-  category: string;
-  type: string;
-  tags: string[];
-  imageURL: string;
-  onClick?: () => void;
-}
+type WardrobeItem = wardrobetype & { onClick?: () => void };
 
 interface WardrobeItemCardDetailProps {
   item: WardrobeItem;

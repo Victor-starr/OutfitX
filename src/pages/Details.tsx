@@ -10,15 +10,7 @@ import {
 import { getAxiosErrorMessage } from "@/utils/getAxoisErrorMsg";
 import useApi from "@/hook/UseApi";
 import { DetailData } from "@/data/Mocks";
-interface WardrobeItem {
-  itemId: string;
-  userId: string;
-  name: string;
-  color: string;
-  type: string;
-  tags: string[];
-  imageURL: string;
-}
+import type { WardrobeItem } from "@/types/items_types";
 const DEV: boolean = import.meta.env.VITE_DEV === "true";
 
 function Details() {
@@ -41,6 +33,7 @@ function Details() {
       setIsLoading(true);
       if (!DEV) {
         await new Promise((resolve) => setTimeout(resolve, 500));
+        setItem(DetailData);
         console.log("Mock delete item with ID:", itemId);
       } else {
         const res = await api.delete(`/clothes/${itemId}`, {
@@ -63,12 +56,12 @@ function Details() {
       setIsLoading(true);
       if (DEV) {
         await new Promise((resolve) => setTimeout(resolve, 500));
-        setItem(DetailData);
+        // setItem(DetailData);
         console.log("Using mock data for item details");
       } else {
         const res = await api.get(`/clothes/${itemId}`);
         setItem(res.data);
-        console.log("Fetched item details:", res.data);
+        console.table(res.data);
       }
       setIsLoading(false);
     }

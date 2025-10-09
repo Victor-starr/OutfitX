@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
 import { useAuth } from "react-oidc-context";
 import { Button } from "@/components/Button";
@@ -7,65 +7,21 @@ import {
   ItemCardDetail,
   LoadingItemCardDetail,
 } from "@/components/WardrobeItemCard";
-import { getAxiosErrorMessage } from "@/utils/getAxoisErrorMsg";
-import useApi from "@/hook/UseApi";
-import { DetailData } from "@/data/Mocks";
-import type { WardrobeItem } from "@/types/items_types";
-const DEV: boolean = import.meta.env.VITE_DEV === "true";
+import useWardrobe from "@/hook/useWardrobe";
 
 function Details() {
   const auth = useAuth();
   const { itemId } = useParams<{ itemId: string }>();
-  const [item, setItem] = useState<WardrobeItem | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const { loading, result, fetchItem, handleDeleteItem } = useWardrobe({
+    itemId,
+  });
   const navigate = useNavigate();
-  const api = useApi();
 
   const handleOneBack = () => {
     navigate(-1);
   };
-  const handleDeleteItem = async () => {
-    if (auth.user?.profile?.sub !== item?.userId) {
-      console.error("You are not authorized to delete this item.");
-      return;
-    }
-    try {
-      setIsLoading(true);
-      if (!DEV) {
-        await new Promise((resolve) => setTimeout(resolve, 500));
-        setItem(DetailData);
-        console.log("Mock delete item with ID:", itemId);
-      } else {
-        const res = await api.delete(`/clothes/${itemId}`, {
-          data: { itemId },
-        });
-        if (res.status !== 200) {
-          throw new Error("Failed to delete the item.");
-        }
-      }
-      navigate("/wardrobe");
-      console.log("Deleting item with ID:", itemId);
-    } catch (err) {
-      console.error(getAxiosErrorMessage(err));
-    } finally {
-      setIsLoading(false);
-    }
-  };
-  useEffect(() => {
-    async function fetchItem() {
-      setIsLoading(true);
-      if (DEV) {
-        await new Promise((resolve) => setTimeout(resolve, 500));
-        // setItem(DetailData);
-        console.log("Using mock data for item details");
-      } else {
-        const res = await api.get(`/clothes/${itemId}`);
-        setItem(res.data);
-        console.table(res.data);
-      }
-      setIsLoading(false);
-    }
 
+  useEffect(() => {
     fetchItem();
   }, [auth.user?.access_token, itemId]);
 
@@ -86,17 +42,17 @@ function Details() {
         <IoArrowBack /> Back
       </Button>
 
-      {isLoading ? (
+      {loading ? (
         <LoadingItemCardDetail />
-      ) : item === null ? (
+      ) : result.data === null ? (
         <p className="flex justify-center items-center col-span-3 w-full text-muted text-xl lg:text-3xl text-center">
           No items found in this category.
         </p>
       ) : (
         <ItemCardDetail
-          item={item}
+          item={result.data[0]}
           onDelete={handleDeleteItem}
-          isLoading={isLoading}
+          isLoading={loading}
         />
       )}
     </main>

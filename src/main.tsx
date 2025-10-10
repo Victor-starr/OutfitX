@@ -6,6 +6,8 @@ import App from "@/App.tsx";
 import "@/index.css";
 import Nav from "@/components/_Nav.tsx";
 import Footer from "@/components/Footer.tsx";
+import { SWRConfig } from "swr";
+import { localStorageProvider } from "./utils/localStorageProvider";
 
 const cognitoAuthConfig = {
   authority: import.meta.env.VITE_AUTHORITY as string,
@@ -19,9 +21,11 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
       <AuthProvider {...cognitoAuthConfig}>
-        <Nav />
-        <App />
-        <Footer />
+        <SWRConfig value={{ provider: localStorageProvider }}>
+          <Nav />
+          <App />
+          <Footer />
+        </SWRConfig>
       </AuthProvider>
     </BrowserRouter>
   </StrictMode>

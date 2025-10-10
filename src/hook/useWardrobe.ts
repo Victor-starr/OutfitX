@@ -5,6 +5,7 @@ import { WardrobeData, DetailData } from "@/data/Mocks";
 import { parseAxiosErrorDetails } from "@/utils/parseAxiosErrorDetails";
 import { useAuth } from "react-oidc-context";
 import { useNavigate } from "react-router";
+import useSWR, { mutate } from "swr";
 
 type ResType = {
   message: string;
@@ -37,6 +38,19 @@ export default function useWardrobe({
 
   const DEV: boolean = import.meta.env.VITE_DEV === "true";
 
+  const fetcher = async (url: string) => {
+    const res = await api.get(url);
+    return res.data;
+  };
+
+  // ✅ SWR cache key for clothing
+  const wardrobeKey = "/clothes/getwardrobe";
+  const { data: cachedData } = useSWR(!DEV ? wardrobeKey : null, fetcher, {
+    revalidateOnMount: false,
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+  });
+
   async function fetchData() {
     setIsLoading(true);
     try {
@@ -49,12 +63,24 @@ export default function useWardrobe({
         });
         console.log("Using mock data for wardrobe", WardrobeData);
       } else {
-        const res = await api.get("/clothes/getwardrobe");
-        setResult({
-          message: res.data.message,
-          data: res.data.data,
-          status: res.status,
-        });
+        if (cachedData) {
+          console.log("Using SWR cached data for wardrobe", cachedData);
+          setResult({
+            message: cachedData.message,
+            data: cachedData.data,
+            status: 200,
+          });
+        } else {
+          const res = await api.get("/clothes/getwardrobe");
+          console.log("Using API for wardrobe", res);
+          setResult({
+            message: res.data.message,
+            data: res.data.data,
+            status: res.status,
+          });
+          // Update SWR cache
+          mutate(wardrobeKey, res.data);
+        }
       }
     } catch (err) {
       const { message, status } = parseAxiosErrorDetails(err);
@@ -120,6 +146,8 @@ export default function useWardrobe({
           data: [],
           status: res.status,
         });
+        // Update SWR cache
+        mutate(wardrobeKey, res.data);
       }
       navigate("/wardrobe");
       console.log("Deleting item with ID:", itemId);

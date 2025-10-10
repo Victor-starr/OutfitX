@@ -90,7 +90,6 @@ export default function Edit() {
           placeholder="Enter clothing item name"
           value={form.name}
           onInputChange={handleInputChange}
-          required
         />
         <Input
           label="Color"
@@ -98,7 +97,6 @@ export default function Edit() {
           placeholder="Enter clothing item color"
           value={form.color}
           onInputChange={handleInputChange}
-          required
         />
 
         <div className="flex items-end gap-2">
@@ -149,8 +147,7 @@ export default function Edit() {
           type="file"
           accept="image/*"
           onInputChange={handleFileChange}
-          className="hover:scale-105 transition-transform hover:cursor-pointer hover:"
-          required
+          className="hover:scale-105 transition-transform hover:cursor-pointer"
         />
         {form.imageBase64 && (
           <img

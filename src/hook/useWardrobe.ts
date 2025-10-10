@@ -187,6 +187,14 @@ export default function useWardrobe({
       }));
       return;
     }
+    if (tags.length === 0) {
+      setResult((prev) => ({
+        ...prev,
+        message: "Please add at least one tag",
+        status: 400,
+      }));
+      return;
+    }
     //TODO: API CALL to remove items image background
 
     const newAttributes: CreatePayload = {
@@ -246,6 +254,14 @@ export default function useWardrobe({
       setResult((prev) => ({
         ...prev,
         message: "Please select an image",
+        status: 400,
+      }));
+      return;
+    }
+    if (tags.length === 0) {
+      setResult((prev) => ({
+        ...prev,
+        message: "Please add at least one tag",
         status: 400,
       }));
       return;

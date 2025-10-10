@@ -57,7 +57,6 @@ export default function useWardrobe({
     return res.data;
   };
 
-  // ✅ SWR cache key for clothing
   const wardrobeKey = "/clothes/getwardrobe";
   const { data: cachedData } = useSWR(!DEV ? wardrobeKey : null, fetcher, {
     revalidateOnMount: false,
@@ -92,7 +91,6 @@ export default function useWardrobe({
             data: res.data.data,
             status: res.status,
           });
-          // Update SWR cache
           mutate(wardrobeKey, res.data);
         }
       }
@@ -150,7 +148,6 @@ export default function useWardrobe({
           data: [],
           status: res.status,
         });
-        // Update SWR cache
         mutate(wardrobeKey, res.data);
       }
       navigate("/wardrobe");

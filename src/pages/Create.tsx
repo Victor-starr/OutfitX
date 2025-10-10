@@ -1,17 +1,12 @@
-import { useState, type ChangeEvent, type FormEvent } from "react";
-import { useNavigate } from "react-router";
-import { parseAxiosErrorDetails } from "@/utils/parseAxiosErrorDetails";
+import { useState, type ChangeEvent } from "react";
 import Input from "@/components/Input";
 import { Button } from "@/components/Button";
 import { FaPlus } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
-import useApi from "@/hook/UseApi";
-import type { FormState, CreatePayload } from "@/types/items_types";
+import type { FormState } from "@/types/items_types";
+import useWardrobe from "@/hook/useWardrobe";
 
 export default function Create() {
-  const navigate = useNavigate();
-  const api = useApi();
-
   const [form, setForm] = useState<FormState>({
     name: "",
     color: "",
@@ -19,8 +14,7 @@ export default function Create() {
   });
   const [tagInput, setTagInput] = useState("");
   const [tags, setTags] = useState<string[]>([]);
-  const [status, setStatus] = useState("");
-  const [loading, setLoading] = useState(false);
+  const { handleCreateItem, loading, result } = useWardrobe();
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -50,53 +44,22 @@ export default function Create() {
     setTags(tags.filter((t) => t !== tagToRemove));
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (!form.name || !form.color) {
-      setStatus("Name and color are required");
-      return;
-    }
-    if (!form.imageBase64) {
-      setStatus("Please select an image");
-      return;
-    }
-    //TODO: API CALL to remove items image background
-
-    const payload: CreatePayload = {
-      name: form.name,
-      color: form.color,
-      tags,
-      imageBase64: form.imageBase64,
-    };
-
-    try {
-      setLoading(true);
-      setStatus("Uploading...");
-      const res = await api.post("/clothes/create", payload);
-      if (res.status !== 200)
-        throw new Error(res.data?.error || "Unknown error");
-
-      setStatus("Item uploaded successfully!");
-      setForm({ name: "", color: "", imageBase64: null });
-      setTags([]);
-      setTagInput("");
-      navigate("/wardrobe");
-    } catch (err) {
-      console.log(parseAxiosErrorDetails(err));
-      setStatus(`Upload failed: ${parseAxiosErrorDetails(err)}`);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
     <main className="flex flex-col items-center bg-bg py-8 h-[85vh] overflow-y-auto">
       <h1 className="mb-6 font-bold text-title text-2xl md:text-3xl lg:text-4xl text-center">
         Create Wardrobe Item
       </h1>
       <form
-        onSubmit={handleSubmit}
+        onSubmit={(e) =>
+          handleCreateItem({
+            e,
+            form,
+            tags,
+            setForm,
+            setTags,
+            setTagInput,
+          })
+        }
         className="flex flex-col gap-4 bg-card mb-6 px-10 py-6 rounded-2xl"
       >
         <Input
@@ -186,8 +149,10 @@ export default function Create() {
         >
           Upload Item
         </Button>
-        {status && (
-          <p className="mt-4 text-primary text-sm text-center">{status}</p>
+        {result.status !== 200 && result.status !== 0 && (
+          <p className="mt-4 text-primary text-sm text-center">
+            {result.message}
+          </p>
         )}
       </form>
     </main>

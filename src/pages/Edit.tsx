@@ -1,17 +1,14 @@
-import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
-import { useNavigate, useParams } from "react-router";
-import { parseAxiosErrorDetails } from "@/utils/parseAxiosErrorDetails";
+import { useEffect, useState, type ChangeEvent } from "react";
+import { useParams } from "react-router";
 import Input from "@/components/Input";
 import { Button } from "@/components/Button";
 import { FaPlus } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
-import useApi from "@/hook/UseApi";
-import type { FormState, CreatePayload } from "@/types/items_types";
+import type { FormState } from "@/types/items_types";
+import useWardrobe from "@/hook/useWardrobe";
 
 export default function Edit() {
   const { itemId } = useParams<{ itemId: string }>();
-  const navigate = useNavigate();
-  const api = useApi();
   const [form, setForm] = useState<FormState>({
     name: "",
     color: "",
@@ -19,28 +16,24 @@ export default function Edit() {
   });
   const [tagInput, setTagInput] = useState("");
   const [tags, setTags] = useState<string[]>([]);
-  const [status, setStatus] = useState("");
-  const [loading, setLoading] = useState(false);
+  const { fetchItem, handleEditItem, loading, result } = useWardrobe({
+    itemId,
+  });
 
   useEffect(() => {
-    const fetchItem = async () => {
-      try {
-        setLoading(true);
-        const res = await api.get(`/clothes/${itemId}`);
-        setForm({
-          name: res.data.name,
-          color: res.data.color,
-          imageBase64: res.data.imageURL,
-        });
-        setTags(res.data.tags || []);
-      } catch (error) {
-        console.error(parseAxiosErrorDetails(error));
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchItem();
-  }, [itemId]);
+    if (!itemId) return;
+    if (result.data.length === 0) {
+      fetchItem();
+    } else {
+      const item = result.data[0];
+      setForm({
+        name: item.name || "",
+        color: item.color || "",
+        imageBase64: item.imageURL || null,
+      });
+      setTags(item.tags || []);
+    }
+  }, [itemId, result.data]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -53,7 +46,10 @@ export default function Edit() {
 
     const reader = new FileReader();
     reader.onloadend = () => {
-      setForm((prev) => ({ ...prev, imageBase64: reader.result as string }));
+      setForm((prev: FormState) => ({
+        ...prev,
+        imageBase64: reader.result as string,
+      }));
     };
     reader.readAsDataURL(file);
   };
@@ -70,57 +66,15 @@ export default function Edit() {
     setTags(tags.filter((t) => t !== tagToRemove));
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (!form.name || !form.color) {
-      setStatus("Name and color are required");
-      return;
-    }
-    if (!form.imageBase64) {
-      setStatus("Please select an image");
-      return;
-    }
-    //TODO: API CALL to remove items image background
-
-    const newAttributes: CreatePayload = {
-      name: form.name,
-      color: form.color,
-      tags,
-      imageBase64: form.imageBase64,
-    };
-
-    try {
-      setLoading(true);
-      setStatus("Uploading...");
-      const res = await api.put(`/clothes/${itemId}`, {
-        itemId,
-        newAttributes,
-      });
-      if (res.status !== 200)
-        throw new Error(res.data?.error || "Unknown error");
-
-      setStatus("Item updated successfully!");
-      console.log("everything is fine");
-      setForm({ name: "", color: "", imageBase64: null });
-      setTags([]);
-      setTagInput("");
-      navigate(`/wardrobe/${itemId}`);
-    } catch (err) {
-      console.log(parseAxiosErrorDetails(err));
-      setStatus(`Update failed: ${parseAxiosErrorDetails(err)}`);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
     <main className="flex flex-col items-center bg-bg py-8 h-[85vh] overflow-y-auto">
       <h1 className="mb-6 font-bold text-title text-2xl md:text-3xl lg:text-4xl text-center">
         Edit Wardrobe Item
       </h1>
       <form
-        onSubmit={handleSubmit}
+        onSubmit={(e) =>
+          handleEditItem({ e, form, tags, setTagInput, setTags, setForm })
+        }
         className="flex flex-col gap-4 bg-card mb-6 px-10 py-6 rounded-2xl"
       >
         <Input
@@ -210,8 +164,10 @@ export default function Edit() {
         >
           Upload Item
         </Button>
-        {status && (
-          <p className="mt-4 text-primary text-sm text-center">{status}</p>
+        {result.status !== 0 && (
+          <p className="mt-4 text-primary text-sm text-center">
+            {result.message}
+          </p>
         )}
       </form>
     </main>

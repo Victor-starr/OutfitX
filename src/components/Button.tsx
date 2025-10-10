@@ -105,7 +105,7 @@ export const Button = ({
         textColor,
         size,
       })} ${className} 
-        rounded transition-colors duration-200 transform hover:scale-105`}
+        rounded transition-colors text-center duration-200 transform hover:scale-105`}
       {...props}
     >
       {children}
@@ -131,7 +131,7 @@ export const LinkButton = ({
         textColor,
         size,
       })} ${className} 
-        rounded transition-colors duration-200 transform hover:scale-105`}
+        rounded transition-colors text-center duration-200 transform hover:scale-105`}
     >
       {children}
     </Link>

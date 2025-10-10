@@ -1,7 +1,7 @@
 import { useEffect, useState, type ChangeEvent } from "react";
 import { useParams } from "react-router";
 import Input from "@/components/Input";
-import { Button } from "@/components/Button";
+import { Button, LinkButton } from "@/components/Button";
 import { FaPlus } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import type { FormState } from "@/types/items_types";
@@ -152,18 +152,30 @@ export default function Edit() {
             className="mt-2 border rounded max-h-36 object-center object-contain"
           />
         )}
+        <div className="flex md:flex-row flex-col justify-center items-center gap-3 md:gap-5 mt-5 w-full">
+          <Button
+            type="submit"
+            version="v1"
+            bgColor="primary"
+            textColor="title"
+            size="xl"
+            className="md:flex-1 px-5 py-3 w-full"
+            disabled={loading}
+          >
+            Upload Item
+          </Button>
+          <LinkButton
+            to={`/wardrobe/${itemId}`}
+            version="v1"
+            bgColor="secondary"
+            textColor="title"
+            size="xl"
+            className="md:flex-1 px-5 py-3 w-full"
+          >
+            Cancel
+          </LinkButton>
+        </div>
 
-        <Button
-          type="submit"
-          version="v1"
-          bgColor="primary"
-          textColor="title"
-          size="xl"
-          className="mt-4 px-10 py-3"
-          disabled={loading}
-        >
-          Upload Item
-        </Button>
         {result.status !== 0 && (
           <p className="mt-4 text-primary text-sm text-center">
             {result.message}

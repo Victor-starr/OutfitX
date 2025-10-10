@@ -17,10 +17,6 @@ function Details() {
   });
   const navigate = useNavigate();
 
-  const handleOneBack = () => {
-    navigate(-1);
-  };
-
   useEffect(() => {
     fetchItem();
   }, [auth.user?.access_token, itemId]);
@@ -37,15 +33,15 @@ function Details() {
         textColor="title"
         size="xl"
         className="top-15 left-15 absolute flex flex-row justify-center items-center gap-2 px-3 py-2 rounded-xl"
-        onClick={handleOneBack}
+        onClick={() => navigate("/wardrobe")}
       >
         <IoArrowBack /> Back
       </Button>
 
       {loading ? (
         <LoadingItemCardDetail />
-      ) : result.data === null ? (
-        <p className="flex justify-center items-center col-span-3 w-full text-muted text-xl lg:text-3xl text-center">
+      ) : result.data === null || result.status !== 200 ? (
+        <p className="top-1/2 absolute flex justify-center items-center col-span-3 w-auto text-muted text-xl lg:text-3xl text-center">
           No items found in this category.
         </p>
       ) : (

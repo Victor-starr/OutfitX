@@ -73,7 +73,14 @@ export default function Edit() {
       </h1>
       <form
         onSubmit={(e) =>
-          handleEditItem({ e, form, tags, setTagInput, setTags, setForm })
+          handleEditItem({
+            e,
+            form,
+            tags,
+            setTagInput,
+            setTags,
+            setForm,
+          })
         }
         className="flex flex-col gap-4 bg-card mb-6 px-10 py-6 rounded-2xl"
       >
@@ -153,6 +160,16 @@ export default function Edit() {
           />
         )}
         <div className="flex md:flex-row flex-col justify-center items-center gap-3 md:gap-5 mt-5 w-full">
+          <LinkButton
+            to={`/wardrobe/${itemId}`}
+            version="v2"
+            bgColor="secondary"
+            textColor="secondary"
+            size="xl"
+            className="md:flex-1 px-5 py-3 w-full"
+          >
+            Cancel
+          </LinkButton>
           <Button
             type="submit"
             version="v1"
@@ -164,19 +181,9 @@ export default function Edit() {
           >
             Upload Item
           </Button>
-          <LinkButton
-            to={`/wardrobe/${itemId}`}
-            version="v1"
-            bgColor="secondary"
-            textColor="title"
-            size="xl"
-            className="md:flex-1 px-5 py-3 w-full"
-          >
-            Cancel
-          </LinkButton>
         </div>
 
-        {result.status !== 0 && (
+        {result.status !== 200 && result.status !== 0 && (
           <p className="mt-4 text-primary text-sm text-center">
             {result.message}
           </p>

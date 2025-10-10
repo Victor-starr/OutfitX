@@ -112,23 +112,12 @@ export default function useWardrobe({
   async function fetchItem() {
     setIsLoading(true);
     try {
-      if (DEV) {
-        await new Promise((resolve) => setTimeout(resolve, 500));
-        setResult({
-          message: "Mock data fetched",
-          data: [DetailData],
-          status: 200,
-        });
-        console.log("Using mock data for item details", DetailData);
-      } else {
-        const res = await api.get(`/clothes/${itemId}`);
-        setResult({
-          message: res.data.message,
-          data: [res.data.data],
-          status: res.status,
-        });
-      }
-      setIsLoading(false);
+      const res = await api.get(`/clothes/${itemId}`);
+      setResult({
+        message: res.data.message,
+        data: [res.data.data],
+        status: res.status,
+      });
     } catch (err) {
       const { message, status } = parseAxiosErrorDetails(err);
       console.error("Failed to fetch item details:", { message, status });
@@ -137,6 +126,7 @@ export default function useWardrobe({
         data: [],
         status: status,
       });
+    } finally {
       setIsLoading(false);
     }
   }

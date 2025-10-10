@@ -64,7 +64,7 @@ export default function useWardrobe({
         });
         console.log("Using mock data for wardrobe", WardrobeData);
       } else {
-        const res = await api.get("/clothes/getwardrobe");
+        const res = await api.get("/clothes");
         console.log("Using API for wardrobe", res);
         setResult({
           message: res.data.message,

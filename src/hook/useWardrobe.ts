@@ -59,8 +59,8 @@ export default function useWardrobe({
 
   const wardrobeKey = "/clothes/getwardrobe";
   const { data: cachedData } = useSWR(!DEV ? wardrobeKey : null, fetcher, {
-    revalidateOnMount: false,
-    revalidateIfStale: false,
+    revalidateOnMount: true,
+    revalidateIfStale: true,
     revalidateOnFocus: false,
   });
 
@@ -91,7 +91,7 @@ export default function useWardrobe({
             data: res.data.data,
             status: res.status,
           });
-          mutate(wardrobeKey, res.data);
+          await mutate(wardrobeKey);
         }
       }
     } catch (err) {
@@ -148,7 +148,7 @@ export default function useWardrobe({
           data: [],
           status: res.status,
         });
-        mutate(wardrobeKey, res.data);
+        await mutate(wardrobeKey);
       }
       navigate("/wardrobe");
       console.log("Deleting item with ID:", itemId);
@@ -211,6 +211,7 @@ export default function useWardrobe({
         message: "Item updated successfully!",
         status: res.status,
       }));
+      await mutate(wardrobeKey);
       setForm({ name: "", color: "", imageBase64: null });
       setTags([]);
       setTagInput("");

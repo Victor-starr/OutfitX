@@ -178,11 +178,75 @@ export default function useWardrobe({
     }
   };
 
+  const handleEditItem = async ({
+    e,
+    form,
+    tags,
+    setTagInput,
+    setTags,
+    setForm,
+  }: handleEditItemProps) => {
+    e.preventDefault();
+
+    if (!form.name || !form.color) {
+      setResult((prev) => ({
+        ...prev,
+        message: "Name and color are required",
+        status: 400,
+      }));
+      return;
+    }
+    if (!form.imageBase64) {
+      setResult((prev) => ({
+        ...prev,
+        message: "Please select an image",
+        status: 400,
+      }));
+      return;
+    }
+    //TODO: API CALL to remove items image background
+
+    const newAttributes: CreatePayload = {
+      name: form.name,
+      color: form.color,
+      tags,
+      imageBase64: form.imageBase64,
+    };
+
+    try {
+      setIsLoading(true);
+      const res = await api.put(`/clothes/${itemId}`, {
+        itemId,
+        newAttributes,
+      });
+      setResult((prev) => ({
+        ...prev,
+        message: "Item updated successfully!",
+        status: res.status,
+      }));
+      setForm({ name: "", color: "", imageBase64: null });
+      setTags([]);
+      setTagInput("");
+      navigate(`/wardrobe/${itemId}`);
+    } catch (err) {
+      const { message, status } = parseAxiosErrorDetails(err);
+      console.log(parseAxiosErrorDetails(err));
+      setResult((prev) => ({
+        ...prev,
+        message,
+        status: status,
+      }));
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return {
     loading,
     result,
     fetchItem,
     fetchData,
     handleDeleteItem,
+    handleEditItem,
   };
 }

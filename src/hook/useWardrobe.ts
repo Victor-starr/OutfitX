@@ -52,18 +52,6 @@ export default function useWardrobe({
 
   const DEV: boolean = import.meta.env.VITE_DEV === "true";
 
-  const fetcher = async (url: string) => {
-    const res = await api.get(url);
-    return res.data;
-  };
-
-  const wardrobeKey = "/clothes/getwardrobe";
-  const { data: cachedData } = useSWR(!DEV ? wardrobeKey : null, fetcher, {
-    revalidateOnMount: true,
-    revalidateIfStale: true,
-    revalidateOnFocus: false,
-  });
-
   async function fetchData() {
     setIsLoading(true);
     try {
@@ -76,23 +64,13 @@ export default function useWardrobe({
         });
         console.log("Using mock data for wardrobe", WardrobeData);
       } else {
-        if (cachedData) {
-          console.log("Using SWR cached data for wardrobe", cachedData);
-          setResult({
-            message: cachedData.message,
-            data: cachedData.data,
-            status: 200,
-          });
-        } else {
-          const res = await api.get("/clothes/getwardrobe");
-          console.log("Using API for wardrobe", res);
-          setResult({
-            message: res.data.message,
-            data: res.data.data,
-            status: res.status,
-          });
-          await mutate(wardrobeKey);
-        }
+        const res = await api.get("/clothes/getwardrobe");
+        console.log("Using API for wardrobe", res);
+        setResult({
+          message: res.data.message,
+          data: res.data.data,
+          status: res.status,
+        });
       }
     } catch (err) {
       const { message, status } = parseAxiosErrorDetails(err);
@@ -167,7 +145,6 @@ export default function useWardrobe({
           data: [],
           status: res.status,
         });
-        await mutate(wardrobeKey);
       }
       navigate("/wardrobe");
       console.log("Deleting item with ID:", itemId);
@@ -191,7 +168,7 @@ export default function useWardrobe({
     setTagInput,
     setTags,
     setForm,
-  }: handleEditItemProps) => {
+  }: handleFormEditCreateProp) => {
     e.preventDefault();
 
     if (!form.name || !form.color) {
@@ -230,7 +207,6 @@ export default function useWardrobe({
         message: "Item updated successfully!",
         status: res.status,
       }));
-      await mutate(wardrobeKey);
       setForm({ name: "", color: "", imageBase64: null });
       setTags([]);
       setTagInput("");

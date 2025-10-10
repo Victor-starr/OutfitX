@@ -1,7 +1,11 @@
-import type { WardrobeItem } from "@/types/items_types";
-import { useState } from "react";
+import type {
+  CreatePayload,
+  FormState,
+  WardrobeItem,
+} from "@/types/items_types";
+import { useState, type FormEvent } from "react";
 import useApi from "./UseApi";
-import { WardrobeData, DetailData } from "@/data/Mocks";
+import { WardrobeData } from "@/data/Mocks";
 import { parseAxiosErrorDetails } from "@/utils/parseAxiosErrorDetails";
 import { useAuth } from "react-oidc-context";
 import { useNavigate } from "react-router";
@@ -12,13 +16,23 @@ type ResType = {
   data: WardrobeItem[] | [];
   status: number;
 };
+interface handleEditItemProps {
+  e: FormEvent<HTMLFormElement>;
+  form: FormState;
+  tags: string[];
+  setTagInput: (input: string) => void;
+  setTags: (tags: string[]) => void;
+  setForm: (form: FormState) => void;
+}
 interface UseWardrobeReturn {
   loading: boolean;
   result: ResType;
   fetchItem: () => Promise<void>;
   fetchData: () => Promise<void>;
   handleDeleteItem: () => Promise<void>;
+  handleEditItem: (props: handleEditItemProps) => Promise<void>;
 }
+
 interface useWardrobeProps {
   itemId?: string | undefined;
 }

@@ -9,14 +9,13 @@ import { WardrobeData } from "@/data/Mocks";
 import { parseAxiosErrorDetails } from "@/utils/parseAxiosErrorDetails";
 import { useAuth } from "react-oidc-context";
 import { useNavigate } from "react-router";
-import useSWR, { mutate } from "swr";
 
 type ResType = {
   message: string;
   data: WardrobeItem[] | [];
   status: number;
 };
-interface handleEditItemProps {
+interface handleFormEditCreateProp {
   e: FormEvent<HTMLFormElement>;
   form: FormState;
   tags: string[];
@@ -30,7 +29,8 @@ interface UseWardrobeReturn {
   fetchItem: () => Promise<void>;
   fetchData: () => Promise<void>;
   handleDeleteItem: () => Promise<void>;
-  handleEditItem: (props: handleEditItemProps) => Promise<void>;
+  handleEditItem: (props: handleFormEditCreateProp) => Promise<void>;
+  handleCreateItem: (props: handleFormEditCreateProp) => Promise<void>;
 }
 
 interface useWardrobeProps {
@@ -43,7 +43,7 @@ export default function useWardrobe({
   const api = useApi();
   const auth = useAuth();
   const navigate = useNavigate();
-  const [loading, setIsLoading] = useState<boolean>(true);
+  const [loading, setIsLoading] = useState<boolean>(false);
   const [result, setResult] = useState<ResType>({
     message: "Not loaded",
     data: [],
@@ -110,6 +110,25 @@ export default function useWardrobe({
   async function fetchItem() {
     setIsLoading(true);
     try {
+      if (DEV) {
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        const mockItem = WardrobeData.find((item) => item.itemId === itemId);
+        if (mockItem) {
+          setResult({
+            message: "Mock item fetched",
+            data: [mockItem],
+            status: 200,
+          });
+          console.log("Using mock data for item", mockItem);
+        } else {
+          setResult({
+            message: "Item not found in mock data",
+            data: [],
+            status: 404,
+          });
+          console.error("Item not found in mock data", { itemId });
+        }
+      }
       const res = await api.get(`/clothes/${itemId}`);
       setResult({
         message: res.data.message,
@@ -229,6 +248,67 @@ export default function useWardrobe({
     }
   };
 
+  const handleCreateItem = async ({
+    e,
+    form,
+    tags,
+    setTagInput,
+    setTags,
+    setForm,
+  }: handleFormEditCreateProp) => {
+    e.preventDefault();
+
+    if (!form.name || !form.color) {
+      setResult((prev) => ({
+        ...prev,
+        message: "Name and color are required",
+        status: 400,
+      }));
+      return;
+    }
+    if (!form.imageBase64) {
+      setResult((prev) => ({
+        ...prev,
+        message: "Please select an image",
+        status: 400,
+      }));
+      return;
+    }
+    //TODO: API CALL to remove items image background
+
+    const payload: CreatePayload = {
+      name: form.name,
+      color: form.color,
+      tags,
+      imageBase64: form.imageBase64,
+    };
+
+    try {
+      setIsLoading(true);
+      const res = await api.post("/clothes/create", payload);
+
+      setResult((prev) => ({
+        ...prev,
+        message: "Item uploaded successfully!",
+        status: res.status,
+      }));
+      setForm({ name: "", color: "", imageBase64: null });
+      setTags([]);
+      setTagInput("");
+      navigate("/wardrobe");
+    } catch (err) {
+      const { message, status } = parseAxiosErrorDetails(err);
+      console.log(parseAxiosErrorDetails(err));
+      setResult((prev) => ({
+        ...prev,
+        message,
+        status,
+      }));
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return {
     loading,
     result,
@@ -236,5 +316,6 @@ export default function useWardrobe({
     fetchData,
     handleDeleteItem,
     handleEditItem,
+    handleCreateItem,
   };
 }

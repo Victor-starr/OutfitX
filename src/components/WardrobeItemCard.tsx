@@ -1,5 +1,5 @@
 import Button, { LinkButton } from "./Button";
-import type { WardrobeItem as wardrobetype } from "@/types/items_types";
+import type { WardrobeItem as wardrobetype } from "@/types/clothing_types";
 
 type WardrobeItem = wardrobetype & { onClick?: () => void };
 
@@ -74,7 +74,6 @@ export const ItemCardDetail = ({
 
 export const ItemCard = ({ item, onClick }: WardrobeItemCardProp) => {
   return (
-    // h-fit doesnt work when one of the children is higher then the other, h-full doesnt work when it is the only child and the parent grid just makes vertically longer for no reason and is giving empty space inside the card
     <article
       key={item.itemId}
       className="flex flex-col bg-card shadow p-4 rounded"

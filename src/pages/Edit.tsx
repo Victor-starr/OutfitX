@@ -4,7 +4,7 @@ import Input from "@/components/Input";
 import { Button, LinkButton } from "@/components/Button";
 import { FaPlus } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
-import type { FormState } from "@/types/items_types";
+import type { FormState } from "@/types/clothing_types";
 import useWardrobe from "@/hook/useWardrobe";
 
 export default function Edit() {

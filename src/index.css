@@ -43,3 +43,21 @@ html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
 }
+
+.scrollbar-thin-gray {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(128, 128, 128, 0.5) transparent;
+}
+
+.scrollbar-thin-gray::-webkit-scrollbar {
+  height: 4px;
+}
+
+.scrollbar-thin-gray::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-thin-gray::-webkit-scrollbar-thumb {
+  background-color: rgba(128, 128, 128, 0.5);
+  border-radius: 2px;
+}

@@ -11,6 +11,7 @@ export const DetailData = {
   category: "Accessories",
   itemId: "073b5d29-a540-4ccf-8f36-b6e13c6ef767",
 };
+
 export const WardrobeData = [
   {
     imageURL:

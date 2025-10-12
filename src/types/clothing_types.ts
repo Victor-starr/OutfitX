@@ -3,7 +3,7 @@ export interface WardrobeItem {
   userId: string;
   name: string;
   color: string;
-  category: string;
+  category: ClothingCategory | string;
   type: string;
   tags: string[];
   imageURL: string;

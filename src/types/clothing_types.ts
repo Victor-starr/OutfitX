@@ -20,3 +20,10 @@ export interface CreatePayload {
   tags: string[];
   imageBase64: string;
 }
+type ClothingCategory =
+  | "Head"
+  | "Accessories"
+  | "Outerwear"
+  | "Tops"
+  | "Bottoms"
+  | "Feet";

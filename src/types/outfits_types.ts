@@ -14,3 +14,11 @@ export interface Outfit {
   description: string;
   clothes: Clothes[];
 }
+
+export type clothingCategories =
+  | "Head"
+  | "Accessories"
+  | "Outerwear"
+  | "Tops"
+  | "Bottoms"
+  | "Feet";

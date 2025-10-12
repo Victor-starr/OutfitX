@@ -210,11 +210,11 @@ export default function useWardrobe({
         itemId,
         newAttributes,
       });
-      setResult((prev) => ({
-        ...prev,
-        message: "Item updated successfully!",
+      setResult({
+        message: res.data.message,
+        data: [res.data.data],
         status: res.status,
-      }));
+      });
       setForm({ name: "", color: "", imageBase64: null });
       setTags([]);
       setTagInput("");
@@ -281,7 +281,7 @@ export default function useWardrobe({
 
       setResult((prev) => ({
         ...prev,
-        message: "Item uploaded successfully!",
+        message: res.data.message,
         status: res.status,
       }));
       setForm({ name: "", color: "", imageBase64: null });

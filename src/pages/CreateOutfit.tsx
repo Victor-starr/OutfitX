@@ -10,42 +10,45 @@ import { useAuth } from "react-oidc-context";
 import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from "react-icons/fa";
 import { ItemCard } from "@/components/WardrobeItemCard";
 import type { WardrobeItem } from "@/types/clothing_types";
-import type { OutfitSections } from "@/types/outfits_types";
+// import type { OutfitSections } from "@/types/outfits_types";
+import Button from "@/components/Button";
+import useOutfits from "@/hook/useOutfit";
 
 function CreateOutfit() {
   const auth = useAuth();
   const tagsContainerRef = useRef<HTMLDivElement>(null);
-  const { fetchData, result, loading } = useWardrobe();
+  const {
+    fetchData,
+    result: ClothesResult,
+    loading: ClothesLoading,
+  } = useWardrobe();
+  const {
+    // result: OutfitResult, loading: OutfitLoading
+    handleOutfitSave,
+    handleItemClick,
+    setSelectedCategory,
+    selectedCategory,
+    outfitSections,
+  } = useOutfits();
   const [tags, setTags] = useState<string[] | null>(null);
   const [filteredItems, setFilteredItems] = useState<WardrobeItem[]>([]);
   const [selectedTag, setSelectedTag] = useState("All");
-  const [selectedCategory, setSelectedCategory] = useState<
-    WardrobeItem["category"] | null
-  >(null);
-  const [outfitSections, setOutfitSections] = useState<OutfitSections>({
-    Head: null,
-    Accessories: null,
-    Outerwear: null,
-    Tops: null,
-    Bottoms: null,
-    Feet: null,
-  });
 
   useEffect(() => {
     fetchData();
   }, [auth.user?.access_token]);
 
   useEffect(() => {
-    if (result.data && result.data.length > 0) {
-      const uniqueTags = getUniqueClothingTags(result.data);
-      setFilteredItems(result.data);
-      console.log(result.data);
+    if (ClothesResult.data && ClothesResult.data.length > 0) {
+      const uniqueTags = getUniqueClothingTags(ClothesResult.data);
+      setFilteredItems(ClothesResult.data);
+      console.log(ClothesResult.data);
       setTags(["All", ...uniqueTags]);
     } else {
       setFilteredItems([]);
       setTags(null);
     }
-  }, [result.data]);
+  }, [ClothesResult.data]);
 
   const getUniqueClothingTags = (items: WardrobeItem[]) => {
     const allTags: string[] = [];
@@ -63,11 +66,11 @@ function CreateOutfit() {
     setSelectedTag(tag);
 
     const baseList = selectedCategory
-      ? result.data.filter(
+      ? ClothesResult.data.filter(
           (item) =>
             item.category.toLowerCase() === selectedCategory.toLowerCase()
         )
-      : result.data;
+      : ClothesResult.data;
 
     if (tag === "All") {
       setFilteredItems(baseList);
@@ -84,36 +87,19 @@ function CreateOutfit() {
     setSelectedCategory(category);
     setSelectedTag("All");
 
-    const filteredByCategory = result.data.filter(
+    const filteredByCategory = ClothesResult.data.filter(
       (item) => item.category.toLowerCase() === category.toLowerCase()
     );
 
     setFilteredItems(filteredByCategory);
   };
 
-  const handleItemClick = (item: WardrobeItem) => {
-    if (!selectedCategory) return;
-
-    if (item.category.toLowerCase() !== selectedCategory.toLowerCase()) {
-      console.warn(
-        `Cannot assign ${item.category} item to ${selectedCategory} slot`
-      );
-      return;
-    }
-
-    setOutfitSections((prev) => ({
-      ...prev,
-      [selectedCategory]: { ...item },
-    }));
-    setSelectedCategory(null);
-  };
-
   return (
-    <main className="relative flex flex-col items-center bg-bg py-8 h-[85vh] overflow-y-auto">
-      <h1 className="mb-6 font-bold text-title text-2xl md:text-3xl lg:text-4xl text-center">
+    <main className="relative flex flex-col items-center bg-bg py-5 h-[85vh] overflow-y-auto">
+      <h1 className="mb-4 font-bold text-title text-2xl md:text-3xl lg:text-4xl text-center">
         Create Outfit
       </h1>
-      <section className="flex flex-row justify-center items-center gap-15 px-10 rounded-2xl w-[90%] h-screen">
+      <section className="flex flex-row justify-center items-center gap-15 px-10 rounded-2xl w-[90%] h-[65vh]">
         <article className="relative flex justify-center items-center p-6 w-[35%] h-full">
           <img src={Human} alt="Human figure" className="z-1 w-full h-full" />
           <div className="top-0 left-0 z-2 absolute flex flex-col justify-center items-center gap-10 w-full h-full">
@@ -122,7 +108,7 @@ function CreateOutfit() {
                 onClick={() => handleSelectCategory("Head")}
                 className="bg-white/45 p-6 border-2 border-surface border-dashed rounded-2xl"
               >
-                {loading ? (
+                {ClothesLoading ? (
                   <div className="border-white border-b-2 rounded-full w-8 h-8 animate-spin"></div>
                 ) : outfitSections.Head ? (
                   <img
@@ -138,7 +124,7 @@ function CreateOutfit() {
                 onClick={() => handleSelectCategory("Accessories")}
                 className="bg-white/45 p-6 border-2 border-surface border-dashed rounded-2xl"
               >
-                {loading ? (
+                {ClothesLoading ? (
                   <div className="border-white border-b-2 rounded-full w-8 h-8 animate-spin"></div>
                 ) : outfitSections.Accessories ? (
                   <img
@@ -156,7 +142,7 @@ function CreateOutfit() {
                 onClick={() => handleSelectCategory("Outerwear")}
                 className="bg-white/45 px-6 py-10 border-2 border-surface border-dashed rounded-2xl"
               >
-                {loading ? (
+                {ClothesLoading ? (
                   <div className="border-white border-b-2 rounded-full w-8 h-8 animate-spin"></div>
                 ) : outfitSections.Outerwear ? (
                   <img
@@ -172,7 +158,7 @@ function CreateOutfit() {
                 onClick={() => handleSelectCategory("Tops")}
                 className="bg-white/45 px-6 py-10 border-2 border-surface border-dashed rounded-2xl"
               >
-                {loading ? (
+                {ClothesLoading ? (
                   <div className="border-white border-b-2 rounded-full w-8 h-8 animate-spin"></div>
                 ) : outfitSections.Tops ? (
                   <img
@@ -189,7 +175,7 @@ function CreateOutfit() {
               onClick={() => handleSelectCategory("Bottoms")}
               className="bg-white/45 px-6 py-10 border-2 border-surface border-dashed rounded-2xl"
             >
-              {loading ? (
+              {ClothesLoading ? (
                 <div className="border-white border-b-2 rounded-full w-8 h-8 animate-spin"></div>
               ) : outfitSections.Bottoms ? (
                 <img
@@ -205,7 +191,7 @@ function CreateOutfit() {
               onClick={() => handleSelectCategory("Feet")}
               className="bg-white/45 p-6 border-2 border-surface border-dashed rounded-2xl"
             >
-              {loading ? (
+              {ClothesLoading ? (
                 <div className="border-white border-b-2 rounded-full w-8 h-8 animate-spin"></div>
               ) : outfitSections.Feet ? (
                 <img
@@ -272,8 +258,8 @@ function CreateOutfit() {
               </div>
             )}
             {filteredItems.length === 0 ? (
-              <p className="flex justify-center items-center col-span-3 w-full text-muted text-xl lg:text-3xl text-center">
-                No Outfit found.
+              <p className="flex justify-center items-center col-span-3 mt-15 w-full text-muted text-xl lg:text-3xl text-center">
+                No items found in this category
               </p>
             ) : (
               <div className="gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
@@ -289,6 +275,17 @@ function CreateOutfit() {
           </section>
         )}
       </section>
+      <Button
+        version="v1"
+        type="button"
+        bgColor="primary"
+        textColor="title"
+        size="lg"
+        className="mt-2 px-10 py-3 rounded-2xl"
+        onClick={handleOutfitSave}
+      >
+        Save Outfit
+      </Button>
     </main>
   );
 }

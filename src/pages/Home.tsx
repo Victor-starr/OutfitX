@@ -55,16 +55,15 @@ export default function Home() {
             >
               Wardrobe
             </LinkButton>
-            {/* TODO: DONT FORGET TO CHANGE IT LATER TO OUTFIT PAGE */}
             <LinkButton
               version="v2"
-              to="/wardrobe/create"
+              to="/outfits"
               bgColor="secondary"
               textColor="secondary"
               size="xl"
               className="sm:flex-1 px-8 py-3 w-full font-semibold"
             >
-              Add Item
+              Outfits
             </LinkButton>
           </div>
         </div>

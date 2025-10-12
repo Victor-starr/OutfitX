@@ -6,7 +6,7 @@ import { IoClose } from "react-icons/io5";
 import type { FormState } from "@/types/clothing_types";
 import useWardrobe from "@/hook/useWardrobe";
 
-export default function Create() {
+export default function CreateClothes() {
   const [form, setForm] = useState<FormState>({
     name: "",
     color: "",

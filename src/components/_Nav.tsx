@@ -38,7 +38,15 @@ const Nav = () => {
                 size="lg"
                 className="px-3 py-2 hover:text-primary lg:text-xl"
               >
-                Create
+                Create Clothes
+              </LinkButton>
+              <LinkButton
+                version="v3"
+                to="/outfits/create"
+                size="lg"
+                className="px-3 py-2 hover:text-primary lg:text-xl"
+              >
+                Create Outfits
               </LinkButton>
               <LinkButton
                 version="v3"

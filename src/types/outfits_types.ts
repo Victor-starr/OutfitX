@@ -1,3 +1,4 @@
+import type { WardrobeItem } from "./clothing_types";
 export interface Clothes {
   imageURL: string;
   name: string;
@@ -15,10 +16,11 @@ export interface Outfit {
   clothes: Clothes[];
 }
 
-export type clothingCategories =
-  | "Head"
-  | "Accessories"
-  | "Outerwear"
-  | "Tops"
-  | "Bottoms"
-  | "Feet";
+export interface OutfitSections {
+  Head: WardrobeItem | null;
+  Accessories: WardrobeItem | null;
+  Outerwear: WardrobeItem | null;
+  Tops: WardrobeItem | null;
+  Bottoms: WardrobeItem | null;
+  Feet: WardrobeItem | null;
+}

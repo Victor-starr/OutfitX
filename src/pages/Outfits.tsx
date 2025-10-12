@@ -19,7 +19,7 @@ function Outfits() {
 
   useEffect(() => {
     if (result.data && result.data.length > 0) {
-      const uniqueTags = GetUniqueClothingTags(result.data);
+      const uniqueTags = getUniqueClothingTags(result.data);
       setFilteredOutfits(result.data);
       setTags(["All", ...uniqueTags]);
     } else {
@@ -28,7 +28,7 @@ function Outfits() {
     }
   }, [result.data]);
 
-  const GetUniqueClothingTags = (OutfitDetailData: Outfit[]) => {
+  const getUniqueClothingTags = (OutfitDetailData: Outfit[]) => {
     const allTags: string[] = [];
     OutfitDetailData.forEach((outfit) => {
       outfit.clothes.forEach((clothes) => {

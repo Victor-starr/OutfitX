@@ -5,6 +5,7 @@ import { FaPlus } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import type { FormState } from "@/types/clothing_types";
 import useWardrobe from "@/hook/useWardrobe";
+import NavigateBack from "@/components/NavigateBack";
 
 export default function CreateClothes() {
   const [form, setForm] = useState<FormState>({
@@ -45,7 +46,8 @@ export default function CreateClothes() {
   };
 
   return (
-    <main className="flex flex-col items-center bg-bg py-8 h-[85vh] overflow-y-auto">
+    <main className="relative flex flex-col items-center bg-bg py-5 h-[85vh] overflow-y-auto">
+      <NavigateBack url="/wardrobe" />
       <h1 className="mb-6 font-bold text-title text-2xl md:text-3xl lg:text-4xl text-center">
         Create Wardrobe Item
       </h1>

@@ -13,6 +13,7 @@ import Button from "@/components/Button";
 import useOutfits from "@/hook/useOutfit";
 import OutfitSubmissionForm from "@/components/FinalFormOutfit";
 import TagsFilter from "@/components/TagsFilter";
+import NavigateBack from "@/components/NavigateBack";
 
 function CreateOutfit() {
   const auth = useAuth();
@@ -115,6 +116,7 @@ function CreateOutfit() {
 
   return (
     <main className="relative flex flex-col items-center bg-bg py-5 h-[85vh] overflow-y-auto">
+      <NavigateBack url="/outfits" />
       <h1 className="mb-4 font-bold text-title text-2xl md:text-3xl lg:text-4xl text-center">
         Create Outfit
       </h1>

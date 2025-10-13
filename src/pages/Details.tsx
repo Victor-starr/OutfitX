@@ -1,13 +1,12 @@
 import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import { useAuth } from "react-oidc-context";
-import { Button } from "@/components/Button";
-import { IoArrowBack } from "react-icons/io5";
 import {
   ItemCardDetail,
   LoadingItemCardDetail,
 } from "@/components/WardrobeItemCard";
 import useWardrobe from "@/hook/useWardrobe";
+import NavigateBack from "@/components/NavigateBack";
 
 function Details() {
   const auth = useAuth();
@@ -26,17 +25,7 @@ function Details() {
       <h1 className="mb-6 font-bold text-title text-2xl md:text-3xl lg:text-4xl text-center">
         Wardrobe Item Details
       </h1>
-      <Button
-        version="v1"
-        type="button"
-        bgColor="secondary"
-        textColor="title"
-        size="xl"
-        className="top-15 left-15 absolute flex flex-row justify-center items-center gap-2 px-3 py-2 rounded-xl"
-        onClick={() => navigate("/wardrobe")}
-      >
-        <IoArrowBack /> Back
-      </Button>
+      <NavigateBack url="/wardrobe" />
 
       {loading ? (
         <LoadingItemCardDetail />

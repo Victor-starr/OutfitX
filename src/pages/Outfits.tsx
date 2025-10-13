@@ -1,13 +1,13 @@
 import { OutfitCard, OutfitLoadingCard } from "@/components/OutfitItemCard";
+import TagsFilter from "@/components/TagsFilter";
 import useOutfits from "@/hook/useOutfit";
 import type { Outfit } from "@/types/outfits_types";
 import { useEffect, useRef, useState } from "react";
-import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from "react-icons/fa";
 import { useAuth } from "react-oidc-context";
 
 function Outfits() {
   const auth = useAuth();
-  const tagsContainerRef = useRef<HTMLDivElement>(null);
+  const tagsContainerRef = useRef<HTMLDivElement | null>(null);
   const { loading, result, fetchOutfits } = useOutfits();
   const [tags, setTags] = useState<string[] | null>(null);
   const [filteredOutfits, setFilteredOutfits] = useState<Outfit[]>([]);
@@ -19,8 +19,8 @@ function Outfits() {
 
   useEffect(() => {
     if (result.data && result.data.length > 0) {
-      const uniqueTags = getUniqueClothingTags(result.data);
       setFilteredOutfits(result.data);
+      const uniqueTags = getUniqueTags(result.data);
       setTags(["All", ...uniqueTags]);
     } else {
       setFilteredOutfits([]);
@@ -28,16 +28,8 @@ function Outfits() {
     }
   }, [result.data]);
 
-  const getUniqueClothingTags = (OutfitDetailData: Outfit[]) => {
-    const allTags: string[] = [];
-    OutfitDetailData.forEach((outfit) => {
-      outfit.clothes.forEach((clothes) => {
-        const upperCaseTags = clothes.tags.map(
-          (tag) => tag.split("")[0].toUpperCase() + tag.slice(1).toLowerCase()
-        );
-        allTags.push(...upperCaseTags);
-      });
-    });
+  const getUniqueTags = (outfits: Outfit[]) => {
+    const allTags = outfits.flatMap((outfit) => outfit.tags);
     return Array.from(new Set(allTags));
   };
 
@@ -48,11 +40,7 @@ function Outfits() {
       setFilteredOutfits(result.data);
     } else {
       setFilteredOutfits(
-        result.data.filter((outfit) =>
-          outfit.clothes.some((clothes) =>
-            clothes.tags.some((t) => t.toLowerCase() === tag.toLowerCase())
-          )
-        )
+        result.data.filter((outfit: Outfit) => outfit.tags.includes(tag))
       );
     }
   };
@@ -63,52 +51,12 @@ function Outfits() {
         Your Outfits
       </h1>
       {tags && (
-        <div className="relative flex justify-center items-center mb-6">
-          <FaArrowAltCircleLeft
-            className="left-0 z-10 absolute bg-bg shadow-md p-1 rounded-full text-muted hover:text-title cursor-pointer"
-            size={35}
-            onClick={() => {
-              if (tagsContainerRef.current) {
-                tagsContainerRef.current.scrollBy({
-                  left: -150,
-                  behavior: "smooth",
-                });
-              }
-            }}
-          />
-
-          <div
-            ref={tagsContainerRef}
-            className="flex gap-2 px-2 max-w-[85%] overflow-x-auto scrollbar-thin-gray"
-            style={{ scrollBehavior: "smooth" }}
-          >
-            {tags.map((tag) => (
-              <p
-                key={tag}
-                onClick={() => handleTagClick(tag)}
-                className={`px-4 py-2 mb-2 text-md whitespace-nowrap cursor-pointer rounded-2xl transition-colors
-      ${
-        selectedTag === tag
-          ? "bg-title text-onPrimary"
-          : " hover:bg-primary text-title text-onPrimary"
-      }`}
-              >
-                {tag}
-              </p>
-            ))}
-          </div>
-
-          <FaArrowAltCircleRight
-            className="right-0 z-10 absolute shadow-md p-1 rounded-full text-muted hover:text-title cursor-pointer"
-            size={35}
-            onClick={() => {
-              if (tagsContainerRef.current) {
-                tagsContainerRef.current.scrollBy({
-                  left: 150,
-                  behavior: "smooth",
-                });
-              }
-            }}
+        <div className="relative flex justify-center items-center mb-6 w-[85vw]">
+          <TagsFilter
+            tags={tags}
+            tagsContainerRef={tagsContainerRef}
+            handleTagClick={handleTagClick}
+            selectedTag={selectedTag}
           />
         </div>
       )}

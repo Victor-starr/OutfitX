@@ -63,7 +63,7 @@ function CreateOutfit() {
     return Array.from(new Set(allTags));
   };
 
-  const handleTagClick = (tag: string) => {
+  const filterItemsByTag = (tag: string) => {
     setSelectedTag(tag);
 
     const baseList = selectedCategory
@@ -223,51 +223,11 @@ function CreateOutfit() {
           <section className="flex flex-col flex-1 bg-surface px-5 rounded-2xl max-w-[65%] h-full max-h-[530px] overflow-y-scroll scrollbar-thin-gray">
             {tags && (
               <div className="top-0 sticky flex justify-center items-center bg-surface mb-6 py-2">
-                <FaArrowAltCircleLeft
-                  className="left-0 z-10 absolute bg-bg shadow-md p-1 rounded-full text-muted hover:text-title cursor-pointer"
-                  size={35}
-                  onClick={() => {
-                    if (tagsContainerRef.current) {
-                      tagsContainerRef.current.scrollBy({
-                        left: -150,
-                        behavior: "smooth",
-                      });
-                    }
-                  }}
-                />
-
-                <div
-                  ref={tagsContainerRef}
-                  className="flex gap-2 px-2 max-w-[85%] overflow-x-auto scrollbar-thin-gray"
-                  style={{ scrollBehavior: "smooth" }}
-                >
-                  {tags.map((tag) => (
-                    <p
-                      key={tag}
-                      onClick={() => handleTagClick(tag)}
-                      className={`px-4 py-2 mb-2 text-md whitespace-nowrap cursor-pointer rounded-2xl transition-colors
-                  ${
-                    selectedTag === tag
-                      ? "bg-title text-onPrimary"
-                      : " hover:bg-primary text-title text-onPrimary"
-                  }`}
-                    >
-                      {tag}
-                    </p>
-                  ))}
-                </div>
-
-                <FaArrowAltCircleRight
-                  className="right-0 z-10 absolute shadow-md p-1 rounded-full text-muted hover:text-title cursor-pointer"
-                  size={35}
-                  onClick={() => {
-                    if (tagsContainerRef.current) {
-                      tagsContainerRef.current.scrollBy({
-                        left: 150,
-                        behavior: "smooth",
-                      });
-                    }
-                  }}
+                <TagsFilter
+                  tags={tags}
+                  tagsContainerRef={tagsContainerRef}
+                  handleTagClick={filterItemsByTag}
+                  selectedTag={selectedTag}
                 />
               </div>
             )}

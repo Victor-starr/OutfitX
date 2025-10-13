@@ -16,6 +16,7 @@ interface UseOutfitReturn {
   loading: boolean;
   result: ResType;
   fetchOutfits: () => Promise<void>;
+  fetchOutfitById: (outfitId: string) => Promise<void>;
   handleOutfitSave: (handleOutfitSaveProps: handleOutfitSaveProps) => void;
   handleItemClick: (item: WardrobeItem) => void;
   setSelectedCategory: React.Dispatch<
@@ -80,6 +81,30 @@ export default function useOutfits(): UseOutfitReturn {
       setIsLoading(false);
     }
   };
+
+  const fetchOutfitById = async (outfitId: string) => {
+    setIsLoading(true);
+    try {
+      const res = await api.get(`/outfit/${outfitId}`);
+      setResult({
+        message: res.data.message,
+        data: [res.data.data],
+        status: res.status,
+      });
+      console.log("Fetched outfit by ID:", res);
+    } catch (err) {
+      const { message, status } = parseAxiosErrorDetails(err);
+      console.error("Failed to fetch outfit by ID:", { message, status });
+      setResult((prev) => ({
+        ...prev,
+        message,
+        status,
+      }));
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleOutfitSave = async ({ e, form, tags }: handleOutfitSaveProps) => {
     e.preventDefault();
     if (
@@ -155,6 +180,7 @@ export default function useOutfits(): UseOutfitReturn {
     loading,
     result,
     fetchOutfits,
+    fetchOutfitById,
     handleOutfitSave,
     handleItemClick,
     setSelectedCategory,

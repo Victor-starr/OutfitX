@@ -6,7 +6,7 @@ interface TagsFilterProps {
   handleTagClick: (tag: string) => void;
   selectedTag: string;
 }
-function TagsFilter({
+export default function TagsFilter({
   tags,
   tagsContainerRef,
   handleTagClick,
@@ -78,4 +78,15 @@ function TagsFilter({
   );
 }
 
-export default TagsFilter;
+export function LoadingTagsFilter() {
+  return (
+    <div className="flex justify-start gap-5 my-10 px-2 w-[85%]">
+      {Array.from({ length: 12 }).map((_, index) => (
+        <span
+          key={index}
+          className="flex-1 bg-muted rounded-2xl w-20 h-7 animate-pulse"
+        ></span>
+      ))}
+    </div>
+  );
+}

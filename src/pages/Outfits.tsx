@@ -79,7 +79,7 @@ function Outfits() {
           No Outfit found.
         </p>
       ) : (
-        <div className="gap-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
+        <div className="gap-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 pb-35">
           {filteredOutfits.map((outfit: Outfit) => (
             <OutfitCard key={outfit.outfitId} outfit={outfit} />
           ))}

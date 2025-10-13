@@ -34,22 +34,6 @@ const Nav = () => {
             <div className="hidden sm:flex items-center gap-4 lg:gap-6">
               <LinkButton
                 version="v3"
-                to="/wardrobe/create"
-                size="lg"
-                className="px-3 py-2 hover:text-primary lg:text-xl"
-              >
-                Create Clothes
-              </LinkButton>
-              <LinkButton
-                version="v3"
-                to="/outfits/create"
-                size="lg"
-                className="px-3 py-2 hover:text-primary lg:text-xl"
-              >
-                Create Outfits
-              </LinkButton>
-              <LinkButton
-                version="v3"
                 to="/wardrobe"
                 size="lg"
                 className="px-3 py-2 hover:text-primary lg:text-xl"

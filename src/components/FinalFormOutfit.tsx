@@ -60,7 +60,7 @@ function OutfitSubmissionForm({ handleOutfitSave }: OutfitSubmissionForm) {
             placeholder="Add a tag"
             value={tagInput}
             onInputChange={(e) => setTagInput(e.target.value)}
-            className="flex-1 px-3 py-2 border focus:border-blue-400 rounded focus:outline-none focus:ring"
+            className="flex-1 px-3 py-2 border focus:border-primary rounded focus:outline-none focus:ring"
           />
           <Button
             version="v1"

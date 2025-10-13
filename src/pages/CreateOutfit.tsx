@@ -7,12 +7,12 @@ import { TbJacket, TbShoe } from "react-icons/tb";
 import { TbChefHat } from "react-icons/tb";
 import useWardrobe from "@/hook/useWardrobe";
 import { useAuth } from "react-oidc-context";
-import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from "react-icons/fa";
 import { ItemCard } from "@/components/WardrobeItemCard";
 import type { WardrobeItem } from "@/types/clothing_types";
-// import type { OutfitSections } from "@/types/outfits_types";
 import Button from "@/components/Button";
 import useOutfits from "@/hook/useOutfit";
+import OutfitSubmissionForm from "@/components/FinalFormOutfit";
+import TagsFilter from "@/components/TagsFilter";
 
 function CreateOutfit() {
   const auth = useAuth();
@@ -23,7 +23,8 @@ function CreateOutfit() {
     loading: ClothesLoading,
   } = useWardrobe();
   const {
-    // result: OutfitResult, loading: OutfitLoading
+    // result: OutfitResult,
+    loading: OutfitLoading,
     handleOutfitSave,
     handleItemClick,
     setSelectedCategory,
@@ -33,7 +34,7 @@ function CreateOutfit() {
   const [tags, setTags] = useState<string[] | null>(null);
   const [filteredItems, setFilteredItems] = useState<WardrobeItem[]>([]);
   const [selectedTag, setSelectedTag] = useState("All");
-
+  const [showFinalForm, setShowFinalForm] = useState(false);
   useEffect(() => {
     fetchData();
   }, [auth.user?.access_token]);
@@ -94,11 +95,24 @@ function CreateOutfit() {
     setFilteredItems(filteredByCategory);
   };
 
+  const validateAndSaveOutfit = () => {
+    if (Object.values(outfitSections).every((section) => section !== null)) {
+      console.log("ALL CLOTHES ARE SELLECTED !:)");
+      setShowFinalForm(true);
+    } else {
+      // TODO: Replace alert with a better UI notification
+      alert("Please fill all sections of the outfit before saving.");
+    }
+  };
+
   return (
     <main className="relative flex flex-col items-center bg-bg py-5 h-[85vh] overflow-y-auto">
       <h1 className="mb-4 font-bold text-title text-2xl md:text-3xl lg:text-4xl text-center">
         Create Outfit
       </h1>
+      {showFinalForm && (
+        <OutfitSubmissionForm handleOutfitSave={handleOutfitSave} />
+      )}
       <section className="flex flex-row justify-center items-center gap-15 px-10 rounded-2xl w-[90%] h-[65vh]">
         <article className="relative flex justify-center items-center p-6 w-[35%] h-full">
           <img src={Human} alt="Human figure" className="z-1 w-full h-full" />
@@ -282,7 +296,8 @@ function CreateOutfit() {
         textColor="title"
         size="lg"
         className="mt-2 px-10 py-3 rounded-2xl"
-        onClick={handleOutfitSave}
+        onClick={validateAndSaveOutfit}
+        disabled={OutfitLoading || ClothesLoading}
       >
         Save Outfit
       </Button>

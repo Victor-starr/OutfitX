@@ -5,6 +5,7 @@ import { OutfitData } from "@/data/Outfits_Mocks";
 import { parseAxiosErrorDetails } from "@/utils/parseAxiosErrorDetails";
 import type { WardrobeItem } from "@/types/clothing_types";
 import { useNavigate } from "react-router";
+import type { handleOutfitSaveProps } from "@/components/FinalFormOutfit";
 
 type ResType = {
   message: string;
@@ -15,7 +16,7 @@ interface UseOutfitReturn {
   loading: boolean;
   result: ResType;
   fetchOutfits: () => Promise<void>;
-  handleOutfitSave: () => void;
+  handleOutfitSave: (handleOutfitSaveProps: handleOutfitSaveProps) => void;
   handleItemClick: (item: WardrobeItem) => void;
   setSelectedCategory: React.Dispatch<
     React.SetStateAction<WardrobeItem["category"] | null>
@@ -23,6 +24,7 @@ interface UseOutfitReturn {
   selectedCategory: WardrobeItem["category"] | null;
   outfitSections: OutfitSections;
 }
+
 const DEV: boolean = import.meta.env.VITE_DEV === "true";
 
 export default function useOutfits(): UseOutfitReturn {
@@ -78,19 +80,28 @@ export default function useOutfits(): UseOutfitReturn {
       setIsLoading(false);
     }
   };
-  const handleOutfitSave = async () => {
-    //if all sections are filled
-    if (Object.values(outfitSections).every((section) => section !== null)) {
+  const handleOutfitSave = async ({ e, form, tags }: handleOutfitSaveProps) => {
+    e.preventDefault();
+    if (
+      Object.values(outfitSections).every((section) => section !== null) &&
+      form.name.trim() !== "" &&
+      tags.length > 0
+    ) {
       try {
         setIsLoading(true);
         const payload = {
-          Head: outfitSections.Head?.itemId,
-          Accessories: outfitSections.Accessories?.itemId,
-          Outerwear: outfitSections.Outerwear?.itemId,
-          Tops: outfitSections.Tops?.itemId,
-          Bottoms: outfitSections.Bottoms?.itemId,
-          Feet: outfitSections.Feet?.itemId,
+          name: form.name,
+          tags,
+          clothes: {
+            Head: outfitSections.Head,
+            Accessories: outfitSections.Accessories,
+            Outerwear: outfitSections.Outerwear,
+            Tops: outfitSections.Tops,
+            Bottoms: outfitSections.Bottoms,
+            Feet: outfitSections.Feet,
+          },
         };
+        console.log("THE FINAL PAYLOAD:", payload);
         const res = await api.post("/outfit/create", payload);
         setResult({
           message: res.data.message,

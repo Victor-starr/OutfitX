@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import { ItemCard, LoadingItemCard } from "@/components/WardrobeItemCard";
 import useWardrobe from "@/hook/useWardrobe";
 import { useAuth } from "react-oidc-context";
+import Hero from "@/components/Hero";
 
 function Wardrobe() {
   const auth = useAuth();
@@ -26,11 +27,17 @@ function Wardrobe() {
   const filteredData = getFilteredItems();
 
   return (
-    <main className="flex flex-col bg-bg py-8 pb-20 min-h-[calc(100vh-120px)]">
-      <h1 className="mb-6 w-full font-bold text-title text-3xl text-center">
-        Your Wardrobe
-      </h1>
-      <div className="flex gap-5 lg:gap-25 mx-auto w-full max-w-6xl">
+    <main className="flex flex-col bg-bg pb-36 min-h-[calc(100vh-120px)]">
+      <Hero
+        title="Your Wardrobe"
+        subtitle="Manage your clothing items. Browse, add, and organize your wardrobe. Easily filter by category and create new outfits to suit any occasion."
+        firstButtonText="Add Clothes"
+        firstButtonLink="/wardrobe/create"
+        secondButtonText="Create Outfit"
+        secondButtonLink="/outfits/create"
+        height="h-[40vh]"
+      />
+      <div className="flex gap-5 lg:gap-25 mx-auto pt-15 w-full max-w-6xl">
         <AsideNav
           activeCategory={activeCategory}
           onCategoryChange={setActiveCategory}

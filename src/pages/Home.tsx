@@ -1,8 +1,9 @@
 import aboutImage from "@/assets/about-outfitx.jpg";
-import { Button, LinkButton } from "@/components/Button";
+import { Button } from "@/components/Button";
 import Input from "@/components/Input";
 import { TbHanger, TbTagsFilled } from "react-icons/tb";
 import { FaClipboardList } from "react-icons/fa";
+import Hero from "@/components/Hero";
 
 const benefitsList = [
   {
@@ -28,46 +29,15 @@ const benefitsList = [
 export default function Home() {
   return (
     <main className="top-0 relative w-screen h-screen">
-      <header className="relative flex flex-col justify-center items-center px-4 md:px-8 lg:px-12 w-full h-[85vh]">
-        <img
-          src="/img/herobanner.jpg"
-          alt="Hero Banner"
-          loading="lazy"
-          className="top-0 left-0 z-0 absolute w-full h-full object-cover object-top"
-        />
-        <div className="top-0 left-0 absolute bg-black opacity-60 w-full h-full"></div>
-        <div className="z-10 flex flex-col items-center mx-auto max-w-4xl text-center">
-          <h1 className="mb-6 font-bold text-title text-4xl md:text-5xl lg:text-6xl">
-            Outfit <span className="text-primary">X</span>
-          </h1>
-          <p className="mb-8 max-w-2xl text-muted text-lg md:text-xl lg:text-2xl leading-relaxed">
-            OutfitX helps you organize your clothes, create and customize
-            outfits, and manage your wardrobe in one simple app.
-          </p>
-          <div className="flex sm:flex-row flex-col justify-center items-center gap-4 md:gap-6 w-full max-w-md">
-            <LinkButton
-              version="v1"
-              to="/wardrobe"
-              bgColor="secondary"
-              textColor="title"
-              size="xl"
-              className="sm:flex-1 px-8 py-3 w-full font-semibold"
-            >
-              Wardrobe
-            </LinkButton>
-            <LinkButton
-              version="v2"
-              to="/outfits"
-              bgColor="secondary"
-              textColor="secondary"
-              size="xl"
-              className="sm:flex-1 px-8 py-3 w-full font-semibold"
-            >
-              Outfits
-            </LinkButton>
-          </div>
-        </div>
-      </header>
+      <Hero
+        height="h-[85vh]"
+        title="Outfit X"
+        subtitle=" OutfitX helps you organize your clothes, create and customize outfits, and manage your wardrobe in one simple app."
+        firstButtonText="Wardrobe"
+        firstButtonLink="/wardrobe"
+        secondButtonText="Outfits"
+        secondButtonLink="/outfits"
+      />
       <section className="flex lg:flex-row flex-col justify-center lg:justify-between items-center gap-8 lg:gap-12 bg-surface px-4 md:px-8 lg:px-16 py-16 lg:py-20 w-full">
         <div className="w-full lg:w-2/5 max-w-2xl lg:text-left text-center">
           <h2 className="mb-6 font-bold text-title text-3xl md:text-4xl lg:text-5xl">

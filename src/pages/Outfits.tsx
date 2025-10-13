@@ -1,3 +1,4 @@
+import Hero from "@/components/Hero";
 import { OutfitCard, OutfitLoadingCard } from "@/components/OutfitItemCard";
 import TagsFilter from "@/components/TagsFilter";
 import useOutfits from "@/hook/useOutfit";
@@ -46,12 +47,18 @@ function Outfits() {
   };
 
   return (
-    <main className="flex flex-col items-center bg-bg py-8 pb-20 min-h-[calc(100vh-120px)]">
-      <h1 className="mb-6 w-full font-bold text-title text-3xl text-center">
-        Your Outfits
-      </h1>
+    <main className="flex flex-col items-center bg-bg min-h-[calc(100vh-120px)]">
+      <Hero
+        height="h-[45vh]"
+        title="Your Outfits"
+        subtitle="Manage your outfits, filter them by tags, and create new looks for every occasion."
+        firstButtonText="Create Outfit"
+        firstButtonLink="/outfits/create"
+        secondButtonText="Add Clothes"
+        secondButtonLink="/wardrobe/add"
+      />
       {tags && (
-        <div className="relative flex justify-center items-center mb-6 w-[85vw]">
+        <div className="relative flex justify-center items-center my-10 pb-3 border-b border-border w-[85vw]">
           <TagsFilter
             tags={tags}
             tagsContainerRef={tagsContainerRef}

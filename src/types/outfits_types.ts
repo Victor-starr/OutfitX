@@ -12,7 +12,7 @@ export interface Outfit {
   outfitId: string;
   userId: string;
   name: string;
-  clothes: Clothes[];
+  clothes: OutfitSections;
   tags: string[];
 }
 

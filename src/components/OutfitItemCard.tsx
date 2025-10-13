@@ -18,37 +18,37 @@ export const OutfitCard = ({ outfit }: { outfit: Outfit }) => {
         <div className="flex flex-row flex-3 gap-1">
           <img
             className="flex-1 rounded w-[50%] h-full object-cover"
-            src={outfit.clothes[0].imageURL}
-            alt={outfit.clothes[0].name}
+            src={outfit.clothes.Tops?.imageURL}
+            alt={outfit.clothes.Tops?.name}
           />
           <img
             className="flex-1 rounded w-[50%] h-full object-cover"
-            src={outfit.clothes[1].imageURL}
-            alt={outfit.clothes[1].name}
+            src={outfit.clothes.Outerwear?.imageURL}
+            alt={outfit.clothes.Outerwear?.name}
           />
         </div>
         <div className="flex flex-col flex-1 gap-1">
           <img
             className="rounded w-full h-[65%] object-cover"
-            src={outfit.clothes[2].imageURL}
-            alt={outfit.clothes[2].name}
+            src={outfit.clothes.Bottoms?.imageURL}
+            alt={outfit.clothes.Bottoms?.name}
           />
           <img
             className="flex-1 rounded w-full h-[35%] object-cover"
-            src={outfit.clothes[3].imageURL}
-            alt={outfit.clothes[3].name}
+            src={outfit.clothes.Feet?.imageURL}
+            alt={outfit.clothes.Feet?.name}
           />
         </div>
         <div className="bottom-0 left-0 absolute flex flex-row gap-5 p-1 w-1/2 h-25">
           <img
             className="rounded w-[45%] h-full object-cover"
-            src={outfit.clothes[4].imageURL}
-            alt={outfit.clothes[4].name}
+            src={outfit.clothes.Head?.imageURL}
+            alt={outfit.clothes.Head?.name}
           />
           <img
             className="rounded w-[45%] h-full object-cover"
-            src={outfit.clothes[5].imageURL}
-            alt={outfit.clothes[5].name}
+            src={outfit.clothes.Accessories?.imageURL}
+            alt={outfit.clothes.Accessories?.name}
           />
         </div>
       </div>

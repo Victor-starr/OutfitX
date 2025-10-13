@@ -14,7 +14,6 @@ function Details() {
   const { loading, result, fetchItem, handleDeleteItem } = useWardrobe({
     itemId,
   });
-  const navigate = useNavigate();
 
   useEffect(() => {
     fetchItem();

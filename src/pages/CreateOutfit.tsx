@@ -23,7 +23,6 @@ function CreateOutfit() {
     loading: ClothesLoading,
   } = useWardrobe();
   const {
-    // result: OutfitResult,
     loading: OutfitLoading,
     handleOutfitSave,
     handleItemClick,
@@ -41,22 +40,31 @@ function CreateOutfit() {
 
   useEffect(() => {
     if (ClothesResult.data && ClothesResult.data.length > 0) {
-      const uniqueTags = getUniqueClothingTags(ClothesResult.data);
-      setFilteredItems(ClothesResult.data);
-      console.log(ClothesResult.data);
-      setTags(["All", ...uniqueTags]);
+      if (!selectedCategory) {
+        const uniqueTags = getUniqueClothingTags(ClothesResult.data);
+        setFilteredItems(ClothesResult.data);
+        setTags(["All", ...uniqueTags]);
+      } else {
+        const itemsInCategory = ClothesResult.data.filter(
+          (item) =>
+            item.category.toLowerCase() === selectedCategory.toLowerCase()
+        );
+        const uniqueTags = getUniqueClothingTags(itemsInCategory);
+        setFilteredItems(itemsInCategory);
+        setTags(["All", ...uniqueTags]);
+      }
     } else {
       setFilteredItems([]);
       setTags(null);
     }
-  }, [ClothesResult.data]);
+  }, [ClothesResult.data, selectedCategory]);
 
   const getUniqueClothingTags = (items: WardrobeItem[]) => {
     const allTags: string[] = [];
     items.forEach((item) => {
       item.tags.forEach((tag) => {
         const formattedTag =
-          tag.split("")[0].toUpperCase() + tag.slice(1).toLowerCase();
+          tag.charAt(0).toUpperCase() + tag.slice(1).toLowerCase();
         allTags.push(formattedTag);
       });
     });

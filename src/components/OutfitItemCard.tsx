@@ -54,7 +54,18 @@ export const OutfitCard = ({ outfit }: { outfit: Outfit }) => {
       </div>
 
       <h2 className="mt-2 font-semibold text-title text-lg">{outfit.name}</h2>
-      <p className="mt-1 text-muted text-sm">{outfit.description}</p>
+      {outfit.tags.length > 0 && (
+        <div className="flex flex-wrap gap-2 mt-2">
+          {outfit.tags.map((tag: string) => (
+            <span
+              key={tag}
+              className="bg-secondary px-2 py-1 rounded text-title text-xs"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+      )}
     </article>
   );
 };

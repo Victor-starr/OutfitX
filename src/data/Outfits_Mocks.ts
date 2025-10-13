@@ -66,6 +66,7 @@ export const OutfitData = [
         itemId: "073b5d29-a540-4ccf-8f36-b6e13c6ef767",
       },
     ],
+    tags: ["summer", "casual", "daywear"],
   },
   {
     outfitId: "f47ac10b-58cc-4372-a567-0e02b2c3d479",
@@ -134,6 +135,7 @@ export const OutfitData = [
         itemId: "073b5d29-a540-4ccf-8f36-b6e13c6ef767",
       },
     ],
+    tags: ["summer", "casual", "daywear"],
   },
   {
     outfitId: "9c858901-8a57-4791-81fe-4c455b099bc9",
@@ -202,6 +204,7 @@ export const OutfitData = [
         itemId: "073b5d29-a540-4ccf-8f36-b6e13c6ef767",
       },
     ],
+    tags: ["summer", "casual", "daywear"],
   },
   {
     outfitId: "16fd2706-8baf-433b-82eb-8c7fada847da",
@@ -270,5 +273,6 @@ export const OutfitData = [
         itemId: "073b5d29-a540-4ccf-8f36-b6e13c6ef767",
       },
     ],
+    tags: ["summer", "casual", "daywear"],
   },
 ];

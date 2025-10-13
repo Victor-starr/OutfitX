@@ -12,8 +12,8 @@ export interface Outfit {
   outfitId: string;
   userId: string;
   name: string;
-  description: string;
   clothes: Clothes[];
+  tags: string[];
 }
 
 export interface OutfitSections {

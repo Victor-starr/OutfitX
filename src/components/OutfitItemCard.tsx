@@ -1,4 +1,5 @@
 import type { Outfit } from "@/types/outfits_types";
+import { useNavigate } from "react-router";
 export const OutfitLoadingCard = () => {
   return (
     <article className="flex flex-col bg-card shadow-md hover:shadow-lg p-4 rounded-2xl transition-shadow duration-300">
@@ -12,9 +13,13 @@ export const OutfitLoadingCard = () => {
 };
 
 export const OutfitCard = ({ outfit }: { outfit: Outfit }) => {
+  const navigate = useNavigate();
   return (
     <article className="flex flex-col bg-card shadow-md hover:shadow-lg p-4 rounded-2xl transition-shadow duration-300">
-      <div className="relative flex flex-row gap-2 bg-surface mx-auto p-2 rounded-2xl h-[200px]">
+      <div
+        className="relative flex flex-row gap-2 bg-surface mx-auto p-2 rounded-2xl h-[200px] hover:scale-105 transition-transform duration-300 ease-in-out cursor-pointer"
+        onClick={() => navigate(`/outfits/${outfit.outfitId}`)}
+      >
         <div className="flex flex-row flex-3 gap-1">
           <img
             className="flex-1 rounded w-[50%] h-full object-cover"

@@ -101,7 +101,6 @@ export default function useOutfits(): UseOutfitReturn {
             Feet: outfitSections.Feet,
           },
         };
-        console.log("THE FINAL PAYLOAD:", payload);
         const res = await api.post("/outfit/create", payload);
         setResult({
           message: res.data.message,
@@ -109,7 +108,11 @@ export default function useOutfits(): UseOutfitReturn {
           status: res.status,
         });
         navigate("/outfits");
-        console.log("Outfit saved:", outfitSections);
+        console.log("Outfit saved:", {
+          message: res.data.message,
+          data: res.data.data,
+          status: res.status,
+        });
       } catch (error) {
         const { message, status } = parseAxiosErrorDetails(error);
         console.error("Failed to save outfit:", { message, status });

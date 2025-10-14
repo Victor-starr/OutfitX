@@ -89,12 +89,20 @@ export default function useOutfits(): UseOutfitReturn {
     setIsLoading(true);
     try {
       const res = await api.get(`/outfit/${outfitId}`);
+      setOutfitSections((prev) => ({
+        ...prev,
+        Head: res.data.data.clothes.Head || null,
+        Accessories: res.data.data.clothes.Accessories || null,
+        Outerwear: res.data.data.clothes.Outerwear || null,
+        Tops: res.data.data.clothes.Tops || null,
+        Bottoms: res.data.data.clothes.Bottoms || null,
+        Feet: res.data.data.clothes.Feet || null,
+      }));
       setResult({
         message: res.data.message,
         data: [res.data.data],
         status: res.status,
       });
-      console.log("Fetched outfit by ID:", res);
     } catch (err) {
       const { message, status } = parseAxiosErrorDetails(err);
       console.error("Failed to fetch outfit by ID:", { message, status });

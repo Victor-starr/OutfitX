@@ -11,13 +11,29 @@ export type handleOutfitSaveProps = {
 };
 
 type OutfitSubmissionForm = {
-  handleOutfitSave: (handleOutfitSaveProps: handleOutfitSaveProps) => void;
+  handleOutfitSave?: (handleOutfitSaveProps: handleOutfitSaveProps) => void;
+  handleOutfitUpdate?: (
+    props: handleOutfitSaveProps & { outfitId: string }
+  ) => void;
+  oldName?: string;
+  oldTags?: string[];
+  outfitId?: string;
+  onCancel: () => void;
 };
 
-function OutfitSubmissionForm({ handleOutfitSave }: OutfitSubmissionForm) {
-  const [form, setForm] = useState<{ name: string }>({ name: "" });
+function OutfitSubmissionForm({
+  handleOutfitSave,
+  handleOutfitUpdate,
+  oldName,
+  oldTags,
+  outfitId,
+  onCancel,
+}: OutfitSubmissionForm) {
+  const [form, setForm] = useState<{ name: string }>(
+    oldName ? { name: oldName } : { name: "" }
+  );
   const [tagInput, setTagInput] = useState("");
-  const [tags, setTags] = useState<string[]>([]);
+  const [tags, setTags] = useState<string[]>(oldTags ? oldTags : []);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -34,15 +50,28 @@ function OutfitSubmissionForm({ handleOutfitSave }: OutfitSubmissionForm) {
   const handleRemoveTag = (tagToRemove: string) => {
     setTags(tags.filter((t) => t !== tagToRemove));
   };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (handleOutfitUpdate) {
+      handleOutfitUpdate({ e, form, tags, outfitId: outfitId! });
+    } else if (handleOutfitSave) {
+      handleOutfitSave({ e, form, tags });
+    }
+  };
   return (
     <div className="top-0 left-0 z-10 absolute flex justify-center items-center bg-black/45 w-screen h-screen">
       <form
-        onSubmit={(e) => handleOutfitSave({ e, form, tags })}
-        className="flex flex-col gap-4 bg-card mb-6 px-10 py-6 rounded-2xl"
+        onSubmit={handleSubmit}
+        className="relative flex flex-col gap-4 bg-card mb-6 px-10 py-6 rounded-2xl"
       >
-        <h2 className="mb-4 font-bold text-title text-2xl">
-          Finalizing Outfit
-        </h2>
+        <IoMdClose
+          onClick={onCancel}
+          size={35}
+          color="white"
+          className="top-5 right-5 absolute hover:scale-110 transition-transform hover:cursor-pointer"
+        />
+        <h2 className="mb-4 font-bold text-title text-2xl">Update Outfit</h2>
         <Input
           label="Outfit Name"
           type="text"

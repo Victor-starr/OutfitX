@@ -1,116 +1,305 @@
-import { LinkButton } from "@/components/Button";
 import useOutfits from "@/hook/useOutfit";
-import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useEffect, useRef, useState } from "react";
+import { useParams } from "react-router";
+import Human from "@/assets/human.svg";
+import { TbChefHat, TbJacket, TbShoe } from "react-icons/tb";
+import { PiPants } from "react-icons/pi";
+import { IoShirtOutline } from "react-icons/io5";
+import { FiWatch } from "react-icons/fi";
+import useWardrobe from "@/hook/useWardrobe";
+import type { WardrobeItem } from "@/types/clothing_types";
+import TagsFilter, { LoadingTagsFilter } from "@/components/TagsFilter";
+import { ItemCard } from "@/components/WardrobeItemCard";
+import Button from "@/components/Button";
+import OutfitSubmissionForm from "@/components/FinalFormOutfit";
+import NavigateBack from "@/components/NavigateBack";
 
 function OutfitDetails() {
-  const navigate = useNavigate();
+  const tagsContainerRef = useRef<HTMLDivElement>(null);
   const { outfitId } = useParams<{ outfitId: string }>();
-  const { result, loading, fetchOutfitById } = useOutfits();
+  const [tags, setTags] = useState<string[] | null>(null);
+  const [filteredItems, setFilteredItems] = useState<WardrobeItem[]>([]);
+  const [selectedTag, setSelectedTag] = useState("All");
+  const [showFinalForm, setShowFinalForm] = useState(false);
+  const [showUpdateButton, setShowUpdateButton] = useState(false);
+  const {
+    result: OutfitResult,
+    loading: OutfitLoading,
+    handleItemClick,
+    fetchOutfitById,
+    setSelectedCategory,
+    selectedCategory,
+    outfitSections,
+    handleOutfitUpdate,
+  } = useOutfits();
+  const {
+    fetchData,
+    result: ClothesResult,
+    loading: ClothesLoading,
+  } = useWardrobe();
 
   useEffect(() => {
     if (outfitId) {
       fetchOutfitById(outfitId);
+      fetchData();
     }
   }, [outfitId]);
+  useEffect(() => {
+    if (ClothesResult.data && ClothesResult.data.length > 0) {
+      if (!selectedCategory) {
+        const uniqueTags = getUniqueClothingTags(ClothesResult.data);
+        setFilteredItems(ClothesResult.data);
+        setTags(["All", ...uniqueTags]);
+      } else {
+        const itemsInCategory = ClothesResult.data.filter(
+          (item) =>
+            item.category.toLowerCase() === selectedCategory.toLowerCase()
+        );
+        const uniqueTags = getUniqueClothingTags(itemsInCategory);
+        setFilteredItems(itemsInCategory);
+        setTags(["All", ...uniqueTags]);
+      }
+    } else {
+      setFilteredItems([]);
+      setTags(null);
+    }
+  }, [ClothesResult.data, selectedCategory]);
+
+  const getUniqueClothingTags = (items: WardrobeItem[]) => {
+    const allTags: string[] = [];
+    items.forEach((item) => {
+      item.tags.forEach((tag) => {
+        const formattedTag =
+          tag.charAt(0).toUpperCase() + tag.slice(1).toLowerCase();
+        allTags.push(formattedTag);
+      });
+    });
+    return Array.from(new Set(allTags));
+  };
+
+  const filterItemsByTag = (tag: string) => {
+    setSelectedTag(tag);
+
+    const baseList = selectedCategory
+      ? ClothesResult.data.filter(
+          (item) =>
+            item.category.toLowerCase() === selectedCategory.toLowerCase()
+        )
+      : ClothesResult.data;
+
+    if (tag === "All") {
+      setFilteredItems(baseList);
+    } else {
+      setFilteredItems(
+        baseList.filter((item) =>
+          item.tags.some((t) => t.toLowerCase() === tag.toLowerCase())
+        )
+      );
+    }
+  };
+
+  const handleSelectCategory = (category: WardrobeItem["category"]) => {
+    setShowUpdateButton(true);
+    setSelectedCategory(category);
+    setSelectedTag("All");
+
+    const filteredByCategory = ClothesResult.data.filter(
+      (item) => item.category.toLowerCase() === category.toLowerCase()
+    );
+
+    setFilteredItems(filteredByCategory);
+  };
+
+  const validateAndUpdateOutfit = () => {
+    if (Object.values(outfitSections).every((section) => section !== null)) {
+      console.log("All sections are filled. Proceeding to save the outfit.");
+      setShowFinalForm(true);
+    } else {
+      console.warn("Please fill all sections of the outfit before saving.");
+    }
+  };
 
   return (
     <main className="relative flex flex-col items-center bg-bg py-8 h-[85vh] overflow-y-auto">
       <h1 className="mb-6 font-bold text-title text-2xl md:text-3xl lg:text-4xl text-center">
-        Outfit Details
+        Outfit - {OutfitResult.data[0]?.name}
       </h1>
-      {loading ? (
+      <NavigateBack url={"/outfits"} />
+      {showFinalForm && (
+        <OutfitSubmissionForm
+          handleOutfitUpdate={handleOutfitUpdate}
+          oldName={OutfitResult.data[0].name}
+          oldTags={OutfitResult.data[0].tags}
+          onCancel={() => setShowFinalForm(false)}
+        />
+      )}
+      {OutfitLoading ? (
         <p className="top-1/2 absolute flex justify-center items-center col-span-3 w-auto text-muted text-xl lg:text-3xl text-center">
           Loading...
         </p>
-      ) : result.data === null || result.status !== 200 ? (
+      ) : ClothesResult.data === null || ClothesResult.status !== 200 ? (
         <p className="top-1/2 absolute flex justify-center items-center col-span-3 w-auto text-muted text-xl lg:text-3xl text-center">
           No outfit found.
         </p>
       ) : (
-        <div className="flex flex-col bg-card shadow mx-auto p-4 rounded w-full max-w-md">
-          {/* DO NOT TOUCH THIS DIV */}
-          <div
-            className="relative flex flex-row gap-2 bg-surface mx-auto p-2 rounded-2xl h-[180px] hover:scale-105 transition-transform duration-300 ease-in-out cursor-pointer"
-            onClick={() => navigate(`/outfits/${result.data[0].outfitId}`)}
-          >
-            <div className="flex flex-row flex-3 gap-1">
+        <>
+          <section className="flex flex-row justify-center items-center gap-15 px-10 rounded-2xl w-[90%] h-[65vh]">
+            <article className="relative flex justify-center items-center p-6 w-[35%] h-full">
               <img
-                className="flex-1 rounded w-[50%] h-full object-cover"
-                src={result.data[0].clothes.Tops?.imageURL}
-                alt={result.data[0].clothes.Tops?.name}
+                src={Human}
+                alt="Human figure"
+                className="z-1 w-full h-full"
               />
-              <img
-                className="flex-1 rounded w-[50%] h-full object-cover"
-                src={result.data[0].clothes.Outerwear?.imageURL}
-                alt={result.data[0].clothes.Outerwear?.name}
-              />
-            </div>
-            <div className="flex flex-col flex-1 gap-1">
-              <img
-                className="rounded w-full h-[65%] object-cover"
-                src={result.data[0].clothes.Bottoms?.imageURL}
-                alt={result.data[0].clothes.Bottoms?.name}
-              />
-              <img
-                className="flex-1 rounded w-full h-[35%] object-cover"
-                src={result.data[0].clothes.Feet?.imageURL}
-                alt={result.data[0].clothes.Feet?.name}
-              />
-            </div>
-            <div className="bottom-0 left-0 absolute flex flex-row gap-2 p-1 w-1/2 h-20">
-              <img
-                className="rounded w-[45%] h-full object-cover"
-                src={result.data[0].clothes.Head?.imageURL}
-                alt={result.data[0].clothes.Head?.name}
-              />
-              <img
-                className="rounded w-[45%] h-full object-cover"
-                src={result.data[0].clothes.Accessories?.imageURL}
-                alt={result.data[0].clothes.Accessories?.name}
-              />
-            </div>
-          </div>
-          {/* DO NOT TOUCH THIS DIV */}
-
-          <h2 className="mb-4 font-semibold text-title text-xl text-center">
-            {result.data[0].name}
-          </h2>
-          <ul>
-            {Object.values(result.data[0].clothes).map((item) => {
-              return (
-                <li
-                  key={item.itemId}
-                  className="flex flex-row items-center gap-4 mb-4 pb-4 border-b border-border"
-                >
-                  <LinkButton
-                    to={`/wardrobe/${item.itemId}`}
-                    version="v3"
-                    size="lg"
-                    textColor="primary"
-                    className="hover:underline"
+              <div className="top-0 left-0 z-2 absolute flex flex-col justify-center items-center gap-10 w-full h-full">
+                <div className="flex flex-row gap-15 ml-35">
+                  <button
+                    onClick={() => handleSelectCategory("Head")}
+                    className="bg-white/45 p-6 border-2 border-surface border-dashed rounded-2xl"
                   >
-                    {item.name} - {item.type}
-                  </LinkButton>
-                  {item.tags.length === 0 ? (
-                    <p className="mt-2 text-muted">No tags</p>
+                    {ClothesLoading ? (
+                      <div className="border-white border-b-2 rounded-full w-8 h-8 animate-spin"></div>
+                    ) : outfitSections.Head ? (
+                      <img
+                        src={outfitSections.Head.imageURL}
+                        alt={outfitSections.Head.name}
+                        className="rounded-full w-8 h-8 object-cover"
+                      />
+                    ) : (
+                      <TbChefHat color="white" size={30} />
+                    )}
+                  </button>
+                  <button
+                    onClick={() => handleSelectCategory("Accessories")}
+                    className="bg-white/45 p-6 border-2 border-surface border-dashed rounded-2xl"
+                  >
+                    {ClothesLoading ? (
+                      <div className="border-white border-b-2 rounded-full w-8 h-8 animate-spin"></div>
+                    ) : outfitSections.Accessories ? (
+                      <img
+                        src={outfitSections.Accessories.imageURL}
+                        alt={outfitSections.Accessories.name}
+                        className="rounded-full w-8 h-8 object-cover"
+                      />
+                    ) : (
+                      <FiWatch color="white" size={30} />
+                    )}
+                  </button>
+                </div>
+                <div className="flex flex-row gap-15 mr-35">
+                  <button
+                    onClick={() => handleSelectCategory("Outerwear")}
+                    className="bg-white/45 px-6 py-10 border-2 border-surface border-dashed rounded-2xl"
+                  >
+                    {ClothesLoading ? (
+                      <div className="border-white border-b-2 rounded-full w-8 h-8 animate-spin"></div>
+                    ) : outfitSections.Outerwear ? (
+                      <img
+                        src={outfitSections.Outerwear.imageURL}
+                        alt={outfitSections.Outerwear.name}
+                        className="rounded-full w-8 h-8 object-cover"
+                      />
+                    ) : (
+                      <TbJacket color="white" size={30} />
+                    )}
+                  </button>
+                  <button
+                    onClick={() => handleSelectCategory("Tops")}
+                    className="bg-white/45 px-6 py-10 border-2 border-surface border-dashed rounded-2xl"
+                  >
+                    {ClothesLoading ? (
+                      <div className="border-white border-b-2 rounded-full w-8 h-8 animate-spin"></div>
+                    ) : outfitSections.Tops ? (
+                      <img
+                        src={outfitSections.Tops.imageURL}
+                        alt={outfitSections.Tops.name}
+                        className="rounded-full w-8 h-8 object-cover"
+                      />
+                    ) : (
+                      <IoShirtOutline color="white" size={30} />
+                    )}
+                  </button>
+                </div>
+                <button
+                  onClick={() => handleSelectCategory("Bottoms")}
+                  className="bg-white/45 px-6 py-10 border-2 border-surface border-dashed rounded-2xl"
+                >
+                  {ClothesLoading ? (
+                    <div className="border-white border-b-2 rounded-full w-8 h-8 animate-spin"></div>
+                  ) : outfitSections.Bottoms ? (
+                    <img
+                      src={outfitSections.Bottoms.imageURL}
+                      alt={outfitSections.Bottoms.name}
+                      className="rounded-full w-8 h-8 object-cover"
+                    />
                   ) : (
-                    <div className="flex flex-wrap gap-2">
-                      {item.tags.map((tag: string) => (
-                        <span
-                          key={tag}
-                          className="bg-secondary mr-2 px-2.5 py-0.5 rounded font-medium text-title text-sm"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
+                    <PiPants color="white" size={30} />
                   )}
-                </li>
-              );
-            })}
-          </ul>
-        </div>
+                </button>
+                <button
+                  onClick={() => handleSelectCategory("Feet")}
+                  className="bg-white/45 p-6 border-2 border-surface border-dashed rounded-2xl"
+                >
+                  {ClothesLoading ? (
+                    <div className="border-white border-b-2 rounded-full w-8 h-8 animate-spin"></div>
+                  ) : outfitSections.Feet ? (
+                    <img
+                      src={outfitSections.Feet.imageURL}
+                      alt={outfitSections.Feet.name}
+                      className="rounded-full w-8 h-8 object-cover"
+                    />
+                  ) : (
+                    <TbShoe color="white" size={30} />
+                  )}
+                </button>
+              </div>
+            </article>
+            {selectedCategory && (
+              <section className="relative flex flex-col flex-1 bg-surface px-5 rounded-2xl max-w-[65%] h-full max-h-[530px] overflow-y-scroll scrollbar-thin-gray">
+                {ClothesLoading ? (
+                  <LoadingTagsFilter />
+                ) : (
+                  tags && (
+                    <TagsFilter
+                      tags={tags}
+                      tagsContainerRef={tagsContainerRef}
+                      handleTagClick={filterItemsByTag}
+                      selectedTag={selectedTag}
+                    />
+                  )
+                )}
+                {filteredItems.length === 0 ? (
+                  <p className="flex justify-center items-center col-span-3 mt-15 w-full text-muted text-xl lg:text-3xl text-center">
+                    No items found in this category
+                  </p>
+                ) : (
+                  <div className="gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
+                    {filteredItems.map((item: WardrobeItem) => (
+                      <ItemCard
+                        key={item.itemId}
+                        item={item}
+                        onClick={() => handleItemClick(item)}
+                      />
+                    ))}
+                  </div>
+                )}
+              </section>
+            )}
+          </section>
+          {showUpdateButton && (
+            <Button
+              version="v1"
+              type="button"
+              bgColor="primary"
+              textColor="title"
+              size="lg"
+              className="mt-2 px-10 py-3 rounded-2xl"
+              onClick={validateAndUpdateOutfit}
+              disabled={OutfitLoading || ClothesLoading}
+            >
+              Update Outfit
+            </Button>
+          )}
+        </>
       )}
     </main>
   );

@@ -18,6 +18,9 @@ interface UseOutfitReturn {
   fetchOutfits: () => Promise<void>;
   fetchOutfitById: (outfitId: string) => Promise<void>;
   handleOutfitSave: (handleOutfitSaveProps: handleOutfitSaveProps) => void;
+  handleOutfitUpdate: (
+    props: handleOutfitSaveProps & { outfitId: string }
+  ) => void;
   handleItemClick: (item: WardrobeItem) => void;
   setSelectedCategory: React.Dispatch<
     React.SetStateAction<WardrobeItem["category"] | null>
@@ -159,6 +162,69 @@ export default function useOutfits(): UseOutfitReturn {
     }
   };
 
+  const handleOutfitUpdate = async ({
+    e,
+    form,
+    tags,
+    outfitId,
+  }: handleOutfitSaveProps & { outfitId: string }) => {
+    e.preventDefault();
+
+    if (
+      Object.values(outfitSections).every((section) => section !== null) &&
+      form.name.trim() !== "" &&
+      tags.length > 0
+    ) {
+      try {
+        setIsLoading(true);
+        const payload = {
+          name: form.name,
+          tags,
+          clothes: {
+            Head: outfitSections.Head,
+            Accessories: outfitSections.Accessories,
+            Outerwear: outfitSections.Outerwear,
+            Tops: outfitSections.Tops,
+            Bottoms: outfitSections.Bottoms,
+            Feet: outfitSections.Feet,
+          },
+        };
+        console.log("THIS IS UPDATE PAYLOAD: ", payload);
+
+        const res = await api.put(`/outfit/${outfitId}`, payload);
+        setResult({
+          message: res.data.message,
+          data: res.data.data,
+          status: res.status,
+        });
+        console.log("Outfit updated:", {
+          message: res.data.message,
+          data: res.data.data,
+          status: res.status,
+        });
+        navigate("/outfits");
+        setSelectedCategory(null);
+      } catch (error) {
+        const { message, status } = parseAxiosErrorDetails(error);
+        console.error("Failed to update outfit:", { message, status });
+        setResult((prev) => ({
+          ...prev,
+          message,
+          status,
+        }));
+      } finally {
+        setIsLoading(false);
+      }
+    } else {
+      setResult((prev) => ({
+        ...prev,
+        message: "Please fill all sections of the outfit before saving.",
+        status: 400,
+      }));
+      console.warn("Please fill all sections of the outfit before saving.");
+    }
+  };
+
   const handleItemClick = (item: WardrobeItem) => {
     if (!selectedCategory) return;
 
@@ -182,6 +248,7 @@ export default function useOutfits(): UseOutfitReturn {
     fetchOutfits,
     fetchOutfitById,
     handleOutfitSave,
+    handleOutfitUpdate,
     handleItemClick,
     setSelectedCategory,
     selectedCategory,

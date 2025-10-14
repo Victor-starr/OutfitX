@@ -6,18 +6,22 @@ interface TagsFilterProps {
   handleTagClick: (tag: string) => void;
   selectedTag: string;
 }
+
 export default function TagsFilter({
   tags,
   tagsContainerRef,
   handleTagClick,
   selectedTag,
 }: TagsFilterProps) {
+  const hasScroll = tags.length > 5;
+
   return (
-    <>
-      {tags.length > 5 && (
+    <div className="relative flex justify-center items-center my-4 w-full">
+      {/* Left Arrow */}
+      {hasScroll && (
         <FaArrowAltCircleLeft
-          className="left-0 z-10 absolute bg-bg shadow-md p-1 rounded-full text-muted hover:text-title cursor-pointer"
-          size={35}
+          className="left-0 z-10 absolute text-muted hover:text-title cursor-pointer"
+          size={30}
           onClick={() => {
             if (tagsContainerRef.current) {
               tagsContainerRef.current.scrollBy({
@@ -29,41 +33,36 @@ export default function TagsFilter({
         />
       )}
 
+      {/* Tags Scrollable Container */}
       <div
         ref={tagsContainerRef}
-        className={`flex gap-2 px-2 max-w-[85%] ${
-          tags.length > 5
-            ? "overflow-x-auto scrollbar-thin-gray"
-            : "justify-center"
-        }`}
-        style={{
-          scrollBehavior: "smooth",
-          width: "100%",
-        }}
+        className={`flex gap-2 px-5 py-2 items-center w-[90%] min-h-12 scroll-smooth
+          ${
+            hasScroll ? "overflow-x-auto scrollbar-thin-gray" : "justify-center"
+          }
+        `}
       >
         {tags.map((tag) => (
           <p
             key={tag}
             onClick={() => handleTagClick(tag)}
-            className={`flex-1 min-w-[110px] max-w-[180px] text-center px-4 py-2 mb-2 text-md whitespace-nowrap cursor-pointer rounded-2xl transition-colors
-                    ${
-                      selectedTag === tag
-                        ? "bg-title text-onPrimary"
-                        : "hover:bg-primary text-title text-onPrimary"
-                    }`}
-            style={{
-              flexBasis: `calc(100% / ${tags.length < 5 ? tags.length : 5})`,
-            }}
+            className={`text-center px-4 py-2 mb-1 text-md whitespace-nowrap cursor-pointer rounded-2xl transition-colors
+          ${
+            selectedTag === tag
+              ? "bg-title text-onPrimary"
+              : "hover:bg-primary text-title"
+          }`}
           >
             {tag}
           </p>
         ))}
       </div>
 
-      {tags.length > 5 && (
+      {/* Right Arrow */}
+      {hasScroll && (
         <FaArrowAltCircleRight
-          className="right-0 z-10 absolute shadow-md p-1 rounded-full text-muted hover:text-title cursor-pointer"
-          size={35}
+          className="right-0 z-10 absolute text-muted hover:text-title cursor-pointer"
+          size={30}
           onClick={() => {
             if (tagsContainerRef.current) {
               tagsContainerRef.current.scrollBy({
@@ -74,7 +73,7 @@ export default function TagsFilter({
           }}
         />
       )}
-    </>
+    </div>
   );
 }
 

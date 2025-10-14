@@ -121,7 +121,10 @@ function CreateOutfit() {
         Create Outfit
       </h1>
       {showFinalForm && (
-        <OutfitSubmissionForm handleOutfitSave={handleOutfitSave} />
+        <OutfitSubmissionForm
+          onCancel={() => setShowFinalForm(false)}
+          handleOutfitSave={handleOutfitSave}
+        />
       )}
       <section className="flex flex-row justify-center items-center gap-15 px-10 rounded-2xl w-[90%] h-[65vh]">
         <article className="relative flex justify-center items-center p-6 w-[35%] h-full">

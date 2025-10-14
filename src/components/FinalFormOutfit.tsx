@@ -3,6 +3,7 @@ import Button from "./Button";
 import Input from "./Input";
 import { IoClose } from "react-icons/io5";
 import { useState, type ChangeEvent } from "react";
+import { IoMdClose } from "react-icons/io";
 
 export type handleOutfitSaveProps = {
   e: React.FormEvent<HTMLFormElement>;

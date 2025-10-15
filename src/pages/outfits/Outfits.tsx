@@ -68,6 +68,7 @@ function Outfits() {
               tagsContainerRef={tagsContainerRef}
               handleTagClick={handleTagClick}
               selectedTag={selectedTag}
+              centered={true}
             />
           </div>
         )

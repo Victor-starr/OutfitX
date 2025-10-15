@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { useParams } from "react-router";
 import { useAuth } from "react-oidc-context";
+import useWardrobe from "@/hook/useWardrobe";
+import NavigateBack from "@/components/NavigateBack";
 import {
   ItemCardDetail,
   LoadingItemCardDetail,
 } from "@/components/WardrobeItemCard";
-import useWardrobe from "@/hook/useWardrobe";
-import NavigateBack from "@/components/NavigateBack";
 
 function ClothesDetails() {
   const auth = useAuth();

@@ -1,5 +1,6 @@
 import type { Outfit } from "@/types/outfits_types";
 import { useNavigate } from "react-router";
+
 export const OutfitLoadingCard = () => {
   return (
     <article className="flex flex-col bg-card shadow-md hover:shadow-lg p-4 rounded-2xl transition-shadow duration-300">

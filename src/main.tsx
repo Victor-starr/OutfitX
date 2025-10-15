@@ -1,9 +1,10 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import Root from "./Root";
-import "@/index.css";
 import { BrowserRouter } from "react-router";
 import { AuthProvider } from "react-oidc-context";
+import Root from "./Root";
+import "@/index.css";
+
 const cognitoAuthConfig = {
   authority: import.meta.env.VITE_AUTHORITY as string,
   client_id: import.meta.env.VITE_CLIENT_ID as string,

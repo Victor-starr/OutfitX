@@ -1,19 +1,19 @@
-import useOutfits from "@/hook/useOutfit";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router";
-import Human from "@/assets/human.svg";
-import { TbChefHat, TbJacket, TbShoe } from "react-icons/tb";
-import { PiPants } from "react-icons/pi";
-import { IoShirtOutline } from "react-icons/io5";
-import { FiWatch } from "react-icons/fi";
+import useOutfits from "@/hook/useOutfit";
 import useWardrobe from "@/hook/useWardrobe";
-import type { WardrobeItem } from "@/types/clothing_types";
 import TagsFilter, { LoadingTagsFilter } from "@/components/TagsFilter";
+import OutfitSubmissionForm from "@/components/OutfitSubmissionForm";
 import { ItemCard } from "@/components/WardrobeItemCard";
-import Button from "@/components/Button";
-import OutfitSubmissionForm from "@/components/FinalFormOutfit";
 import NavigateBack from "@/components/NavigateBack";
 import DeletePopUp from "@/components/DeletePopUp";
+import Button from "@/components/Button";
+import type { WardrobeItem } from "@/types/clothing_types";
+import { TbChefHat, TbJacket, TbShoe } from "react-icons/tb";
+import { IoShirtOutline } from "react-icons/io5";
+import { PiPants } from "react-icons/pi";
+import { FiWatch } from "react-icons/fi";
+import Human from "@/assets/human.svg";
 
 function OutfitDetails() {
   const tagsContainerRef = useRef<HTMLDivElement>(null);
@@ -130,7 +130,7 @@ function OutfitDetails() {
       <NavigateBack url={"/outfits"} />
       {showFinalForm && (
         <OutfitSubmissionForm
-          handleOutfitUpdate={handleOutfitUpdate}
+          onUpdate={handleOutfitUpdate}
           oldName={OutfitResult.data[0].name}
           oldTags={OutfitResult.data[0].tags}
           onCancel={() => setShowFinalForm(false)}

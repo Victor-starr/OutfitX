@@ -1,4 +1,4 @@
-import { LinkButton } from "./Button";
+import { LinkButton } from "@/components/Button";
 interface HeroProps {
   height?: string;
   title: string;

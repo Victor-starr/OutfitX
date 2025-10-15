@@ -1,21 +1,14 @@
-import { FaPlus } from "react-icons/fa";
-import Button from "./Button";
-import Input from "./Input";
-import { IoClose } from "react-icons/io5";
 import { useState, type ChangeEvent } from "react";
+import type { handleOutfitSaveProps } from "@/hook/useOutfit";
+import Button from "@/components/Button";
+import Input from "@/components/Input";
+import { IoClose } from "react-icons/io5";
+import { FaPlus } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 
-export type handleOutfitSaveProps = {
-  e: React.FormEvent<HTMLFormElement>;
-  form: { name: string };
-  tags: string[];
-};
-
 type OutfitSubmissionForm = {
-  handleOutfitSave?: (handleOutfitSaveProps: handleOutfitSaveProps) => void;
-  handleOutfitUpdate?: (
-    props: handleOutfitSaveProps & { outfitId: string }
-  ) => void;
+  onSave?: (handleOutfitSaveProps: handleOutfitSaveProps) => void;
+  onUpdate?: (props: handleOutfitSaveProps & { outfitId: string }) => void;
   oldName?: string;
   oldTags?: string[];
   outfitId: string;
@@ -23,8 +16,8 @@ type OutfitSubmissionForm = {
 };
 
 function OutfitSubmissionForm({
-  handleOutfitSave,
-  handleOutfitUpdate,
+  onSave,
+  onUpdate,
   oldName,
   oldTags,
   outfitId,
@@ -54,10 +47,10 @@ function OutfitSubmissionForm({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (handleOutfitUpdate) {
-      handleOutfitUpdate({ e, form, tags, outfitId });
-    } else if (handleOutfitSave) {
-      handleOutfitSave({ e, form, tags });
+    if (onUpdate) {
+      onUpdate({ e, form, tags, outfitId });
+    } else if (onSave) {
+      onSave({ e, form, tags });
     }
   };
   return (

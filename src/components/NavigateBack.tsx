@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import Button from "./Button";
+import { Button } from "@/components/Button";
 import { IoArrowBack } from "react-icons/io5";
 
 const NavigateBack = ({ url }: { url: string | number }) => {

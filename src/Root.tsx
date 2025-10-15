@@ -1,10 +1,10 @@
+import { useState } from "react";
+import useWardrobe from "@/hook/useWardrobe";
 import Nav from "@/components/_Nav.tsx";
 import App from "@/App.tsx";
 import Footer from "@/components/Footer.tsx";
 import DeletePopUp from "@/components/DeletePopUp";
-import useWardrobe from "@/hook/useWardrobe";
 import "@/index.css";
-import { useState } from "react";
 
 function Root() {
   const [showDeletePopUp, setShowDeletePopUp] = useState(false);

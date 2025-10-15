@@ -1,6 +1,6 @@
-import { useAuth } from "react-oidc-context";
 import { Link } from "react-router";
 import { Button, LinkButton } from "@/components/Button";
+import { useAuth } from "react-oidc-context";
 
 interface NavProps {
   handleDeleteProfile: () => void;

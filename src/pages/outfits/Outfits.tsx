@@ -1,10 +1,10 @@
-import Hero from "@/components/Hero";
-import { OutfitCard, OutfitLoadingCard } from "@/components/OutfitItemCard";
-import TagsFilter, { LoadingTagsFilter } from "@/components/TagsFilter";
-import useOutfits from "@/hook/useOutfit";
-import type { Outfit } from "@/types/outfits_types";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "react-oidc-context";
+import useOutfits from "@/hook/useOutfit";
+import { OutfitCard, OutfitLoadingCard } from "@/components/OutfitItemCard";
+import TagsFilter, { LoadingTagsFilter } from "@/components/TagsFilter";
+import Hero from "@/components/Hero";
+import type { Outfit } from "@/types/outfits_types";
 
 function Outfits() {
   const auth = useAuth();

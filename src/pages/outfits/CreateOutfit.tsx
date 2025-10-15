@@ -1,19 +1,19 @@
-import Human from "@/assets/human.svg";
 import { useEffect, useRef, useState } from "react";
-import { FiWatch } from "react-icons/fi";
+import useWardrobe from "@/hook/useWardrobe";
+import useOutfits from "@/hook/useOutfit";
+import { useAuth } from "react-oidc-context";
+import { ItemCard } from "@/components/WardrobeItemCard";
+import Button from "@/components/Button";
+import OutfitSubmissionForm from "@/components/OutfitSubmissionForm";
+import TagsFilter, { LoadingTagsFilter } from "@/components/TagsFilter";
+import NavigateBack from "@/components/NavigateBack";
+import type { WardrobeItem } from "@/types/clothing_types";
 import { IoShirtOutline } from "react-icons/io5";
 import { PiPants } from "react-icons/pi";
 import { TbJacket, TbShoe } from "react-icons/tb";
 import { TbChefHat } from "react-icons/tb";
-import useWardrobe from "@/hook/useWardrobe";
-import { useAuth } from "react-oidc-context";
-import { ItemCard } from "@/components/WardrobeItemCard";
-import type { WardrobeItem } from "@/types/clothing_types";
-import Button from "@/components/Button";
-import useOutfits from "@/hook/useOutfit";
-import OutfitSubmissionForm from "@/components/FinalFormOutfit";
-import TagsFilter, { LoadingTagsFilter } from "@/components/TagsFilter";
-import NavigateBack from "@/components/NavigateBack";
+import { FiWatch } from "react-icons/fi";
+import Human from "@/assets/human.svg";
 
 function CreateOutfit() {
   const auth = useAuth();
@@ -123,7 +123,7 @@ function CreateOutfit() {
       {showFinalForm && (
         <OutfitSubmissionForm
           onCancel={() => setShowFinalForm(false)}
-          handleOutfitSave={handleOutfitSave}
+          onSave={handleOutfitSave}
           outfitId=""
         />
       )}

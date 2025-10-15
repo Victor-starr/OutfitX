@@ -1,4 +1,4 @@
-import Button, { LinkButton } from "./Button";
+import Button, { LinkButton } from "@/components/Button";
 import type { WardrobeItem as wardrobetype } from "@/types/clothing_types";
 
 type WardrobeItem = wardrobetype & { onClick?: () => void };

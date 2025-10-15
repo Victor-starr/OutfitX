@@ -1,11 +1,11 @@
 import { useState, type ChangeEvent } from "react";
+import useWardrobe from "@/hook/useWardrobe";
+import Button from "@/components/Button";
 import Input from "@/components/Input";
-import { Button } from "@/components/Button";
+import NavigateBack from "@/components/NavigateBack";
+import type { FormState } from "@/types/clothing_types";
 import { FaPlus } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
-import type { FormState } from "@/types/clothing_types";
-import useWardrobe from "@/hook/useWardrobe";
-import NavigateBack from "@/components/NavigateBack";
 
 export default function CreateClothes() {
   const [form, setForm] = useState<FormState>({

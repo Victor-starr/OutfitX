@@ -1,11 +1,17 @@
-import useApi from "./UseApi";
 import { useState } from "react";
-import type { Outfit, OutfitSections } from "@/types/outfits_types";
-import { OutfitData } from "@/data/Outfits_Mocks";
-import { parseAxiosErrorDetails } from "@/utils/parseAxiosErrorDetails";
-import type { WardrobeItem } from "@/types/clothing_types";
 import { useNavigate } from "react-router";
-import type { handleOutfitSaveProps } from "@/components/FinalFormOutfit";
+import useApi from "@/hook/UseApi";
+import { parseAxiosErrorDetails } from "@/utils/parseAxiosErrorDetails";
+import type { Outfit, OutfitSections } from "@/types/outfits_types";
+import type { WardrobeItem } from "@/types/clothing_types";
+import { OutfitData } from "@/data/Outfits_Mocks";
+
+export type handleOutfitSaveProps = {
+  e: React.FormEvent<HTMLFormElement>;
+  form: { name: string };
+  tags: string[];
+};
+type handleOutfitUpdateProp = handleOutfitSaveProps & { outfitId: string };
 
 type ResType = {
   message: string;
@@ -15,19 +21,17 @@ type ResType = {
 interface UseOutfitReturn {
   loading: boolean;
   result: ResType;
-  fetchOutfits: () => Promise<void>;
-  fetchOutfitById: (outfitId: string) => Promise<void>;
-  handleOutfitSave: (handleOutfitSaveProps: handleOutfitSaveProps) => void;
-  handleOutfitDelete: (outfitId: string) => Promise<void>;
-  handleOutfitUpdate: (
-    props: handleOutfitSaveProps & { outfitId: string }
-  ) => void;
-  handleItemClick: (item: WardrobeItem) => void;
   setSelectedCategory: React.Dispatch<
     React.SetStateAction<WardrobeItem["category"] | null>
   >;
   selectedCategory: WardrobeItem["category"] | null;
   outfitSections: OutfitSections;
+  fetchOutfits: () => Promise<void>;
+  fetchOutfitById: (outfitId: string) => Promise<void>;
+  handleOutfitSave: (handleOutfitSaveProps: handleOutfitSaveProps) => void;
+  handleOutfitDelete: (outfitId: string) => Promise<void>;
+  handleOutfitUpdate: (props: handleOutfitUpdateProp) => void;
+  handleItemClick: (item: WardrobeItem) => void;
 }
 
 const DEV: boolean = import.meta.env.VITE_DEV === "true";

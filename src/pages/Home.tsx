@@ -1,9 +1,8 @@
-import { Button } from "@/components/Button";
-import Input from "@/components/Input";
 import Hero from "@/components/Hero";
 import { TbHanger, TbTagsFilled } from "react-icons/tb";
 import { FaClipboardList } from "react-icons/fa";
 import aboutImage from "@/assets/about-outfitx.jpg";
+import FeedBackForm from "@/components/FeedBackForm";
 
 const benefitsList = [
   {
@@ -83,49 +82,9 @@ export default function Home() {
       </section>
       <section className="flex flex-col justify-center items-center bg-surface px-8 py-15 w-full">
         <h2 className="mb-8 md:mb-12 font-bold text-title text-3xl md:text-4xl text-center">
-          FeedBack
+          Feedback
         </h2>
-        <form className="space-y-6 bg-card mb-15 p-8 rounded-2xl w-full max-w-lg">
-          <div className="gap-4 grid grid-cols-1 md:grid-cols-2">
-            <Input
-              label="Email"
-              type="email"
-              id="email"
-              name="email"
-              required={true}
-              placeholder="Enter your email"
-            />
-            <Input
-              label="Name"
-              type="text"
-              id="name"
-              name="name"
-              required={true}
-              placeholder="Enter your name"
-            />
-          </div>
-
-          <Input
-            label="Message"
-            type="textarea"
-            id="message"
-            name="message"
-            required={true}
-            placeholder="Enter your message"
-          />
-
-          <div className="flex justify-center pt-4">
-            <Button
-              type="submit"
-              version="v1"
-              bgColor="secondary"
-              size="lg"
-              className="px-12 py-3"
-            >
-              Submit
-            </Button>
-          </div>
-        </form>
+        <FeedBackForm />
       </section>
     </main>
   );

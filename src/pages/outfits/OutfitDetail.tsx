@@ -139,6 +139,8 @@ function OutfitDetails() {
       )}
       {showDeletePopUp && (
         <DeletePopUp
+          title="Delete Outfit"
+          message="Are you sure you want to delete this outfit? This action cannot be undone."
           onCancel={() => setShowDeletePopUp(false)}
           onConfirm={() => handleOutfitDelete(outfitId!)}
         />

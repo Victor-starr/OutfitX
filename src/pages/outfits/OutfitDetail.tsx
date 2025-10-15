@@ -97,7 +97,7 @@ function OutfitDetails() {
   };
 
   return (
-    <main className="relative flex flex-col items-center bg-bg py-8 h-[85vh] overflow-y-auto">
+    <main className="relative flex flex-col items-center bg-bg py-4 h-[85vh] overflow-y-auto">
       <h1 className="mb-6 font-bold text-title text-2xl md:text-3xl lg:text-4xl text-center">
         Outfit - {OutfitResult.data[0]?.name}
       </h1>

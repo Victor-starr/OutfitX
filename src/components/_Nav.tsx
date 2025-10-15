@@ -35,7 +35,7 @@ const Nav = ({
         to="/"
         className="font-bold text-title hover:text-primary text-2xl sm:text-3xl transition-colors duration-200"
       >
-        Outfit <span className="text-primary">X</span>
+        Outfit <span className="text-primary">X </span>
       </Link>
 
       <div className="flex items-center gap-3 sm:gap-4 lg:gap-6">

@@ -13,6 +13,7 @@ import { ItemCard } from "@/components/WardrobeItemCard";
 import Button from "@/components/Button";
 import OutfitSubmissionForm from "@/components/FinalFormOutfit";
 import NavigateBack from "@/components/NavigateBack";
+import DeletePopUp from "@/components/DeletePopUp";
 
 function OutfitDetails() {
   const tagsContainerRef = useRef<HTMLDivElement>(null);
@@ -22,6 +23,7 @@ function OutfitDetails() {
   const [selectedTag, setSelectedTag] = useState("All");
   const [showFinalForm, setShowFinalForm] = useState(false);
   const [showUpdateButton, setShowUpdateButton] = useState(false);
+  const [showDeletePopUp, setShowDeletePopUp] = useState(false);
   const {
     result: OutfitResult,
     loading: OutfitLoading,
@@ -31,6 +33,7 @@ function OutfitDetails() {
     selectedCategory,
     outfitSections,
     handleOutfitUpdate,
+    handleOutfitDelete,
   } = useOutfits();
   const {
     fetchData,
@@ -131,6 +134,13 @@ function OutfitDetails() {
           oldName={OutfitResult.data[0].name}
           oldTags={OutfitResult.data[0].tags}
           onCancel={() => setShowFinalForm(false)}
+          outfitId={outfitId!}
+        />
+      )}
+      {showDeletePopUp && (
+        <DeletePopUp
+          onCancel={() => setShowDeletePopUp(false)}
+          onConfirm={() => handleOutfitDelete(outfitId!)}
         />
       )}
       {OutfitLoading ? (
@@ -299,6 +309,18 @@ function OutfitDetails() {
               Update Outfit
             </Button>
           )}
+          <Button
+            version="v1"
+            type="button"
+            bgColor="primary"
+            textColor="title"
+            size="lg"
+            className="mt-2 px-10 py-3 rounded-2xl"
+            onClick={() => setShowDeletePopUp(true)}
+            disabled={OutfitLoading || ClothesLoading}
+          >
+            Delete Outfit
+          </Button>
         </>
       )}
     </main>

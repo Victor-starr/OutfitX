@@ -18,6 +18,7 @@ interface UseOutfitReturn {
   fetchOutfits: () => Promise<void>;
   fetchOutfitById: (outfitId: string) => Promise<void>;
   handleOutfitSave: (handleOutfitSaveProps: handleOutfitSaveProps) => void;
+  handleOutfitDelete: (outfitId: string) => Promise<void>;
   handleOutfitUpdate: (
     props: handleOutfitSaveProps & { outfitId: string }
   ) => void;
@@ -250,6 +251,34 @@ export default function useOutfits(): UseOutfitReturn {
     setSelectedCategory(null);
   };
 
+  const handleOutfitDelete = async (outfitId: string) => {
+    try {
+      setIsLoading(true);
+      const res = await api.delete(`/outfit/${outfitId}`);
+      setResult({
+        message: res.data.message,
+        data: result.data.filter((outfit) => outfit.outfitId !== outfitId),
+        status: res.status,
+      });
+      navigate("/outfits");
+      console.log("Outfit deleted:", {
+        message: res.data.message,
+        data: res.data.data,
+        status: res.status,
+      });
+    } catch (error) {
+      const { message, status } = parseAxiosErrorDetails(error);
+      console.error("Failed to delete outfit:", { message, status });
+      setResult((prev) => ({
+        ...prev,
+        message,
+        status,
+      }));
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return {
     loading,
     result,
@@ -261,5 +290,6 @@ export default function useOutfits(): UseOutfitReturn {
     setSelectedCategory,
     selectedCategory,
     outfitSections,
+    handleOutfitDelete,
   };
 }

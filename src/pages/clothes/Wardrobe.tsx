@@ -48,7 +48,7 @@ function Wardrobe() {
               <LoadingItemCard key={index} />
             ))
           ) : filteredData.length === 0 ? (
-            <p className="flex justify-center items-center col-span-3 w-full text-muted text-xl lg:text-3xl text-center">
+            <p className="flex justify-center items-center col-span-3 pt-35 w-full text-muted text-xl lg:text-3xl text-center">
               No items found in this category.
             </p>
           ) : (

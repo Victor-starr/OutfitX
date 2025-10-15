@@ -124,6 +124,7 @@ function CreateOutfit() {
         <OutfitSubmissionForm
           onCancel={() => setShowFinalForm(false)}
           handleOutfitSave={handleOutfitSave}
+          outfitId=""
         />
       )}
       <section className="flex flex-row justify-center items-center gap-15 px-10 rounded-2xl w-[90%] h-[65vh]">

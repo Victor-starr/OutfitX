@@ -18,7 +18,7 @@ type OutfitSubmissionForm = {
   ) => void;
   oldName?: string;
   oldTags?: string[];
-  outfitId?: string;
+  outfitId: string;
   onCancel: () => void;
 };
 
@@ -55,7 +55,7 @@ function OutfitSubmissionForm({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (handleOutfitUpdate) {
-      handleOutfitUpdate({ e, form, tags, outfitId: outfitId! });
+      handleOutfitUpdate({ e, form, tags, outfitId });
     } else if (handleOutfitSave) {
       handleOutfitSave({ e, form, tags });
     }

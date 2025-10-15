@@ -31,6 +31,7 @@ interface UseWardrobeReturn {
   handleDeleteItem: () => Promise<void>;
   handleEditItem: (props: handleFormEditCreateProp) => Promise<void>;
   handleCreateItem: (props: handleFormEditCreateProp) => Promise<void>;
+  ProfileFullDelete: () => Promise<void>;
 }
 
 interface useWardrobeProps {
@@ -54,6 +55,7 @@ export default function useWardrobe({
 
   async function fetchData() {
     setIsLoading(true);
+    console.log(auth.user?.profile["cognito:username"]);
     try {
       if (DEV) {
         await new Promise((resolve) => setTimeout(resolve, 500));
@@ -301,6 +303,41 @@ export default function useWardrobe({
     }
   };
 
+  const ProfileFullDelete = async () => {
+    setIsLoading(true);
+    try {
+      navigate("/");
+      auth.removeUser();
+      const payload = {
+        userId: auth.user?.profile?.sub,
+        username: auth.user?.profile["cognito:username"],
+      };
+      const res = await api.delete(`/profile`, { data: payload });
+      setResult({
+        message: res.data.message,
+        data: [],
+        status: res.status,
+      });
+      console.log(
+        "Deleted all wardrobe items for user:",
+        auth.user?.profile?.sub
+      );
+    } catch (err) {
+      const { message, status } = parseAxiosErrorDetails(err);
+      console.error("Failed to delete all wardrobe items:", {
+        message,
+        status,
+      });
+      setResult({
+        message,
+        data: [],
+        status,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return {
     loading,
     result,
@@ -309,5 +346,6 @@ export default function useWardrobe({
     handleDeleteItem,
     handleEditItem,
     handleCreateItem,
+    ProfileFullDelete,
   };
 }

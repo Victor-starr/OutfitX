@@ -1,7 +1,17 @@
 import { useAuth } from "react-oidc-context";
 import { Link } from "react-router";
 import { Button, LinkButton } from "@/components/Button";
-const Nav = () => {
+
+interface NavProps {
+  handleDeleteProfile: () => void;
+  setShowDropdown: React.Dispatch<React.SetStateAction<boolean>>;
+  showDropdown: boolean;
+}
+const Nav = ({
+  handleDeleteProfile,
+  setShowDropdown,
+  showDropdown,
+}: NavProps) => {
   const auth = useAuth();
 
   const handleLogin = () => {
@@ -49,16 +59,35 @@ const Nav = () => {
                 Outfits
               </LinkButton>
             </div>
-            <Button
-              version="v1"
-              type="button"
-              bgColor="primary"
-              onClick={signOutRedirect}
-              size="lg"
-              className="px-4 lg:px-6 py-2 lg:py-2 font-semibold"
-            >
-              Logout
-            </Button>
+
+            <div className="relative">
+              <Button
+                version="v1"
+                type="button"
+                bgColor="primary"
+                size="lg"
+                className="px-4 lg:px-6 py-2 lg:py-2 font-semibold"
+                onClick={() => setShowDropdown((prev) => !prev)}
+              >
+                Profile
+              </Button>
+              {showDropdown && (
+                <div className="right-0 -bottom-2 z-50 absolute flex flex-col bg-white shadow-lg mt-2 rounded-md w-48 translate-y-full">
+                  <button
+                    className="hover:bg-red-100 px-4 py-2 font-medium text-red-600 text-sm text-left"
+                    onClick={handleDeleteProfile}
+                  >
+                    Profile Delete
+                  </button>
+                  <button
+                    className="hover:bg-gray-100 px-4 py-2 font-medium text-sm text-left"
+                    onClick={signOutRedirect}
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
           </>
         ) : (
           <Button

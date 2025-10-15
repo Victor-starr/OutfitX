@@ -199,7 +199,7 @@ export default function useOutfits(): UseOutfitReturn {
           },
         };
         console.log("THIS IS UPDATE PAYLOAD: ", payload);
-
+        console.log("outfitID", outfitId);
         const res = await api.put(`/outfit/${outfitId}`, payload);
         setResult({
           message: res.data.message,

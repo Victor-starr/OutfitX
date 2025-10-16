@@ -48,7 +48,7 @@ const AsideNav = ({ activeCategory, onCategoryChange }: AsideNavProps) => {
   };
 
   return (
-    <aside className="top-10 sticky flex flex-col gap-2 bg-surface ml-5 px-4 py-6 rounded-2xl h-fit">
+    <aside className="top-0 lg:top-10 sticky flex lg:flex-col flex-wrap justify-center gap-2 bg-surface mx-4 px-4 py-6 rounded-2xl h-fit">
       {tabsMap.map((tab, index) => {
         return (
           <Button
@@ -59,6 +59,8 @@ const AsideNav = ({ activeCategory, onCategoryChange }: AsideNavProps) => {
             size="3xl"
             onClick={() => handleActiveTab(tab.label)}
             className={`p-3 ${
+              tab.label === "All" ? "w-full" : "lg:w-full w-1/4"
+            } flex justify-center items-center ${
               activeCategory === tab.label ? "bg-[var(--color-card-hover)]" : ""
             }`}
           >

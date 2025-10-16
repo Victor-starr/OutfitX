@@ -37,12 +37,12 @@ function Wardrobe() {
         secondButtonLink="/outfits/create"
         height="h-[40vh]"
       />
-      <div className="flex gap-5 lg:gap-25 mx-auto pt-15 w-full max-w-6xl">
+      <div className="flex lg:flex-row flex-col gap-5 lg:gap-25 mx-auto pt-15 w-full max-w-6xl">
         <AsideNav
           activeCategory={activeCategory}
           onCategoryChange={setActiveCategory}
         />
-        <div className="flex-1 gap-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 auto-rows-min pr-15 pl-5 w-full">
+        <div className="flex-1 gap-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 auto-rows-min px-5 w-full">
           {loading ? (
             Array.from({ length: 6 }).map((_, index) => (
               <LoadingItemCard key={index} />

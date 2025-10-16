@@ -197,7 +197,6 @@ export default function useWardrobe({
       }));
       return;
     }
-    //TODO: API CALL to remove items image background
 
     const newAttributes: CreatePayload = {
       name: form.name,
@@ -268,7 +267,6 @@ export default function useWardrobe({
       }));
       return;
     }
-    //TODO: API CALL to remove items image background
 
     const payload: CreatePayload = {
       name: form.name,

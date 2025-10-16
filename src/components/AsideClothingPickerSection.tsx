@@ -52,7 +52,7 @@ const AsideClothingPickerSection = ({
   };
 
   return (
-    <section className="flex flex-col flex-1 bg-surface px-5 rounded-2xl max-w-[65%] h-full max-h-[530px] overflow-y-scroll scrollbar-thin-gray">
+    <section className="flex flex-col lg:flex-1 bg-surface px-5 rounded-2xl w-full lg:max-w-[65%] h-[73vh] lg:max-h-[530px] overflow-y-scroll scrollbar-thin-gray">
       {ClothesLoading ? (
         <LoadingTagsFilter />
       ) : (
@@ -70,7 +70,7 @@ const AsideClothingPickerSection = ({
           No items found in this category
         </p>
       ) : (
-        <div className="gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
+        <div className="gap-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
           {filteredItems.map((item: WardrobeItem) => (
             <ItemCard
               key={item.itemId}

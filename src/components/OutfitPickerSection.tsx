@@ -16,10 +16,14 @@ const OutfitPickerSection = ({
   ClothesLoading,
 }: OutfitPickerSectionProps) => {
   return (
-    <article className="relative flex justify-center items-center p-6 w-[35%] h-full">
-      <img src={Human} alt="Human figure" className="z-1 w-full h-full" />
+    <article className="relative flex justify-center items-center p-6 w-full md:w-[65%] lg:w-[35%] h-full">
+      <img
+        src={Human}
+        alt="Human figure"
+        className="z-1 w-full h-full object-cover"
+      />
       <div className="top-0 left-0 z-2 absolute flex flex-col justify-center items-center gap-10 w-full h-full">
-        <div className="flex flex-row gap-15 ml-35">
+        <div className="flex flex-row gap-15 lg:ml-35">
           <button
             onClick={() => handleSelectCategory("Head")}
             className="bg-white/45 p-6 border-2 border-surface border-dashed rounded-2xl"
@@ -53,7 +57,7 @@ const OutfitPickerSection = ({
             )}
           </button>
         </div>
-        <div className="flex flex-row gap-15 mr-35">
+        <div className="flex flex-row gap-15 lg:mr-35">
           <button
             onClick={() => handleSelectCategory("Outerwear")}
             className="bg-white/45 px-6 py-10 border-2 border-surface border-dashed rounded-2xl"

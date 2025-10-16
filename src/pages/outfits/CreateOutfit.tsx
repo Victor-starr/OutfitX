@@ -100,7 +100,7 @@ function CreateOutfit() {
           outfitId=""
         />
       )}
-      <section className="flex flex-row justify-center items-center gap-15 px-10 rounded-2xl w-[90%] h-[65vh]">
+      <section className="flex lg:flex-row flex-col justify-center items-center gap-15 lg:px-10 rounded-2xl w-full lg:w-[90%] h-screen lg:h-[65vh]">
         <OutfitPickerSection
           handleSelectCategory={handleSelectCategory}
           outfitSections={outfitSections}

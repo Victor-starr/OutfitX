@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useWardrobe from "@/hook/useWardrobe";
 import Nav from "@/components/_Nav.tsx";
 import App from "@/App.tsx";
@@ -10,6 +10,7 @@ function Root() {
   const [showDeletePopUp, setShowDeletePopUp] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const { ProfileFullDelete } = useWardrobe();
+  const location = window.location;
 
   const handleDeleteProfile = () => {
     setShowDeletePopUp(true);
@@ -27,6 +28,9 @@ function Root() {
     setShowDropdown(false);
   };
 
+  useEffect(() => {
+    setShowDropdown(false);
+  }, [location.pathname]);
   return (
     <>
       <Nav

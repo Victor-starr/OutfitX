@@ -94,6 +94,7 @@ export default function useOutfits(): UseOutfitReturn {
     setIsLoading(true);
     try {
       const res = await api.get(`/outfit/${outfitId}`);
+      console.log("Get The Outfit by ID: ", res.data.data);
       setOutfitSections((prev) => ({
         ...prev,
         Head: res.data.data.clothes.Head || null,
@@ -203,7 +204,6 @@ export default function useOutfits(): UseOutfitReturn {
           },
         };
         console.log("THIS IS UPDATE PAYLOAD: ", payload);
-        console.log("outfitID", outfitId);
         const res = await api.put(`/outfit/${outfitId}`, payload);
         setResult({
           message: res.data.message,

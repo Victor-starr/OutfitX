@@ -1,8 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { useAuth } from "react-oidc-context";
 import useWardrobe from "@/hook/useWardrobe";
 import NavigateBack from "@/components/NavigateBack";
+import DeletePopUp from "@/components/DeletePopUp";
 import {
   ItemCardDetail,
   LoadingItemCardDetail,
@@ -10,6 +11,7 @@ import {
 
 function ClothesDetails() {
   const auth = useAuth();
+  const [deletePopUp, setDeletePopUp] = useState(false);
   const { itemId } = useParams<{ itemId: string }>();
   const { loading, result, fetchItem, handleDeleteItem } = useWardrobe({
     itemId,
@@ -24,6 +26,14 @@ function ClothesDetails() {
       <h1 className="mb-6 font-bold text-title text-2xl md:text-3xl lg:text-4xl text-center">
         Wardrobe Item Details
       </h1>
+      {deletePopUp && (
+        <DeletePopUp
+          onCancel={() => setDeletePopUp(false)}
+          onConfirm={handleDeleteItem}
+          title="Delete Clothing Item"
+          message="Are you sure you want to delete this clothing item? This action cannot be undone."
+        />
+      )}
       <NavigateBack url={-1} />
 
       {loading ? (
@@ -35,7 +45,7 @@ function ClothesDetails() {
       ) : (
         <ItemCardDetail
           item={result.data[0]}
-          onDelete={handleDeleteItem}
+          onDelete={() => setDeletePopUp(true)}
           isLoading={loading}
         />
       )}

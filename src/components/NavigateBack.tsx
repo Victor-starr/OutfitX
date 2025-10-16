@@ -11,7 +11,7 @@ const NavigateBack = ({ url }: { url: string | number }) => {
       bgColor="secondary"
       textColor="title"
       size="xl"
-      className="top-15 left-15 absolute flex flex-row justify-center items-center gap-2 px-3 py-2 rounded-xl"
+      className="hidden top-15 left-15 absolute lg:flex flex-row justify-center items-center gap-2 px-3 py-2 rounded-xl"
       onClick={() => (typeof url === "number" ? navigate(url) : navigate(url))}
     >
       <IoArrowBack /> Back

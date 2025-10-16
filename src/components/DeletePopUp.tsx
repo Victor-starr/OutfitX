@@ -26,7 +26,7 @@ function DeletePopUp({
             size="lg"
             type="button"
             onClick={onCancel}
-            className="flex-1 px-3 py-2"
+            className="lg:flex-1 px-3 py-2 w-full"
           >
             Cancel
           </Button>
@@ -37,7 +37,7 @@ function DeletePopUp({
             size="lg"
             type="button"
             onClick={onConfirm}
-            className="flex-1 px-3 py-2"
+            className="lg:flex-1 px-3 py-2 w-full"
           >
             Delete
           </Button>

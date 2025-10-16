@@ -1,6 +1,9 @@
 import { Link } from "react-router";
 import { Button, LinkButton } from "@/components/Button";
 import { useAuth } from "react-oidc-context";
+import { IoPersonCircleOutline } from "react-icons/io5";
+import { BiCloset } from "react-icons/bi";
+import { MdOutlineDoorSliding } from "react-icons/md";
 
 interface NavProps {
   handleDeleteProfile: () => void;
@@ -33,7 +36,7 @@ const Nav = ({
     <nav className="relative flex justify-between items-center gap-4 bg-card shadow-md px-4 sm:px-6 lg:px-10 py-4 lg:py-5">
       <Link
         to="/"
-        className="font-bold text-title hover:text-primary text-2xl sm:text-3xl transition-colors duration-200"
+        className="font-bold text-title hover:text-primary lg:text-2xl text-3xl transition-colors duration-200"
       >
         Outfit <span className="text-primary">X </span>
       </Link>
@@ -41,12 +44,24 @@ const Nav = ({
       <div className="flex items-center gap-3 sm:gap-4 lg:gap-6">
         {auth.isAuthenticated ? (
           <>
-            <div className="hidden sm:flex items-center gap-4 lg:gap-6">
+            <div className="flex items-center gap-4 lg:gap-6">
+              <Link to="/wardrobe">
+                <BiCloset
+                  size={32}
+                  className="md:hidden lg:hidden block text-primary active:text-title"
+                />
+              </Link>
+              <Link to="/outfits">
+                <MdOutlineDoorSliding
+                  size={32}
+                  className="md:hidden lg:hidden block text-primary active:text-title"
+                />
+              </Link>
               <LinkButton
                 version="v3"
                 to="/wardrobe"
                 size="lg"
-                className="px-3 py-2 hover:text-primary lg:text-xl"
+                className="hidden md:block lg:block px-3 py-2 hover:text-primary lg:text-xl md:text-2xl"
               >
                 Wardrobe
               </LinkButton>
@@ -54,19 +69,24 @@ const Nav = ({
                 version="v3"
                 to="/outfits"
                 size="lg"
-                className="px-3 py-2 hover:text-primary lg:text-xl"
+                className="hidden md:block lg:block px-3 py-2 hover:text-primary lg:text-xl md:text-2xl"
               >
                 Outfits
               </LinkButton>
             </div>
 
             <div className="relative">
+              <IoPersonCircleOutline
+                onClick={() => setShowDropdown((prev) => !prev)}
+                size={32}
+                className="md:hidden lg:hidden block text-primary active:text-title text-3xl"
+              />
               <Button
                 version="v1"
                 type="button"
                 bgColor="primary"
                 size="lg"
-                className="px-4 lg:px-6 py-2 lg:py-2 font-semibold"
+                className="hidden md:block lg:block px-4 lg:px-6 py-2 lg:py-2 font-semibold"
                 onClick={() => setShowDropdown((prev) => !prev)}
               >
                 Profile

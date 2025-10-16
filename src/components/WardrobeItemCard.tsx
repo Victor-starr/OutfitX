@@ -81,7 +81,7 @@ export const ItemCard = ({ item, onClick }: WardrobeItemCardProp) => {
       <img
         src={item.imageURL}
         alt={item.name}
-        className="bg-surface mb-3 rounded w-full h-48 object-center object-contain hover:scale-105 transition-transform duration-300 ease-in-out cursor-pointer"
+        className="bg-surface mb-3 rounded w-full h-25 lg:h-48 object-center object-contain hover:scale-105 transition-transform duration-300 ease-in-out cursor-pointer"
         onClick={onClick}
       />
       <div className="flex flex-col gap-1">

@@ -54,7 +54,7 @@ function OutfitSubmissionForm({
     }
   };
   return (
-    <div className="top-0 left-0 z-10 absolute flex justify-center items-center bg-black/45 w-screen h-screen">
+    <div className="z-[100] fixed inset-0 flex justify-center items-center bg-black/45 backdrop-blur-sm">
       <form
         onSubmit={handleSubmit}
         className="relative flex flex-col gap-4 bg-card mb-6 px-10 py-6 rounded-2xl"

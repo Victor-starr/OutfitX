@@ -98,7 +98,7 @@ function OutfitDetails() {
 
   return (
     <main className="relative flex flex-col items-center bg-bg py-4 h-[85vh] overflow-y-auto">
-      <h1 className="mb-6 font-bold text-title text-2xl md:text-3xl lg:text-4xl text-center">
+      <h1 className="mb-12 lg:mb-6 font-bold text-title text-2xl md:text-3xl lg:text-4xl text-center">
         Outfit - {OutfitResult.data[0]?.name}
       </h1>
       <NavigateBack url={"/outfits"} />

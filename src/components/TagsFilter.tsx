@@ -48,7 +48,7 @@ export default function TagsFilter({
           <p
             key={tag}
             onClick={() => handleTagClick(tag)}
-            className={`text-center px-4 py-2 mb-1 text-md whitespace-nowrap cursor-pointer rounded-2xl transition-colors
+            className={`text-center px-4 py-2 mb-1 text-sm lg:text-lg whitespace-nowrap cursor-pointer rounded-2xl transition-colors
           ${
             selectedTag === tag
               ? "bg-title text-onPrimary"

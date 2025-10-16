@@ -92,15 +92,15 @@ const Nav = ({
                 Profile
               </Button>
               {showDropdown && (
-                <div className="right-0 -bottom-2 z-50 absolute flex flex-col bg-white shadow-lg mt-2 rounded-md w-48 translate-y-full">
+                <div className="right-0 -bottom-2 z-50 absolute flex flex-col bg-surface shadow-lg mt-2 rounded-md w-48 translate-y-full">
                   <button
-                    className="hover:bg-red-100 px-4 py-2 font-medium text-red-600 text-sm text-left"
+                    className="hover:bg-red-100 px-4 py-2 font-medium text-secondary text-sm text-left"
                     onClick={handleDeleteProfile}
                   >
                     Profile Delete
                   </button>
                   <button
-                    className="hover:bg-gray-100 px-4 py-2 font-medium text-sm text-left"
+                    className="px-4 py-2 font-medium text-title text-sm text-left"
                     onClick={signOutRedirect}
                   >
                     Logout

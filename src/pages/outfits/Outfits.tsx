@@ -68,7 +68,7 @@ function Outfits() {
               tagsContainerRef={tagsContainerRef}
               handleTagClick={handleTagClick}
               selectedTag={selectedTag}
-              centered={true}
+              className="justify-start lg:justify-center"
             />
           </div>
         )

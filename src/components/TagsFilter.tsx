@@ -5,7 +5,7 @@ interface TagsFilterProps {
   tagsContainerRef: React.RefObject<HTMLDivElement | null>;
   handleTagClick: (tag: string) => void;
   selectedTag: string;
-  centered?: boolean;
+  className?: string;
 }
 
 export default function TagsFilter({
@@ -13,7 +13,7 @@ export default function TagsFilter({
   tagsContainerRef,
   handleTagClick,
   selectedTag,
-  centered,
+  className,
 }: TagsFilterProps) {
   const hasScroll = tags.length > 5;
 
@@ -38,9 +38,7 @@ export default function TagsFilter({
       {/* Tags Scrollable Container */}
       <div
         ref={tagsContainerRef}
-        className={`flex gap-2 px-5 py-2 ${
-          centered ? "justify-center" : ""
-        } items-center w-[90%] min-h-12 scroll-smooth
+        className={`flex ${className} gap-2 px-5 py-2 items-center w-[90%] min-h-12 scroll-smooth
           ${
             hasScroll ? "overflow-x-auto scrollbar-thin-gray" : "justify-center"
           } 

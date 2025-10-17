@@ -35,7 +35,7 @@ function Wardrobe() {
         firstButtonLink="/wardrobe/create"
         secondButtonText="Create Outfit"
         secondButtonLink="/outfits/create"
-        height="h-[40vh]"
+        height="h-[45vh]"
       />
       <div className="flex lg:flex-row flex-col gap-5 lg:gap-25 mx-auto pt-15 w-full max-w-6xl">
         <AsideNav

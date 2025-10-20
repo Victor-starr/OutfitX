@@ -59,10 +59,10 @@ function Outfits() {
       />
 
       {loading ? (
-        <LoadingTagsFilter />
+        <LoadingTagsFilter length={5} />
       ) : (
         tags && (
-          <div className="relative flex justify-center items-center my-10 pb-3 border-b border-border w-[85vw]">
+          <div className="relative flex justify-center items-center my-10 pb-3 border-border border-b w-[85vw]">
             <TagsFilter
               tags={tags}
               tagsContainerRef={tagsContainerRef}

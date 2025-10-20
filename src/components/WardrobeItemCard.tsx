@@ -65,7 +65,7 @@ export const ItemCardDetail = ({
           className="px-6 py-2 rounded"
           disabled={isLoading}
         >
-          Delete
+          {isLoading ? "Deleting..." : "Delete"}
         </Button>
       </div>
     </article>

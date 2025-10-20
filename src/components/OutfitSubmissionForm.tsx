@@ -23,6 +23,7 @@ function OutfitSubmissionForm({
   outfitId,
   onCancel,
 }: OutfitSubmissionForm) {
+  const [loading, setLoading] = useState(false);
   const [form, setForm] = useState<{ name: string }>(
     oldName ? { name: oldName } : { name: "" }
   );
@@ -47,14 +48,19 @@ function OutfitSubmissionForm({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
     if (onUpdate) {
       onUpdate({ e, form, tags, outfitId });
     } else if (onSave) {
       onSave({ e, form, tags });
     }
+    setLoading(false);
   };
   return (
-    <div className="z-[100] fixed inset-0 flex justify-center items-center bg-black/45 backdrop-blur-sm">
+    <div
+      className="z-[100] fixed inset-0 flex justify-center items-center bg-black/45 backdrop-blur-sm"
+      onClick={onCancel}
+    >
       <form
         onSubmit={handleSubmit}
         className="relative flex flex-col gap-4 bg-card mb-6 px-10 py-6 rounded-2xl"
@@ -121,8 +127,9 @@ function OutfitSubmissionForm({
           textColor="title"
           size="lg"
           className="mt-2 px-10 py-3 rounded-2xl"
+          disabled={loading}
         >
-          Save Outfit
+          {loading ? "Saving..." : "Save Outfit"}
         </Button>
       </form>
     </div>

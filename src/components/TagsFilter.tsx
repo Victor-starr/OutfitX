@@ -79,10 +79,10 @@ export default function TagsFilter({
   );
 }
 
-export function LoadingTagsFilter() {
+export function LoadingTagsFilter({ length = 3 }: { length: number }) {
   return (
-    <div className="flex justify-start gap-5 my-10 px-2 w-[85%]">
-      {Array.from({ length: 12 }).map((_, index) => (
+    <div className="flex justify-start gap-3 my-7 px-2 w-full">
+      {Array.from({ length }).map((_, index) => (
         <span
           key={index}
           className="flex-1 bg-muted rounded-2xl w-20 h-7 animate-pulse"

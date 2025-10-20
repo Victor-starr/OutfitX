@@ -52,9 +52,9 @@ const AsideClothingPickerSection = ({
   };
 
   return (
-    <section className="flex flex-col lg:flex-1 bg-surface px-5 lg:rounded-2xl w-full lg:max-w-[65%] h-[100vh] lg:max-h-[530px] overflow-y-scroll scrollbar-thin-gray">
+    <section className="flex flex-col lg:flex-1 bg-surface px-5 lg:rounded-2xl w-full lg:max-w-[65%] h-[65vh] lg:max-h-[530px] overflow-y-scroll scrollbar-thin-gray">
       {ClothesLoading ? (
-        <LoadingTagsFilter />
+        <LoadingTagsFilter length={4} />
       ) : (
         tags && (
           <TagsFilter

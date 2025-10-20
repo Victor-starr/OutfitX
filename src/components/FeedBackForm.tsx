@@ -106,10 +106,10 @@ const FeedBackForm = () => {
           className="px-12 py-3"
           disabled={isPending}
         >
-          Submit
+          {isPending ? "Submitting..." : "Submit"}
         </Button>
       </div>
-      {message && (
+      {message && !isPending && (
         <p className={"mt-2 mb-0 text-center text-lg text-muted"}>{message}</p>
       )}
     </form>

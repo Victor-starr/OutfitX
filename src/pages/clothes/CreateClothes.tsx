@@ -146,9 +146,9 @@ export default function CreateClothes() {
           className="mt-4 px-10 py-3"
           disabled={loading}
         >
-          Upload Item
+          {loading ? "Uploading..." : "Upload Item"}
         </Button>
-        {result.status !== 200 && result.status !== 0 && (
+        {result.status !== 200 && result.status !== 0 && !loading && (
           <p className="mt-4 text-primary text-sm text-center">
             {result.message}
           </p>

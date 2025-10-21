@@ -34,7 +34,7 @@ function ClothesDetails() {
           message="Are you sure you want to delete this clothing item? This action cannot be undone."
         />
       )}
-      <NavigateBack url={-1} />
+      <NavigateBack url={"/wardrobe"} />
 
       {loading ? (
         <LoadingItemCardDetail />

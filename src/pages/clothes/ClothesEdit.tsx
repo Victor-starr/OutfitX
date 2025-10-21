@@ -176,11 +176,11 @@ export default function Edit() {
             className="md:flex-1 px-5 py-3 w-full"
             disabled={loading}
           >
-            Upload Item
+            {loading ? "Uploading..." : "Upload Item"}
           </Button>
         </div>
 
-        {result.status !== 200 && result.status !== 0 && (
+        {result.status !== 200 && result.status !== 0 && !loading && (
           <p className="mt-4 text-primary text-sm text-center">
             {result.message}
           </p>

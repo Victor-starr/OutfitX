@@ -198,6 +198,15 @@ export default function useWardrobe({
       return;
     }
 
+    if (auth.user?.profile?.sub !== result.data[0]?.userId) {
+      setResult((prev) => ({
+        ...prev,
+        message: "You are not authorized to edit this item",
+        status: 403,
+      }));
+      return;
+    }
+
     const newAttributes: CreatePayload = {
       name: form.name,
       color: form.color,
@@ -268,6 +277,15 @@ export default function useWardrobe({
       return;
     }
 
+    if (auth.user?.profile?.sub !== result.data[0]?.userId) {
+      setResult((prev) => ({
+        ...prev,
+        message: "You are not authorized to create this item",
+        status: 403,
+      }));
+      return;
+    }
+
     const payload: CreatePayload = {
       name: form.name,
       color: form.color,
@@ -287,7 +305,7 @@ export default function useWardrobe({
       setForm({ name: "", color: "", imageBase64: null });
       setTags([]);
       setTagInput("");
-      navigate("/wardrobe");
+      navigate(`/wardrobe/${res.data.data.itemId}`);
     } catch (err) {
       const { message, status } = parseAxiosErrorDetails(err);
       console.log(parseAxiosErrorDetails(err));

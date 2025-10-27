@@ -17,6 +17,19 @@ export default function CreateClothes() {
   const [tags, setTags] = useState<string[]>([]);
   const { handleCreateItem, loading, result } = useWardrobe();
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log("CreateClothes form submitted");
+    void handleCreateItem({
+      e,
+      form,
+      tags,
+      setForm,
+      setTags,
+      setTagInput,
+    });
+  };
+
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
@@ -52,16 +65,7 @@ export default function CreateClothes() {
         Create Wardrobe Item
       </h1>
       <form
-        onSubmit={(e) =>
-          handleCreateItem({
-            e,
-            form,
-            tags,
-            setForm,
-            setTags,
-            setTagInput,
-          })
-        }
+        onSubmit={handleSubmit}
         className="flex flex-col gap-4 bg-card mb-6 px-10 py-6 rounded-2xl"
       >
         <Input

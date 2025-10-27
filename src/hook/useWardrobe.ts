@@ -243,14 +243,13 @@ export default function useWardrobe({
   };
 
   const handleCreateItem = async ({
-    e,
     form,
     tags,
     setTagInput,
     setTags,
     setForm,
   }: handleFormEditCreateProp) => {
-    e.preventDefault();
+    // preventDefault is handled by the form component's submit handler
 
     if (!form.name || !form.color) {
       setResult((prev) => ({
@@ -273,15 +272,6 @@ export default function useWardrobe({
         ...prev,
         message: "Please add at least one tag",
         status: 400,
-      }));
-      return;
-    }
-
-    if (auth.user?.profile?.sub !== result.data[0]?.userId) {
-      setResult((prev) => ({
-        ...prev,
-        message: "You are not authorized to create this item",
-        status: 403,
       }));
       return;
     }

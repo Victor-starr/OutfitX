@@ -107,26 +107,43 @@ function CreateOutfit() {
           ClothesLoading={ClothesLoading}
         />
         {selectedCategory && (
-          <div
-            onClick={() => setSelectedCategory(null)}
-            className={`${
-              selectedCategory ? "lg:hidden absolute flex" : ""
-            } top-0 left-0 w-full h-full justify-center items-center backdrop-blur-sm bg-black/30 z-20`}
-          >
-            <AsideClothingPickerSection
-              tagsContainerRef={tagsContainerRef}
-              Clothes={ClothesResult.data}
-              ClothesLoading={ClothesLoading}
-              setSelectedTag={setSelectedTag}
-              selectedTag={selectedTag}
-              tags={tags}
-              setFilteredItems={setFilteredItems}
-              filteredItems={filteredItems}
-              setSelectedCategory={setSelectedCategory}
-              selectedCategory={selectedCategory}
-              handleItemClick={handleItemClick}
-            />
-          </div>
+          <>
+            <div
+              onClick={() => setSelectedCategory(null)}
+              className={`${
+                selectedCategory ? "lg:hidden absolute flex" : ""
+              } top-0 left-0 w-full h-full justify-center items-center backdrop-blur-sm bg-black/30 z-20`}
+            >
+              <AsideClothingPickerSection
+                tagsContainerRef={tagsContainerRef}
+                Clothes={ClothesResult.data}
+                ClothesLoading={ClothesLoading}
+                setSelectedTag={setSelectedTag}
+                selectedTag={selectedTag}
+                tags={tags}
+                setFilteredItems={setFilteredItems}
+                filteredItems={filteredItems}
+                setSelectedCategory={setSelectedCategory}
+                selectedCategory={selectedCategory}
+                handleItemClick={handleItemClick}
+              />
+            </div>
+            <div className="hidden lg:relative">
+              <AsideClothingPickerSection
+                tagsContainerRef={tagsContainerRef}
+                Clothes={ClothesResult.data}
+                ClothesLoading={ClothesLoading}
+                setSelectedTag={setSelectedTag}
+                selectedTag={selectedTag}
+                tags={tags}
+                setFilteredItems={setFilteredItems}
+                filteredItems={filteredItems}
+                setSelectedCategory={setSelectedCategory}
+                selectedCategory={selectedCategory}
+                handleItemClick={handleItemClick}
+              />
+            </div>
+          </>
         )}
       </section>
       <Button

@@ -130,7 +130,7 @@ OutfitX/
 - ⚠️ Note
   > I disabled and deleted the AWS resources used for this project after finishing development to avoid incurring charges. The deployed services referenced in this repository are no longer running or accessible.
   >
-  > If you want to recreate the same AWS setup in your own account or you wanna checkout on how I have done it, please follow the instructions in `/aws/README.md`.
+  > If you want to recreate the same AWS setup in your own account or you wanna checkout on how I have done it, please follow the instructions in [`/aws/README.md`](aws/README.md).
 
 4. Set up environment variables:
    ```env
@@ -198,6 +198,8 @@ the frontend communicates with the backend services through `RESTful API` endpoi
 
 #### Wardrobe Items
 
+![Wardrobe Architecture](./aws/assets/aws_skeleton_img/skeleton_clothes_1.png)
+
 - `GET /clothes` - Retrieve all wardrobe items that belong to the authenticated user.
 - `POST /clothes/create` - Create a new wardrobe item with image processing and validation.
 - `GET /clothes/{itemId}` - Retrieve details of a specific wardrobe item by its ID.
@@ -205,6 +207,8 @@ the frontend communicates with the backend services through `RESTful API` endpoi
 - `DELETE /clothes/{itemId}` - Delete a wardrobe item by its ID.
 
 #### Outfits
+
+![Outfit Architecture](./aws/assets/aws_skeleton_img/skeleton_outfit_1.png)
 
 - `GET /outfits` - Retrieve all outfits that belong to the authenticated user.
 - `POST /outfits/create` - Create a new outfit by selecting multiple wardrobe items.

@@ -4,7 +4,11 @@ import { Navigate, Outlet } from "react-router";
 export default function GuestGuard() {
   const auth = useAuth();
   if (auth.isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center items-center w-screen h-screen text-title text-4xl">
+        <p>Loading...</p>
+      </div>
+    );
   }
 
   if (auth.error) {

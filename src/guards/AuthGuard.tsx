@@ -7,7 +7,11 @@ export default function AuthGuard() {
     return <div>Auth context not available</div>;
   }
   if (auth.isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center items-center w-screen h-screen text-title text-4xl">
+        <p>Loading...</p>
+      </div>
+    );
   }
   if (auth.error) {
     return <div>Authentication error: {auth.error.message}</div>;

@@ -128,7 +128,7 @@ function CreateOutfit() {
                 handleItemClick={handleItemClick}
               />
             </div>
-            <div className="hidden lg:relative">
+            <div className="hidden lg:flex justify-center items-center md:w-[35%] lg:w-[65%] h-full">
               <AsideClothingPickerSection
                 tagsContainerRef={tagsContainerRef}
                 Clothes={ClothesResult.data}

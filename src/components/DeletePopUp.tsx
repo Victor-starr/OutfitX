@@ -18,7 +18,10 @@ function DeletePopUp({
       onClick={onCancel}
       className="z-[100] fixed inset-0 flex justify-center items-center bg-black/45 backdrop-blur-sm"
     >
-      <div className="fixed flex flex-col bg-card mb-6 px-10 py-6 rounded-2xl">
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="z-[105] fixed flex flex-col bg-card mb-6 px-10 py-6 rounded-2xl"
+      >
         <h2 className="text-title text-3xl">{title}</h2>
         <p className="text-muted text-lg">{message}</p>
         <div className="flex lg:flex-row flex-col justify-center items-center gap-5 px-2 pt-5 w-full">

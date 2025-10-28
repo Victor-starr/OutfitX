@@ -63,6 +63,7 @@ function OutfitSubmissionForm({
     >
       <form
         onSubmit={handleSubmit}
+        onClick={(e) => e.stopPropagation()}
         className="relative flex flex-col gap-4 bg-card mb-6 px-10 py-6 rounded-2xl"
       >
         <IoMdClose

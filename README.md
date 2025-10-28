@@ -258,8 +258,9 @@ the frontend communicates with the backend services through `RESTful API` endpoi
 
 ---
 
-<!-- # Demo Video
+# Demo Video
+
 > A demo video showcasing the OutfitX application features and functionality.
-[Demo Video](demo_video.mp4)  -->
+> [Demo Video](/public//video/OutfitX_DEMO_VIDEO.mp4)
 
 Victor Starr &copy; 2024
